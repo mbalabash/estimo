@@ -17,8 +17,9 @@ const prepareHtmlContent = libs => `
 `
 
 const generateHtmlFile = async (fileName, libs) => {
+  const files = Array.isArray(libs) ? libs : [libs]
   try {
-    await writeFile(fileName, prepareHtmlContent(libs))
+    await writeFile(fileName, prepareHtmlContent(files))
     return getUrlToHtmlFile(fileName)
   } catch (error) {
     console.error(error.stack)
