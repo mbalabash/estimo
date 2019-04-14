@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const chalk = require('chalk')
 const { promisify } = require('util')
 
 const write = promisify(fs.writeFile)
@@ -11,7 +10,7 @@ const writeFile = async (fileName, content) => {
   try {
     await write(targetPath, content)
   } catch (error) {
-    console.error(chalk.red(error.stack))
+    console.error(error.stack)
     process.exit(1)
   }
 }
@@ -24,7 +23,7 @@ const readFile = async (filePath) => {
     const content = await read(filePath, 'utf8')
     return content
   } catch (error) {
-    console.error(chalk.red(error.stack))
+    console.error(error.stack)
     return process.exit(1)
   }
 }
@@ -36,9 +35,19 @@ const getTimelinesFilePath = (args) => {
   return path.resolve(args[optionIndx + 1])
 }
 
+const deleteFile = (filePath) => {
+  try {
+    fs.unlinkSync(filePath)
+  } catch (error) {
+    console.error(error)
+    process.exit(1)
+  }
+}
+
 module.exports = {
   readFile,
   writeFile,
   getUrlToHtmlFile,
+  deleteFile,
   getTimelinesFilePath,
 }

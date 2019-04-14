@@ -1,30 +1,41 @@
 // TODO:
 // Input: lib or [...libs] (only path)
+// Check arg types
+// Option to save html file
+// Option to save timelines file
+// Option to save report file
 // + Generate html file and inject libs
 // + Get url to html file
 // + Spawn perf-timeline-cli and get timelines
 // + Use node-big-rig to get human-readable report
 // + Return json report
-// Remove temp files
-// Multithreading example
+// + Remove temp files
 
-const chalk = require('chalk')
 const nanoid = require('nanoid')
 const { generateHtmlFile } = require('./generateHtmlFile')
 const { generateChromeTimelines } = require('./perfTimelineCliAdapter')
 const { generateReadableReport } = require('./reporter')
+const { deleteFile } = require('./utils')
 
-const estimator = async (libs) => {
+const estimator = async (libs = [], options = {}) => {
   const htmlFileName = `./temp/${nanoid()}.html`
   const timelinesFileName = `./temp/${nanoid()}.json`
 
+  const { perfCliArgs } = options
+
   try {
     const html = await generateHtmlFile(htmlFileName, libs)
-    const timelines = await generateChromeTimelines(html, ['--path', timelinesFileName])
+    const timelines = await generateChromeTimelines(html, [
+      ...perfCliArgs,
+      '--path',
+      timelinesFileName,
+    ])
     const jsonReport = await generateReadableReport(timelines)
+    deleteFile(htmlFileName)
+    deleteFile(timelinesFileName)
     return jsonReport
   } catch (error) {
-    console.error(chalk.red(error.stack))
+    console.error(error.stack)
     return process.exit(1)
   }
 }

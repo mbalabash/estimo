@@ -1,4 +1,3 @@
-const chalk = require('chalk')
 const { writeFile, getUrlToHtmlFile } = require('./utils')
 
 const LIB_HTML_SEPARATOR = '\n    '
@@ -22,8 +21,8 @@ const generateHtmlFile = async (fileName, libs) => {
     await writeFile(fileName, prepareHtmlContent(libs))
     return getUrlToHtmlFile(fileName)
   } catch (error) {
-    console.error(chalk.red(error.stack))
-    return null
+    console.error(error.stack)
+    return process.exit(1)
   }
 }
 

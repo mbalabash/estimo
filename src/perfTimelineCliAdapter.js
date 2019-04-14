@@ -1,4 +1,3 @@
-const chalk = require('chalk')
 const { spawn } = require('child_process')
 const { getTimelinesFilePath } = require('./utils')
 
@@ -20,7 +19,7 @@ const generateChromeTimelines = async (urlToHtmlFile, options) => {
     const timelinesFilePath = await spawnTool(['generate', urlToHtmlFile, ...options])
     return timelinesFilePath
   } catch (error) {
-    console.error(chalk.red(error.stack))
+    console.error(error.stack)
     return process.exit(1)
   }
 }
