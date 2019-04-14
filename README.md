@@ -3,11 +3,12 @@
 ## Usage example
 
 ```js
+const path = require('path')
 const estimo = require('estimo')
 
 ;(async () => {
   const report = await estimo(
-    'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js'
+    path.resolve(path.join(__dirname, '..', 'libs', 'someLib.js'))
   )
   console.log(report)
 })()
