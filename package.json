@@ -1,7 +1,7 @@
 {
-  "name": "estimate-execution-time",
+  "name": "estimo",
   "version": "0.1.0",
-  "description": "Estimate javascript execution time via Chrome Performance Timelines",
+  "description": "Generate Big Rig reports for js libs",
   "main": "index.js",
   "scripts": {
     "eslint": "eslint --cache src"
@@ -31,17 +31,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mbalabash/estimate-execution-time.git"
+    "url": "git+https://github.com/mbalabash/estimo.git"
   },
-  "homepage": "https://github.com/mbalabash/estimate-execution-time#readme",
+  "homepage": "https://github.com/mbalabash/estimo#readme",
   "bugs": {
-    "url": "https://github.com/mbalabash/estimate-execution-time/issues"
+    "url": "https://github.com/mbalabash/estimo/issues"
   },
   "keywords": [
-    "js",
-    "performance",
+    "bigrig",
     "chrome",
-    "devtools"
+    "devtools",
+    "js",
+    "performance"
   ],
   "author": "mbalabash <maksim.balabash@gmail.com>",
   "license": "MIT"
