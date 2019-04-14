@@ -36,6 +36,7 @@ const checkArgs = (libs, perfCliArgs, removeTempFiles) => {
  * @see {@link https://github.com/CondeNast/perf-timeline-cli|perf-timeline-cli}
  * @see {@link https://github.com/googlearchive/node-big-rig|node-big-rig}
  * @see {@link https://github.com/googlearchive/big-rig|big-rig}
+ *
  * @param {String|Array} libs Path to the library. Can be local or remote (see example).
  * @param {Array} perfCliArgs Options which will be passed to perf-timeline-cli
  * @param {Boolean} removeTempFiles Default: true. Temp files can help with debugging.
@@ -66,14 +67,14 @@ const estimo = async (libs = [], perfCliArgs = [], removeTempFiles = true) => {
       '--path',
       timelinesFileName,
     ])
-    const jsonReport = await generateReadableReport(timelines)
+    const report = await generateReadableReport(timelines)
 
     if (removeTempFiles) {
       deleteFile(htmlFileName)
       deleteFile(timelinesFileName)
     }
 
-    return jsonReport[0]
+    return report[0]
   } catch (error) {
     console.error(error.stack)
     return process.exit(1)
