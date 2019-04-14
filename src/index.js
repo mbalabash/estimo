@@ -62,11 +62,7 @@ const estimo = async (libs = [], perfCliArgs = [], removeTempFiles = true) => {
 
   try {
     const html = await generateHtmlFile(htmlFileName, libs)
-    const timelines = await generateChromeTimelines(html, [
-      ...perfCliArgs,
-      '--path',
-      timelinesFileName,
-    ])
+    const timelines = await generateChromeTimelines(html, timelinesFileName, perfCliArgs)
     const report = await generateReadableReport(timelines)
 
     if (removeTempFiles) {

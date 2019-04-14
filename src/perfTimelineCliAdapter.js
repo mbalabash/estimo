@@ -1,3 +1,4 @@
+const path = require('path')
 const { spawn } = require('child_process')
 const { getTimelinesFilePath } = require('./utils')
 
@@ -14,9 +15,15 @@ const spawnTool = (args = []) => new Promise((resolve, reject) => {
   })
 })
 
-const generateChromeTimelines = async (urlToHtmlFile, options) => {
+const generateChromeTimelines = async (urlToHtmlFile, pathToTimelinesFile, options) => {
   try {
-    const timelinesFilePath = await spawnTool(['generate', urlToHtmlFile, ...options])
+    const timelinesFilePath = await spawnTool([
+      'generate',
+      urlToHtmlFile,
+      ...options,
+      '--path',
+      path.join(__dirname, '..', pathToTimelinesFile),
+    ])
     return timelinesFilePath
   } catch (error) {
     console.error(error.stack)
