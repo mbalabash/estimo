@@ -33,9 +33,9 @@ const checkArgs = (libs, perfCliArgs, removeTempFiles) => {
  *
  * We can measure loading/parsing/execution time on the various scenario.
  *
- * @see https://github.com/CondeNast/perf-timeline-cli
- * @see https://github.com/googlearchive/node-big-rig
- * @see https://github.com/googlearchive/big-rig
+ * @see {@link https://github.com/CondeNast/perf-timeline-cli|perf-timeline-cli}
+ * @see {@link https://github.com/googlearchive/node-big-rig|node-big-rig}
+ * @see {@link https://github.com/googlearchive/big-rig|big-rig}
  * @param {String|Array} libs Path to the library. Can be local or remote (see example).
  * @param {Array} perfCliArgs Options which will be passed to perf-timeline-cli
  * @param {Boolean} removeTempFiles Default: true. Temp files can help with debugging.
