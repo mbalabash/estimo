@@ -14,6 +14,22 @@ const estimo = require('estimo')
 })()
 ```
 
+## Possible options
+
+You can pass options to [perf-timeline-cli](https://github.com/CondeNast/perf-timeline-cli) as second argument for more special use causes.
+
+```js
+const estimo = require('estimo')
+
+;(async () => {
+  const report = await estimo(
+    'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js',
+    ['--set-cpu-throttling-rate', '--rate', '4']
+  )
+  console.log(report)
+})()
+```
+
 ## Output example
 
 ```json
@@ -39,20 +55,4 @@ const estimo = require('estimo')
   "title": "Load",
   "type": "Load"
 }
-```
-
-## Possible options
-
-You can pass options to [perf-timeline-cli](https://github.com/CondeNast/perf-timeline-cli) as second argument for more special use causes.
-
-```js
-const estimo = require('estimo')
-
-;(async () => {
-  const report = await estimo(
-    'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js',
-    ['--set-cpu-throttling-rate', '--rate', '4']
-  )
-  console.log(report)
-})()
 ```
