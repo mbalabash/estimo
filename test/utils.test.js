@@ -41,6 +41,8 @@ test('should write file in right place', async (t) => {
   t.is(isFileExist, true)
 
   fs.unlinkSync(filePath)
+  isFileExist = fs.existsSync(filePath)
+  t.is(isFileExist, false)
 })
 
 test('should delete file in right place', async (t) => {
