@@ -27,4 +27,4 @@ const generateHtmlFile = async (fileName, libs) => {
   }
 }
 
-module.exports = { generateHtmlFile }
+module.exports = { generateHtmlFile, prepareHtmlContent }

@@ -66,8 +66,8 @@ const estimo = async (libs = [], perfCliArgs = [], removeTempFiles = true) => {
     const report = await generateReadableReport(timelines)
 
     if (removeTempFiles) {
-      deleteFile(htmlFileName)
-      deleteFile(timelinesFileName)
+      await deleteFile(htmlFileName)
+      await deleteFile(timelinesFileName)
     }
 
     return report[0]
