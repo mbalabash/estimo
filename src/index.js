@@ -57,8 +57,8 @@ const checkArgs = (libs, perfCliArgs, removeTempFiles) => {
 const estimo = async (libs = [], perfCliArgs = [], removeTempFiles = true) => {
   checkArgs(libs, perfCliArgs, removeTempFiles)
 
-  const htmlFileName = `./temp/${nanoid()}.html`
-  const timelinesFileName = `./temp/${nanoid()}.json`
+  const htmlFileName = `${nanoid()}.html`
+  const timelinesFileName = `${nanoid()}.json`
 
   try {
     const html = await generateHtmlFile(htmlFileName, libs)

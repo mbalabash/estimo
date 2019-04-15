@@ -6,7 +6,7 @@ const write = promisify(fs.writeFile)
 const read = promisify(fs.readFile)
 
 const writeFile = async (fileName, content) => {
-  const targetPath = path.join(__dirname, '..', fileName)
+  const targetPath = path.join(__dirname, '../temp/', fileName)
   try {
     await write(targetPath, content)
   } catch (error) {
@@ -28,15 +28,10 @@ const readFile = async (filePath) => {
   }
 }
 
-const getUrlToHtmlFile = fileName => `file://${path.resolve(path.join(__dirname, '..', fileName))}`
+const getUrlToHtmlFile = fileName => `file://${path.resolve(path.join(__dirname, '../temp/', fileName))}`
 
-const getTimelinesFilePath = (args) => {
-  const optionIndx = args.indexOf('--path')
-  return path.resolve(args[optionIndx + 1])
-}
-
-const deleteFile = (filePath) => {
-  const targetPath = path.join(__dirname, '..', filePath)
+const deleteFile = (fileName) => {
+  const targetPath = path.join(__dirname, '../temp/', fileName)
   try {
     fs.unlinkSync(targetPath)
   } catch (error) {
@@ -46,9 +41,8 @@ const deleteFile = (filePath) => {
 }
 
 module.exports = {
-  readFile,
-  writeFile,
   getUrlToHtmlFile,
   deleteFile,
-  getTimelinesFilePath,
+  writeFile,
+  readFile,
 }

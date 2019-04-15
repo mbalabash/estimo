@@ -1,14 +1,12 @@
 const path = require('path')
 const { spawn } = require('child_process')
-const { getTimelinesFilePath } = require('./utils')
 
 const PATH_TO_PERF_TOOL = './node_modules/.bin/perf-timeline'
 
-const spawnTool = (args = []) => new Promise((resolve, reject) => {
+const spawnTool = args => new Promise((resolve, reject) => {
   const proc = spawn(PATH_TO_PERF_TOOL, args)
-  proc.stdout.setEncoding('utf8')
   proc.on('close', (code) => {
-    if (code === 0) resolve(getTimelinesFilePath(args))
+    if (code === 0) resolve()
     else {
       reject(new Error(`Can't execute ${PATH_TO_PERF_TOOL}\nArgs: ${JSON.stringify(args)}`))
     }
@@ -17,13 +15,8 @@ const spawnTool = (args = []) => new Promise((resolve, reject) => {
 
 const generateChromeTimelines = async (urlToHtmlFile, timelinesFileName, options) => {
   try {
-    const timelinesFilePath = await spawnTool([
-      'generate',
-      urlToHtmlFile,
-      ...options,
-      '--path',
-      path.join(__dirname, '..', timelinesFileName),
-    ])
+    const timelinesFilePath = path.join(__dirname, '../temp/', timelinesFileName)
+    await spawnTool(['generate', urlToHtmlFile, ...options, '--path', timelinesFilePath])
     return timelinesFilePath
   } catch (error) {
     console.error(error.stack)

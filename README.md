@@ -14,6 +14,8 @@ const estimo = require('estimo')
 })()
 ```
 
+**[More examples](https://github.com/mbalabash/estimo-examples)**
+
 ## Possible options
 
 You can pass options to [perf-timeline-cli](https://github.com/CondeNast/perf-timeline-cli) as second argument for more special use causes.
