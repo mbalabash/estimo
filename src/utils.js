@@ -6,7 +6,7 @@ const write = promisify(fs.writeFile)
 const read = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
 
-const resolvePathToTempDir = fileName => path.join(__dirname, '../temp/', fileName)
+const resolvePathToTempDir = (fileName, tempDir = '../temp/') => path.join(__dirname, tempDir, fileName)
 
 const readFile = async (filePath) => {
   try {
