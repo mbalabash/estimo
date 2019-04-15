@@ -1,6 +1,6 @@
 {
   "name": "estimo",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Generate Big Rig reports for js libs",
   "main": "index.js",
   "scripts": {
