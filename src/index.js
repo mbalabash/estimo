@@ -57,21 +57,17 @@ const checkArgs = (libs, perfCliArgs, removeTempFiles) => {
 const estimo = async (libs = [], perfCliArgs = [], removeTempFiles = true) => {
   checkArgs(libs, perfCliArgs, removeTempFiles)
 
-  const htmlFileName = `${nanoid()}.html`
-  const timelinesFileName = `${nanoid()}.json`
+  const htmlFileName = resolvePathToTempDir(`${nanoid()}.html`)
+  const timelinesFileName = resolvePathToTempDir(`${nanoid()}.json`)
 
   try {
-    const html = await generateHtmlFile(resolvePathToTempDir(htmlFileName), libs)
-    const timelines = await generateChromeTimelines(
-      html,
-      resolvePathToTempDir(timelinesFileName),
-      perfCliArgs,
-    )
+    const html = await generateHtmlFile(htmlFileName, libs)
+    const timelines = await generateChromeTimelines(html, timelinesFileName, perfCliArgs)
     const report = await generateReadableReport(timelines)
 
     if (removeTempFiles) {
-      await deleteFile(resolvePathToTempDir(htmlFileName))
-      await deleteFile(resolvePathToTempDir(timelinesFileName))
+      await deleteFile(htmlFileName)
+      await deleteFile(timelinesFileName)
     }
 
     return report[0]
