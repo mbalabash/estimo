@@ -25,12 +25,14 @@ const estimo = require('./index')
 
 (async () => {
   const { libs, perfCliArgs } = argv
+  const options = perfCliArgs || ''
   const files = libs.map((lib) => {
     if (lib.includes('http://') || lib.includes('https://')) {
       return lib
     }
-    return path.resolve(path.join(__dirname, lib))
+    return path.resolve(lib)
   })
-  const report = await estimo(files, perfCliArgs.split(' '))
+  const report = await estimo(files, options.split(' '))
   console.log(report)
+  return report
 })()

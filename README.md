@@ -1,13 +1,13 @@
 ## Install
 
 ```js
-npm i -D estimo
+npm i estimo
 ```
 
 or
 
 ```js
-yarn add -D estimo
+yarn add estimo
 ```
 
 ## Usage example
@@ -40,6 +40,16 @@ const estimo = require('estimo')
   )
   console.log(report)
 })()
+```
+
+## Cli
+
+```sh
+estimo -l ./libs/angular.1.7.8.min.js
+```
+
+```sh
+estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--set-cpu-throttling-rate --rate 4"
 ```
 
 ## Output example
