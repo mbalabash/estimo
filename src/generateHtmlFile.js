@@ -16,11 +16,11 @@ const prepareHtmlContent = libs => `
 </html>
 `
 
-const generateHtmlFile = async (fileName, libs) => {
+const generateHtmlFile = async (filePath, libs) => {
   const files = Array.isArray(libs) ? libs : [libs]
   try {
-    await writeFile(fileName, prepareHtmlContent(files))
-    return getUrlToHtmlFile(fileName)
+    await writeFile(filePath, prepareHtmlContent(files))
+    return getUrlToHtmlFile(filePath)
   } catch (error) {
     console.error(error.stack)
     return process.exit(1)

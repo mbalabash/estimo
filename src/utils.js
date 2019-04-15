@@ -6,7 +6,7 @@ const write = promisify(fs.writeFile)
 const read = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
 
-const preparePathForTempDir = fileName => path.join(__dirname, '../temp/', fileName)
+const resolvePathToTempDir = fileName => path.join(__dirname, '../temp/', fileName)
 
 const readFile = async (filePath) => {
   try {
@@ -21,30 +21,28 @@ const readFile = async (filePath) => {
   }
 }
 
-const writeFile = async (fileName, content) => {
-  const targetPath = preparePathForTempDir(fileName)
+const writeFile = async (filePath, content) => {
   try {
-    await write(targetPath, content)
+    await write(filePath, content)
   } catch (error) {
     console.error(error.stack)
     process.exit(1)
   }
 }
 
-const deleteFile = async (fileName) => {
-  const targetPath = preparePathForTempDir(fileName)
+const deleteFile = async (filePath) => {
   try {
-    await unlink(targetPath)
+    await unlink(filePath)
   } catch (error) {
     console.error(error)
     process.exit(1)
   }
 }
 
-const getUrlToHtmlFile = fileName => `file://${path.resolve(preparePathForTempDir(fileName))}`
+const getUrlToHtmlFile = file => `file://${path.resolve(file)}`
 
 module.exports = {
-  preparePathForTempDir,
+  resolvePathToTempDir,
   getUrlToHtmlFile,
   deleteFile,
   writeFile,

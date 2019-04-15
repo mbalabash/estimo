@@ -2,7 +2,7 @@ const nanoid = require('nanoid')
 const { generateHtmlFile } = require('./generateHtmlFile')
 const { generateChromeTimelines } = require('./perfTimelineCliAdapter')
 const { generateReadableReport } = require('./reporter')
-const { deleteFile } = require('./utils')
+const { deleteFile, resolvePathToTempDir } = require('./utils')
 
 const checkArgs = (libs, perfCliArgs, removeTempFiles) => {
   if (typeof libs !== 'string' && !Array.isArray(libs)) {
@@ -61,13 +61,17 @@ const estimo = async (libs = [], perfCliArgs = [], removeTempFiles = true) => {
   const timelinesFileName = `${nanoid()}.json`
 
   try {
-    const html = await generateHtmlFile(htmlFileName, libs)
-    const timelines = await generateChromeTimelines(html, timelinesFileName, perfCliArgs)
+    const html = await generateHtmlFile(resolvePathToTempDir(htmlFileName), libs)
+    const timelines = await generateChromeTimelines(
+      html,
+      resolvePathToTempDir(timelinesFileName),
+      perfCliArgs,
+    )
     const report = await generateReadableReport(timelines)
 
     if (removeTempFiles) {
-      await deleteFile(htmlFileName)
-      await deleteFile(timelinesFileName)
+      await deleteFile(resolvePathToTempDir(htmlFileName))
+      await deleteFile(resolvePathToTempDir(timelinesFileName))
     }
 
     return report[0]
