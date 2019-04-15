@@ -1,3 +1,3 @@
-const estimo = require('./src/index.js')
+const estimo = require('./src/index')
 
 module.exports = estimo
