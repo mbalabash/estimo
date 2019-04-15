@@ -1,5 +1,17 @@
 ## This is a PoC of idea how to estimate time which browser will spent for load/parse/execute javascript library.
 
+## Install
+
+```js
+npm i -D estimo
+```
+
+or
+
+```js
+yarn add -D estimo
+```
+
 ## Usage example
 
 ```js
