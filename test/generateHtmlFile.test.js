@@ -80,7 +80,7 @@ test('should generate correct html with one lib', async (t) => {
   t.is(isFileExist, false)
 })
 
-test('should generate correct html with many lib', async (t) => {
+test('should generate correct html with many libs', async (t) => {
   const customTempDir = '../test/__mock__/'
   const fileName = `${nanoid()}.html`
   const filePath = resolvePathToTempDir(fileName, customTempDir)

@@ -12,7 +12,7 @@ const spawnTool = args => new Promise((resolve, reject) => {
   })
 })
 
-const generateChromeTimelines = async (urlToHtmlFile, timelinesFilePath, options) => {
+const generateChromeTimelines = async (urlToHtmlFile, timelinesFilePath, options = []) => {
   try {
     await spawnTool(['generate', urlToHtmlFile, ...options, '--path', timelinesFilePath])
     return timelinesFilePath
