@@ -5,16 +5,6 @@ const { promisify } = require('util')
 const write = promisify(fs.writeFile)
 const read = promisify(fs.readFile)
 
-const writeFile = async (fileName, content) => {
-  const targetPath = path.join(__dirname, '../temp/', fileName)
-  try {
-    await write(targetPath, content)
-  } catch (error) {
-    console.error(error.stack)
-    process.exit(1)
-  }
-}
-
 const readFile = async (filePath) => {
   try {
     if (!fs.existsSync(filePath)) {
@@ -28,7 +18,15 @@ const readFile = async (filePath) => {
   }
 }
 
-const getUrlToHtmlFile = fileName => `file://${path.resolve(path.join(__dirname, '../temp/', fileName))}`
+const writeFile = async (fileName, content) => {
+  const targetPath = path.join(__dirname, '../temp/', fileName)
+  try {
+    await write(targetPath, content)
+  } catch (error) {
+    console.error(error.stack)
+    process.exit(1)
+  }
+}
 
 const deleteFile = (fileName) => {
   const targetPath = path.join(__dirname, '../temp/', fileName)
@@ -39,6 +37,8 @@ const deleteFile = (fileName) => {
     process.exit(1)
   }
 }
+
+const getUrlToHtmlFile = fileName => `file://${path.resolve(path.join(__dirname, '../temp/', fileName))}`
 
 module.exports = {
   getUrlToHtmlFile,
