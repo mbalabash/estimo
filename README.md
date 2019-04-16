@@ -30,7 +30,7 @@ const path = require('path')
 estimo -l ./libs/someLib.js
 ```
 
-## Output Example
+## Output
 
 ```json
 {
@@ -105,7 +105,7 @@ The CPU Throttling Rate Emulation Options allow you to generate a Performance ti
 
 - `--rate` (optional; `1`) - Sets the CPU throttling rate. The number represents the slowdown factor (e.g., 2 is a "2x" slowdown).
 
-**JS API Example**:
+**JS API**:
 
 ```js
 ...
@@ -117,7 +117,7 @@ await estimo('/absolute/path/to/lib', [
 ...
 ```
 
-**CLI Example**:
+**CLI**:
 
 ```sh
 estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--set-cpu-throttling-rate --rate 4"
@@ -141,7 +141,7 @@ The Network Emulation Options allow you to generate a Performance timeline under
 
 - `--connection-type` (optional: `none`) - A label of the supposed underlying network connection type that the browser is using. Supported values are documented under Chrome Headless' ConnectType documentation.
 
-**JS API Example**:
+**JS API**:
 
 ```js
 ...
@@ -157,7 +157,7 @@ await estimo('/absolute/path/to/lib', [
 ...
 ```
 
-**CLI Example**:
+**CLI**:
 
 ```sh
 estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--emulate-network-conditions --latency 150 --upload-throughput 0.75 --download--throughput 1.6"
