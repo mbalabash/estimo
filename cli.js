@@ -27,12 +27,18 @@ const estimo = require('./index')
   const { libs, perfCliArgs } = argv
   const options = perfCliArgs || ''
   const files = libs.map((lib) => {
-    if (lib.includes('http://') || lib.includes('https://')) {
+    if (/^http/.test(lib)) {
       return lib
     }
     return path.resolve(lib)
   })
+
+  const startTime = Date.now()
   const report = await estimo(files, options.split(' '))
+  const finishTime = Date.now()
+
   console.log(report)
+  console.log(`Done in ${parseFloat(finishTime - startTime).toFixed(2)}ms`)
+
   return report
 })()
