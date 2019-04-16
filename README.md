@@ -10,33 +10,15 @@ or
 yarn add estimo
 ```
 
-## Usage example
+## JS API
 
 ```js
-const path = require('path')
 const estimo = require('estimo')
+const path = require('path')
 
 ;(async () => {
   const report = await estimo(
     path.resolve(path.join(__dirname, '..', 'libs', 'someLib.js'))
-  )
-  console.log(report)
-})()
-```
-
-**[More examples](https://github.com/mbalabash/estimo-examples)**
-
-## Possible options
-
-You can pass options to [perf-timeline-cli](https://github.com/CondeNast/perf-timeline-cli) as second argument for more special use causes.
-
-```js
-const estimo = require('estimo')
-
-;(async () => {
-  const report = await estimo(
-    'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js',
-    ['--set-cpu-throttling-rate', '--rate', '4']
   )
   console.log(report)
 })()
@@ -52,7 +34,7 @@ estimo -l ./libs/angular.1.7.8.min.js
 estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--set-cpu-throttling-rate --rate 4"
 ```
 
-## Output example
+## Output Example
 
 ```json
 {
@@ -78,3 +60,33 @@ estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--set-cpu-throttling-rate -
   "type": "Load"
 }
 ```
+
+## Network Emulation Options
+
+According to [perf-timeline-cli](https://github.com/CondeNast/perf-timeline-cli) documentation.
+
+The Network Emulation Options allow you to generate a Performance timeline under specified network conditions. To turn on network emulation, you must pass the `--emulate-network-conditions` flag along with additional configuration options.
+
+- `--emulate-network-conditions` (optional; `false`) - This flag allows the other Network Emulation Options to be respected. They will be completely ignored unless this flag is set.
+
+- `--offline` (optional; `false`) - Passing the `--offline` flag to the generate command emulate a network disconnect.
+
+- `--latency` (optional; `0`) - Artificial, minimum latency between request sent and response header received expressed in milliseconds (ms).
+
+- `--download-throughput` (optional: `-1`) - The maximum download speed in megabits per second. Note Chrome Headless' version of this argument uses bytes per second. Perf Timeline CLI uses megabits per second as that is a more common measure of network throughput. `-1` disables throttling.
+
+- `--upload-throughput` (optional: `-1`) - The maximum upload speed in megabits per second. Note Chrome Headless' version of this argument uses bytes per second. Perf Timeline CLI uses megabits per second as that is a more common measure of network throughput.`-1` disables throttling.
+
+- `--connection-type` (optional: `none`) - A label of the supposed underlying network connection type that the browser is using. Supported values are documented under Chrome Headless' ConnectType documentation.
+
+## CPU Throttling Rate Options
+
+According to [perf-timeline-cli](https://github.com/CondeNast/perf-timeline-cli) documentation.
+
+The CPU Throttling Rate Emulation Options allow you to generate a Performance timeline under specified CPU conditions. To turn on CPU emulation, you must pass the `--set-cpu-throttling-rate` flag along with additional configuration options.
+
+- `--set-cpu-throttling-rate` (optional; `false`) - This flag allows the other CPU Throttling Rate Options to be respected. They will be completely ignored unless this flag is set.
+
+- `--rate` (optional; `1`) - Sets the CPU throttling rate. The number represents the slowdown factor (e.g., 2 is a "2x" slowdown).
+
+**[More examples](https://github.com/mbalabash/estimo-examples)**
