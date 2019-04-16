@@ -89,7 +89,7 @@ estimo -l ./libs/someLib.js
 
 - **extendedInfo.firstPaint** - Time, when `MarkFirstPaint` was fired.
 
-- **extendedInfo.javaScript** - ?
+- **extendedInfo.javaScript** - This object holds time which was spent for `FunctionCall`, `EvaluateScript`, `V8.Execute`, `MajorGC`, `MinorGC`, `GCEvent` for concrete remote script.
 
 - **title** - Event title.
 
