@@ -24,14 +24,10 @@ const path = require('path')
 })()
 ```
 
-## Cli
+## CLI
 
 ```sh
-estimo -l ./libs/angular.1.7.8.min.js
-```
-
-```sh
-estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--set-cpu-throttling-rate --rate 4"
+estimo -l ./libs/someLib.js
 ```
 
 ## Output Example
@@ -61,6 +57,72 @@ estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--set-cpu-throttling-rate -
 }
 ```
 
+## Fields Description
+
+- **start** - Event start time.
+
+- **end** - Event end time.
+
+- **duration** - Event duration.
+
+- **parseHtml** - Time for executing HTML parsing algorithm.
+
+- **javaScript** - Time which was spent for `FunctionCall`, `EvaluateScript`, `V8.Execute`, `MajorGC`, `MinorGC`, `GCEvent` events.
+
+- **javaScriptCompile** - Time which was spent for `v8.compile` event.
+
+- **styles** - Time which was spent for `UpdateLayoutTree`, `RecalculateStyles`, `ParseAuthorStyleSheet` events.
+
+- **updateLayerTree** - Time which was spent for `UpdateLayerTree` event.
+
+- **layout** - Time which was spent for `Layout` event.
+
+- **paint** - Time which was spent for `Paint` event.
+
+- **raster** - Time which was spent for `RasterTask`, `Rasterize` events.
+
+- **composite** - Time which was spent for `CompositeLayers` event.
+
+- **extendedInfo.domContentLoaded** - Time, when `MarkDOMContent` was fired.
+
+- **extendedInfo.loadTime** - Time, when `MarkLoad` was fired.
+
+- **extendedInfo.firstPaint** - Time, when `MarkFirstPaint` was fired.
+
+- **extendedInfo.javaScript** - ?
+
+- **title** - Event title.
+
+- **type** - Event type. One of three: `Load`, `Animation`, `Response` ([see more](https://github.com/googlearchive/big-rig/tree/master/app#projects-and-actions)).
+
+## CPU Throttling Rate Options
+
+According to [perf-timeline-cli](https://github.com/CondeNast/perf-timeline-cli) documentation.
+
+The CPU Throttling Rate Emulation Options allow you to generate a Performance timeline under specified CPU conditions. To turn on CPU emulation, you must pass the `--set-cpu-throttling-rate` flag along with additional configuration options.
+
+- `--set-cpu-throttling-rate` (optional; `false`) - This flag allows the other CPU Throttling Rate Options to be respected. They will be completely ignored unless this flag is set.
+
+- `--rate` (optional; `1`) - Sets the CPU throttling rate. The number represents the slowdown factor (e.g., 2 is a "2x" slowdown).
+
+**JS API Example**:
+
+```js
+...
+await estimo('/absolute/path/to/lib', [
+  '--set-cpu-throttling-rate',
+  '--rate',
+  '4',
+])
+...
+```
+
+**CLI Example**:
+
+```sh
+estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--set-cpu-throttling-rate --rate 4"
+```
+
 ## Network Emulation Options
 
 According to [perf-timeline-cli](https://github.com/CondeNast/perf-timeline-cli) documentation.
@@ -79,14 +141,26 @@ The Network Emulation Options allow you to generate a Performance timeline under
 
 - `--connection-type` (optional: `none`) - A label of the supposed underlying network connection type that the browser is using. Supported values are documented under Chrome Headless' ConnectType documentation.
 
-## CPU Throttling Rate Options
+**JS API Example**:
 
-According to [perf-timeline-cli](https://github.com/CondeNast/perf-timeline-cli) documentation.
+```js
+...
+await estimo('/absolute/path/to/lib', [
+  '--emulate-network-conditions',
+  '--latency',
+  '150',
+  '--upload-throughput',
+  '0.75',
+  '--download--throughput',
+  '1.6',
+])
+...
+```
 
-The CPU Throttling Rate Emulation Options allow you to generate a Performance timeline under specified CPU conditions. To turn on CPU emulation, you must pass the `--set-cpu-throttling-rate` flag along with additional configuration options.
+**CLI Example**:
 
-- `--set-cpu-throttling-rate` (optional; `false`) - This flag allows the other CPU Throttling Rate Options to be respected. They will be completely ignored unless this flag is set.
-
-- `--rate` (optional; `1`) - Sets the CPU throttling rate. The number represents the slowdown factor (e.g., 2 is a "2x" slowdown).
+```sh
+estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--emulate-network-conditions --latency 150 --upload-throughput 0.75 --download--throughput 1.6"
+```
 
 **[More examples](https://github.com/mbalabash/estimo-examples)**
