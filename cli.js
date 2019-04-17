@@ -21,7 +21,7 @@ const { argv } = require('yargs')
 
 const estimo = require('./index')
 
-;
+  ;
 
 (async () => {
   const { libs, perfCliArgs } = argv
@@ -38,7 +38,7 @@ const estimo = require('./index')
   const finishTime = Date.now()
 
   console.log(report)
-  console.log(`Done in ${parseFloat(finishTime - startTime).toFixed(2)}ms`)
+  console.log(`Done in ${parseFloat(finishTime - startTime).toFixed(2)}ms.`)
 
   return report
 })()
