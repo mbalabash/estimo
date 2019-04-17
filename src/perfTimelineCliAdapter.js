@@ -1,13 +1,11 @@
-const { spawn } = require('child_process')
-
-const PATH_TO_PERF_TOOL = 'npx perf-timeline'
+const { npx } = require('node-npx')
 
 const spawnTool = args => new Promise((resolve, reject) => {
-  const proc = spawn(PATH_TO_PERF_TOOL, args)
+  const proc = npx('perf-timeline', args)
   proc.on('close', (code) => {
     if (code === 0) resolve()
     else {
-      reject(new Error(`Can't execute ${PATH_TO_PERF_TOOL}\nArgs: ${JSON.stringify(args)}`))
+      reject(new Error(`Can't execute 'npx perf-timeline'\nArgs: ${JSON.stringify(args)}`))
     }
   })
 })
