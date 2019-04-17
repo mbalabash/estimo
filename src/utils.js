@@ -1,3 +1,4 @@
+const os = require('os')
 const fs = require('fs')
 const path = require('path')
 const { promisify } = require('util')
@@ -5,6 +6,7 @@ const { promisify } = require('util')
 const write = promisify(fs.writeFile)
 const read = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
+const fileSystemRoot = (os.platform() === 'win32') ? process.cwd().split(path.sep)[0] : '/'
 
 const resolvePathToTempDir = (fileName, tempDir = '../temp/') => path.join(__dirname, tempDir, fileName)
 
@@ -41,8 +43,22 @@ const deleteFile = async (filePath) => {
 
 const getUrlToHtmlFile = file => `file://${path.resolve(file)}`
 
+const findPerfTimelineTool = (curLocation) => {
+  if (curLocation === fileSystemRoot) {
+    throw new Error("Can't find perf-timeline module!")
+  }
+
+  const perfToolLocation = `${curLocation}/node_modules/.bin/perf-timeline`
+  if (fs.existsSync(perfToolLocation)) {
+    return perfToolLocation
+  }
+
+  return findPerfTimelineTool(path.join(curLocation, '..'))
+}
+
 module.exports = {
   resolvePathToTempDir,
+  findPerfTimelineTool,
   getUrlToHtmlFile,
   deleteFile,
   writeFile,

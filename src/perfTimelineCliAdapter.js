@@ -1,13 +1,19 @@
 const { npx } = require('node-npx')
+const { findPerfTimelineTool } = require('./utils')
 
 const spawnTool = args => new Promise((resolve, reject) => {
-  const proc = npx('perf-timeline', args)
-  proc.on('close', (code) => {
-    if (code === 0) resolve()
-    else {
-      reject(new Error(`Can't execute 'npx perf-timeline'\nArgs: ${JSON.stringify(args)}`))
-    }
-  })
+  try {
+    const pathToPerfTool = findPerfTimelineTool(process.cwd())
+    const proc = npx(pathToPerfTool, args)
+    proc.on('close', (code) => {
+      if (code === 0) resolve()
+      else {
+        reject(new Error(`Can't execute 'npx ${pathToPerfTool}'\nArgs: ${JSON.stringify(args)}`))
+      }
+    })
+  } catch (error) {
+    console.error(error.stack)
+  }
 })
 
 const generateChromeTimelines = async (urlToHtmlFile, timelinesFilePath, options = []) => {

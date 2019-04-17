@@ -4,6 +4,7 @@ const path = require('path')
 const nanoid = require('nanoid')
 const {
   resolvePathToTempDir,
+  findPerfTimelineTool,
   getUrlToHtmlFile,
   deleteFile,
   writeFile,
@@ -82,4 +83,10 @@ test('should correctly read data from file', async (t) => {
   await deleteFile(filePath)
   isFileExist = fs.existsSync(filePath)
   t.is(isFileExist, false)
+})
+
+test('should correctly find path to perf-timeline module', (t) => {
+  t.is(findPerfTimelineTool(process.cwd()), `${process.cwd()}/node_modules/.bin/perf-timeline`)
+  t.is(findPerfTimelineTool(path.join(__dirname, '__mock__')), `${process.cwd()}/node_modules/.bin/perf-timeline`)
+  t.is(findPerfTimelineTool(path.join(__dirname, '__mock__/test/some/dir')), `${process.cwd()}/node_modules/.bin/perf-timeline`)
 })
