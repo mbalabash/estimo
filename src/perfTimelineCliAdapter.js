@@ -1,10 +1,10 @@
-const { npx } = require('node-npx')
+const spawn = require('cross-spawn')
 const { findPerfTimelineTool } = require('./utils')
 
 const spawnTool = args => new Promise((resolve, reject) => {
   try {
     const pathToPerfTool = findPerfTimelineTool(process.cwd())
-    const proc = npx(pathToPerfTool, args)
+    const proc = spawn(pathToPerfTool, args, { stdio: 'inherit' })
     proc.on('close', (code) => {
       if (code === 0) resolve()
       else {
