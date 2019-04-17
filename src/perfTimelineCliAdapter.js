@@ -1,6 +1,6 @@
 const { spawn } = require('child_process')
 
-const PATH_TO_PERF_TOOL = './node_modules/.bin/perf-timeline'
+const PATH_TO_PERF_TOOL = 'npx perf-timeline'
 
 const spawnTool = args => new Promise((resolve, reject) => {
   const proc = spawn(PATH_TO_PERF_TOOL, args)
