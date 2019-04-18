@@ -1,7 +1,7 @@
 const bigrig = require('bigrig')
 const { readFile } = require('./utils')
 
-const generateReadableReport = async (pathToTimelines) => {
+async function generateReadableReport(pathToTimelines) {
   const content = await readFile(pathToTimelines)
   const report = bigrig.analyze(content)
   return report

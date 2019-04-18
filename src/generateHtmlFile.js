@@ -2,7 +2,8 @@ const { writeFile, getUrlToHtmlFile } = require('./utils')
 
 const LIB_HTML_SEPARATOR = '\n    '
 
-const prepareHtmlContent = libs => `
+function prepareHtmlContent(libs) {
+  return `
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,8 +16,9 @@ const prepareHtmlContent = libs => `
   </body>
 </html>
 `
+}
 
-const generateHtmlFile = async (filePath, libs) => {
+async function generateHtmlFile(filePath, libs) {
   const files = Array.isArray(libs) ? libs : [libs]
   try {
     await writeFile(filePath, prepareHtmlContent(files))

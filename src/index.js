@@ -4,7 +4,7 @@ const { generateChromeTimelines } = require('./perfTimelineCliAdapter')
 const { generateReadableReport } = require('./reporter')
 const { deleteFile, resolvePathToTempDir } = require('./utils')
 
-const checkArgs = (libs, perfCliArgs, removeTempFiles) => {
+function checkArgs(libs, perfCliArgs, removeTempFiles) {
   if (typeof libs !== 'string' && !Array.isArray(libs)) {
     throw new Error(
       'The first argument should be String or Array of Strings which contains a path to the library',
@@ -53,8 +53,7 @@ const checkArgs = (libs, perfCliArgs, removeTempFiles) => {
  * )
  * console.log(report)
  */
-
-const estimo = async (libs = [], perfCliArgs = [], removeTempFiles = true) => {
+async function estimo(libs = [], perfCliArgs = [], removeTempFiles = true) {
   checkArgs(libs, perfCliArgs, removeTempFiles)
 
   const htmlFileName = resolvePathToTempDir(`${nanoid()}.html`)

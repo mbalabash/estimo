@@ -6,11 +6,13 @@ const { promisify } = require('util')
 const write = promisify(fs.writeFile)
 const read = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
-const fileSystemRoot = (os.platform() === 'win32') ? process.cwd().split(path.sep)[0] : '/'
+const fileSystemRoot = os.platform() === 'win32' ? process.cwd().split(path.sep)[0] : '/'
 
-const resolvePathToTempDir = (fileName, tempDir = '../temp/') => path.join(__dirname, tempDir, fileName)
+function resolvePathToTempDir(fileName, tempDir = '../temp/') {
+  return path.join(__dirname, tempDir, fileName)
+}
 
-const readFile = async (filePath) => {
+async function readFile(filePath) {
   try {
     if (!fs.existsSync(filePath)) {
       throw new Error(`${filePath} - file not exist!`)
@@ -23,7 +25,7 @@ const readFile = async (filePath) => {
   }
 }
 
-const writeFile = async (filePath, content) => {
+async function writeFile(filePath, content) {
   try {
     await write(filePath, content)
   } catch (error) {
@@ -32,7 +34,7 @@ const writeFile = async (filePath, content) => {
   }
 }
 
-const deleteFile = async (filePath) => {
+async function deleteFile(filePath) {
   try {
     await unlink(filePath)
   } catch (error) {
@@ -41,9 +43,11 @@ const deleteFile = async (filePath) => {
   }
 }
 
-const getUrlToHtmlFile = file => `file://${path.resolve(file)}`
+function getUrlToHtmlFile(file) {
+  return `file://${path.resolve(file)}`
+}
 
-const findPerfTimelineTool = (curLocation) => {
+function findPerfTimelineTool(curLocation) {
   if (curLocation === fileSystemRoot) {
     throw new Error("Can't find perf-timeline module!")
   }
