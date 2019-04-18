@@ -1,3 +1,17 @@
+## Estimo ![Travis CI Status](https://travis-ci.com/mbalabash/estimo.svg?branch=master)
+
+Estimo was created with idea in mind how to measure parse/compile/execution time for javascript libs.
+
+It uses devtools protocol to [generate Chrome Timelines](https://github.com/CondeNast/perf-timeline-cli). Which can be transformed in human-readable format by [Big Rig](https://github.com/googlearchive/node-big-rig). **Keep in mind** there result depends on your device and available resources.
+
+Inspired by [Size Limit](https://github.com/ai/size-limit). Thanks [@ai](https://github.com/ai/) for support.
+
+## Why?
+
+![3.5 seconds to process 170 KB of JS and 0.1 second for 170 KB of JPEG. @Addy Osmani](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization/images/1_PRVzNizF9jQ_QADF5lQHpA.png)
+
+3.5 seconds to process 170 KB of JS and 0.1 second for 170 KB of JPEG. [Addy Osmani](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization/)
+
 ## Install
 
 ```js
@@ -58,6 +72,8 @@ estimo -l ./libs/someLib.js
 ```
 
 ## Fields Description
+
+**All metrics in milliseconds**.
 
 - **start** - Event start time.
 
@@ -120,7 +136,7 @@ await estimo('/absolute/path/to/lib', [
 **CLI**:
 
 ```sh
-estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--set-cpu-throttling-rate --rate 4"
+estimo -l ./libs/someLib.js --perfCliArgs="--set-cpu-throttling-rate --rate 4"
 ```
 
 ## Network Emulation Options
@@ -160,7 +176,15 @@ await estimo('/absolute/path/to/lib', [
 **CLI**:
 
 ```sh
-estimo -l ./libs/angular.1.7.8.min.js --perfCliArgs="--emulate-network-conditions --latency 150 --upload-throughput 0.75 --download--throughput 1.6"
+estimo -l ./libs/someLib.js --perfCliArgs="--emulate-network-conditions --latency 150 --upload-throughput 0.75 --download--throughput 1.6"
 ```
 
 **[More examples](https://github.com/mbalabash/estimo-examples)**
+
+## Contributing
+
+Feel free to ask or open an issue.
+
+## Licence
+
+MIT
