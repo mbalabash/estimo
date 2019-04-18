@@ -8,9 +8,17 @@ Inspired by [Size Limit](https://github.com/ai/size-limit). Thanks [@ai](https:/
 
 ## Why?
 
+JavaScript is the most expensive part of our frontend.
+
+**We should** really care about size. But in additional to size, we also need to think about how long our JavaScript will process.
+
 ![3.5 seconds to process 170 KB of JS and 0.1 second for 170 KB of JPEG. @Addy Osmani](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization/images/1_PRVzNizF9jQ_QADF5lQHpA.png)
 
 3.5 seconds to process 170 KB of JS and 0.1 second for 170 KB of JPEG. [Addy Osmani](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization/)
+
+- [JavaScript Start-up Optimization](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization/)
+
+- [The Cost Of JavaScript In 2018](https://medium.com/@addyosmani/the-cost-of-javascript-in-2018-7d8950fbb5d4)
 
 ## Install
 
