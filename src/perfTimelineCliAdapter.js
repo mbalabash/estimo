@@ -4,7 +4,7 @@ const { findPerfTimelineTool } = require('./utils')
 function spawnTool(args) {
   return new Promise((resolve, reject) => {
     try {
-      const pathToPerfTool = findPerfTimelineTool(process.cwd())
+      const pathToPerfTool = findPerfTimelineTool(__dirname)
       const proc = spawn(pathToPerfTool, args, { stdio: 'inherit' })
       proc.on('close', (code) => {
         if (code === 0) resolve()
