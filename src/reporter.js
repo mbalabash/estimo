@@ -12,17 +12,39 @@ async function generateTasksReport(pathToTimelines) {
   return tasks
 }
 
+function formatTime(time) {
+  return +parseFloat(time).toFixed(2)
+}
+
+function getEventsTime(events) {
+  const time = events.reduce((acc, cur) => acc + cur.duration, 0)
+  return formatTime(time)
+}
+
 async function generateReadableReport(pathToTimelines) {
   const tasks = await generateTasksReport(pathToTimelines)
-  const report = {}
 
-  const eventTypes = []
-  tasks.forEach((task) => {
-    if (!eventTypes.includes(task.kind)) {
-      eventTypes.push(task.kind)
-    }
-  })
-  console.log(eventTypes)
+  const htmlEvents = tasks.filter(({ kind }) => kind === 'parseHTML')
+  const layoutEvents = tasks.filter(({ kind }) => kind === 'styleLayout')
+  const paintCompositeEvents = tasks.filter(({ kind }) => kind === 'paintCompositeRender')
+  const scriptParseCompileEvents = tasks.filter(({ kind }) => kind === 'scriptParseCompile')
+  const scriptEvaluationEvents = tasks.filter(({ kind }) => kind === 'scriptEvaluation')
+  const garbageCollectionEvents = tasks.filter(({ kind }) => kind === 'garbageCollection')
+  const otherEvents = tasks.filter(({ kind }) => kind === 'other')
+
+  const scriptParseCompileTime = getEventsTime(scriptParseCompileEvents)
+  const scriptEvaluationTime = getEventsTime(scriptEvaluationEvents)
+
+  const report = {
+    parseHTML: getEventsTime(htmlEvents),
+    styleLayout: getEventsTime(layoutEvents),
+    paintCompositeRender: getEventsTime(paintCompositeEvents),
+    scriptParseCompile: scriptParseCompileTime,
+    scriptEvaluation: scriptEvaluationTime,
+    javaScript: formatTime(scriptParseCompileTime + scriptEvaluationTime),
+    garbageCollection: getEventsTime(garbageCollectionEvents),
+    other: getEventsTime(otherEvents),
+  }
 
   return report
 }
