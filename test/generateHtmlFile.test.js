@@ -16,9 +16,10 @@ test('should generate correct content for html file', (t) => {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Estimo</title>
+    <title>Estimo Template</title>
   </head>
   <body>
+    <h1>Estimo</h1>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
   </body>
 </html>
@@ -33,9 +34,10 @@ test('should generate correct content for html file', (t) => {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Estimo</title>
+    <title>Estimo Template</title>
   </head>
   <body>
+    <h1>Estimo</h1>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   </body>
@@ -66,9 +68,10 @@ test('should generate correct html with one lib', async (t) => {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Estimo</title>
+    <title>Estimo Template</title>
   </head>
   <body>
+    <h1>Estimo</h1>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
   </body>
 </html>
@@ -103,9 +106,10 @@ test('should generate correct html with many libs', async (t) => {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Estimo</title>
+    <title>Estimo Template</title>
   </head>
   <body>
+    <h1>Estimo</h1>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   </body>

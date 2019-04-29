@@ -63,4 +63,4 @@ async function generateReadableReport(pathToTimelines) {
   return report
 }
 
-module.exports = { generateReadableReport }
+module.exports = { generateReadableReport, formatTime, getEventsTime }
