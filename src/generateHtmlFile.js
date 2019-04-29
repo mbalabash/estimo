@@ -9,9 +9,10 @@ function prepareHtmlContent(libs) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Estimo</title>
+    <title>Estimo Template</title>
   </head>
   <body>
+    <h1>Estimo</h1>
     ${libs.map(lib => `<script src="${lib}"></script>`).join(LIB_HTML_SEPARATOR)}
   </body>
 </html>
