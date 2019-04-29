@@ -68,9 +68,15 @@ estimo -l ./libs/someLib.js
 }
 ```
 
-## Fields Description
+## Time
 
 **All metrics in milliseconds**.
+
+We measure system-cpu time. The number of seconds that the process has spent on the CPU.
+
+We not including time spent waiting for its turn on the CPU.
+
+## Fields Description
 
 - **parseHTML** - Time which was spent for `ParseHTML`, `ParseAuthorStyleSheet` events.
 

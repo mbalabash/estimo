@@ -16,15 +16,12 @@ function formatTime(time) {
   return +parseFloat(time).toFixed(2)
 }
 
-// Wall time & CPU Time
-// https://stackoverflow.com/questions/7335920/what-specifically-are-wall-clock-time-user-cpu-time-and-system-cpu-time-in-uni
-function getEventsTime(events, type = 'cpu') {
-  const prop = type === 'wall' ? 'duration' : 'selfTime'
-  const time = events.reduce((acc, cur) => acc + cur[prop], 0)
+function getEventsTime(events) {
+  const time = events.reduce((acc, cur) => acc + cur.selfTime, 0)
   return formatTime(Math.round(time * 100) / 100)
 }
 
-async function generateReadableReport(pathToTimelines, timeOption) {
+async function generateReadableReport(pathToTimelines) {
   const tasks = await generateTasksReport(pathToTimelines)
 
   const htmlEvents = tasks.filter(({ kind }) => kind === 'parseHTML')
@@ -35,13 +32,13 @@ async function generateReadableReport(pathToTimelines, timeOption) {
   const garbageCollectionEvents = tasks.filter(({ kind }) => kind === 'garbageCollection')
   const otherEvents = tasks.filter(({ kind }) => kind === 'other')
 
-  const parseHTMLTime = getEventsTime(htmlEvents, timeOption)
-  const styleLayoutTime = getEventsTime(layoutEvents, timeOption)
-  const paintCompositeRenderTime = getEventsTime(paintCompositeEvents, timeOption)
-  const scriptParseCompileTime = getEventsTime(scriptParseCompileEvents, timeOption)
-  const scriptEvaluationTime = getEventsTime(scriptEvaluationEvents, timeOption)
-  const garbageCollectionTime = getEventsTime(garbageCollectionEvents, timeOption)
-  const otherTime = getEventsTime(otherEvents, timeOption)
+  const parseHTMLTime = getEventsTime(htmlEvents)
+  const styleLayoutTime = getEventsTime(layoutEvents)
+  const paintCompositeRenderTime = getEventsTime(paintCompositeEvents)
+  const scriptParseCompileTime = getEventsTime(scriptParseCompileEvents)
+  const scriptEvaluationTime = getEventsTime(scriptEvaluationEvents)
+  const garbageCollectionTime = getEventsTime(garbageCollectionEvents)
+  const otherTime = getEventsTime(otherEvents)
 
   const report = {
     parseHTML: parseHTMLTime,
