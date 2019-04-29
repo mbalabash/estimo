@@ -1,11 +1,10 @@
 const puppeteer = require('puppeteer')
 
 const defaultBrowserOptions = {
-  headless: true,
-  waitUntil: 'load',
-  timeout: 30000,
+  _headless: true,
+  _waitUntil: 'load',
+  _timeout: 30000,
   emulateNetworkConditions: false,
-  emulateCpuThrottling: false,
   networkConditions: {
     offline: false,
     latency: 0,
@@ -13,6 +12,7 @@ const defaultBrowserOptions = {
     uploadThroughput: 0,
     connectionType: 'none',
   },
+  emulateCpuThrottling: false,
   cpuThrottlingRate: 1,
 }
 
@@ -26,7 +26,7 @@ function handleSessionError(err, browser) {
 
 async function createChromeTrace(urlToHtmlFile, pathToTraceFile, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
-  const { headless, emulateNetworkConditions, emulateCpuThrottling } = options
+  const { _headless: headless, emulateNetworkConditions, emulateCpuThrottling } = options
 
   const browser = await puppeteer.launch({ headless })
   const page = await browser.newPage()
@@ -44,10 +44,8 @@ async function createChromeTrace(urlToHtmlFile, pathToTraceFile, browserOptions)
 
   await page.tracing.start({ path: pathToTraceFile })
   try {
-    await page.goto(urlToHtmlFile, {
-      timeout: options.timeout,
-      waitUntil: options.waitUntil,
-    })
+    const { _timeout: timeout, _waitUntil: waitUntil } = options
+    await page.goto(urlToHtmlFile, { timeout, waitUntil })
   } catch (err) {
     handleSessionError(err, browser)
   }

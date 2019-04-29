@@ -2,7 +2,9 @@
 
 Estimo was created with idea in mind how to measure parse/compile/execution time for javascript libs.
 
-It uses devtools protocol to [generate Chrome Timelines](https://github.com/CondeNast/perf-timeline-cli). Which can be transformed in human-readable format by [Big Rig](https://github.com/googlearchive/node-big-rig). **Keep in mind** there result depends on your device and available resources.
+It uses [puppeteer](https://github.com/GoogleChrome/puppeteer) to generate Chrome Timelines. Which can be transformed in human-readable format by [Tracium](https://github.com/aslushnikov/tracium).
+
+**Keep in mind** there result depends on your device and available resources.
 
 Inspired by [Size Limit](https://github.com/ai/size-limit). Thanks [@ai](https://github.com/ai/) for support.
 
@@ -97,8 +99,6 @@ We not including time spent waiting for its turn on the CPU.
 - **total** - Total time.
 
 ## CPU Throttling Rate Options
-
-According to [perf-timeline-cli](https://github.com/CondeNast/perf-timeline-cli) documentation.
 
 The CPU Throttling Rate Emulation Options allow you to generate a Performance timeline under specified CPU conditions. To turn on CPU emulation, you must pass the `--set-cpu-throttling-rate` flag along with additional configuration options.
 
