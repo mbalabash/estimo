@@ -44,7 +44,10 @@ function checkArgs(libs, browserOptions, removeTempFiles) {
  *   'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js',
  *   '/absolute/path/to/your/lib.js'
  *   ],
- *   ['--set-cpu-throttling-rate', '--rate', '4']
+ *   {
+ *     emulateCpuThrottling: true,
+ *     cpuThrottlingRate: 4,
+ *   }
  * )
  * console.log(report)
  */

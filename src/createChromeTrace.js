@@ -5,14 +5,12 @@ const defaultBrowserOptions = {
   _waitUntil: 'load',
   _timeout: 30000,
   emulateNetworkConditions: false,
-  networkConditions: {
-    offline: false,
-    latency: 0,
-    downloadThroughput: 0,
-    uploadThroughput: 0,
-    connectionType: 'none',
-  },
   emulateCpuThrottling: false,
+  offline: false,
+  latency: 0,
+  downloadThroughput: -1,
+  uploadThroughput: -1,
+  connectionType: 'none',
   cpuThrottlingRate: 1,
 }
 
@@ -33,8 +31,16 @@ async function createChromeTrace(urlToHtmlFile, pathToTraceFile, browserOptions)
   const client = await page.target().createCDPSession()
 
   if (emulateNetworkConditions) {
-    const { networkConditions } = options
-    await client.send('Network.emulateNetworkConditions', networkConditions)
+    const {
+      offline, latency, downloadThroughput, uploadThroughput, connectionType,
+    } = options
+    await client.send('Network.emulateNetworkConditions', {
+      offline,
+      latency,
+      downloadThroughput,
+      uploadThroughput,
+      connectionType,
+    })
   }
 
   if (emulateCpuThrottling) {
