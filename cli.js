@@ -10,9 +10,36 @@ const { argv } = require('yargs')
     type: 'array',
     demand: true,
   })
-  .option('p', {
-    alias: 'perfOptions',
-    describe: 'CPU and Network throttling options',
+  .option('cpu', {
+    describe: 'Enable CPU Throttling',
+    type: 'boolean',
+  })
+  .option('cpuRate', {
+    describe: 'Slowdown factor (e.g., 2 is a "2x" slowdown)',
+    type: 'number',
+  })
+  .option('net', {
+    describe: 'Enable Network Emulation',
+    type: 'boolean',
+  })
+  .option('offline', {
+    describe: 'Emulate a network disconnect',
+    type: 'boolean',
+  })
+  .option('latency', {
+    describe: 'Min latency between req and res in milliseconds',
+    type: 'number',
+  })
+  .option('download', {
+    describe: 'Max download speed in megabits per second',
+    type: 'number',
+  })
+  .option('upload', {
+    describe: 'Max upload speed in megabits per second',
+    type: 'number',
+  })
+  .option('connection', {
+    describe: 'Network connection type',
     type: 'string',
   })
   .help('h')
@@ -25,8 +52,17 @@ const estimo = require('./index')
 ;
 
 (async () => {
-  const { libs, perfOptions } = argv
-  const options = perfOptions || {}
+  const { libs } = argv
+  const options = {
+    emulateCpuThrottling: argv.cpu || false,
+    cpuThrottlingRate: argv.cpuRate || 1,
+    emulateNetworkConditions: argv.net || false,
+    offline: argv.offline || false,
+    latency: argv.latency || 0,
+    downloadThroughput: argv.download || 0,
+    uploadThroughput: argv.upload || 0,
+    connectionType: argv.connection || 'none',
+  }
   const files = libs.map((lib) => {
     if (/^http/.test(lib)) {
       return lib

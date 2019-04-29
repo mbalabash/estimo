@@ -45,9 +45,14 @@ function getUrlToHtmlFile(file) {
   return `file://${path.resolve(file)}`
 }
 
+function megabitsToBytes(megabits) {
+  return (megabits * 1024 * 1024) / 8
+}
+
 module.exports = {
   resolvePathToTempDir,
   getUrlToHtmlFile,
+  megabitsToBytes,
   deleteFile,
   writeFile,
   readFile,

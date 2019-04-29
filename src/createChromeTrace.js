@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer')
+const { megabitsToBytes } = require('./utils')
 
 const defaultBrowserOptions = {
   _headless: true,
@@ -8,8 +9,8 @@ const defaultBrowserOptions = {
   emulateCpuThrottling: false,
   offline: false,
   latency: 0,
-  downloadThroughput: -1,
-  uploadThroughput: -1,
+  downloadThroughput: 0,
+  uploadThroughput: 0,
   connectionType: 'none',
   cpuThrottlingRate: 1,
 }
@@ -37,8 +38,8 @@ async function createChromeTrace(urlToHtmlFile, pathToTraceFile, browserOptions)
     await client.send('Network.emulateNetworkConditions', {
       offline,
       latency,
-      downloadThroughput,
-      uploadThroughput,
+      downloadThroughput: megabitsToBytes(downloadThroughput),
+      uploadThroughput: megabitsToBytes(uploadThroughput),
       connectionType,
     })
   }

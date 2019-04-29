@@ -8,6 +8,7 @@ const {
   deleteFile,
   writeFile,
   readFile,
+  megabitsToBytes,
 } = require('../src/utils')
 
 test('should correctly resolve path to file in temp directory', (t) => {
@@ -82,4 +83,11 @@ test('should correctly read data from file', async (t) => {
   await deleteFile(filePath)
   isFileExist = fs.existsSync(filePath)
   t.is(isFileExist, false)
+})
+
+test('should correctly transform megabits to bytes', async (t) => {
+  t.is(megabitsToBytes(0.75), 98304)
+  t.is(megabitsToBytes(1.6), 209715.2)
+  t.is(megabitsToBytes(13), 1703936)
+  t.is(megabitsToBytes(0.33), 43253.76)
 })

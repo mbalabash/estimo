@@ -120,7 +120,7 @@ await estimo('/absolute/path/to/lib', {
 **CLI**:
 
 ```sh
-estimo -l ./libs/someLib.js ???
+estimo -l ./libs/someLib.js --cpu --cpuRate 4
 ```
 
 ## Network Emulation Options
@@ -133,9 +133,9 @@ The Network Emulation Options allow you to generate a Performance timeline under
 
 - **latency** (optional; `0`) - Artificial, minimum latency between request sent and response header received expressed in milliseconds (ms).
 
-- **downloadThroughput** (optional: `-1`) - The maximum download speed in megabits per second. Note Chrome Headless' version of this argument uses bytes per second. `-1` disables throttling.
+- **downloadThroughput** (optional: `0`) - The maximum download speed in megabits per second. `0` disables throttling.
 
-- **uploadThroughput** (optional: `-1`) - The maximum upload speed in megabits per second. Note Chrome Headless' version of this argument uses bytes per second. `-1` disables throttling.
+- **uploadThroughput** (optional: `0`) - The maximum upload speed in megabits per second. `0` disables throttling.
 
 - **connectionType** (optional: `none`) - A label of the supposed underlying network connection type that the browser is using. Supported values are documented under Chrome Headless' ConnectType documentation. Variants: `none`, `cellular2g`, `cellular3g`, `cellular4g`, `bluetooth`, `ethernet`, `wifi`, `wimax`, `other`.
 
@@ -145,13 +145,11 @@ The Network Emulation Options allow you to generate a Performance timeline under
 ...
 await estimo('/absolute/path/to/lib', {
   emulateNetworkConditions: true,
-  networkConditions: {
-    offline: false,
-    latency: 150,
-    downloadThroughput: 1.6,
-    uploadThroughput: 0.75,
-    connectionType: 'cellular3g',
-  },
+  offline: false,
+  latency: 150,
+  downloadThroughput: 1.6,
+  uploadThroughput: 0.75,
+  connectionType: 'cellular3g',
 })
 ...
 ```
@@ -159,7 +157,7 @@ await estimo('/absolute/path/to/lib', {
 **CLI**:
 
 ```sh
-estimo -l ./libs/someLib.js ???
+estimo -l ./libs/someLib.js --net --latency 150 --download 1.6 --upload 0.75 --connection cellular3g
 ```
 
 **[More examples](https://github.com/mbalabash/estimo-examples)**
