@@ -6,12 +6,13 @@ const { argv } = require('yargs')
   .showHelpOnFail(true)
   .option('l', {
     alias: 'libs',
-    describe: 'Libraries for estimation',
+    describe: 'JavaScript files for evaluates',
     type: 'array',
     demand: true,
   })
-  .option('perfCliArgs', {
-    describe: 'perf-timeline-cli options',
+  .option('p', {
+    alias: 'perfOptions',
+    describe: 'CPU and Network throttling options',
     type: 'string',
   })
   .help('h')
@@ -21,11 +22,11 @@ const { argv } = require('yargs')
 
 const estimo = require('./index')
 
-  ;
+;
 
 (async () => {
-  const { libs, perfCliArgs } = argv
-  const options = perfCliArgs || ''
+  const { libs, perfOptions } = argv
+  const options = perfOptions || {}
   const files = libs.map((lib) => {
     if (/^http/.test(lib)) {
       return lib
@@ -34,11 +35,11 @@ const estimo = require('./index')
   })
 
   const startTime = Date.now()
-  const report = await estimo(files, options.split(' '))
+  const report = await estimo(files, options)
   const finishTime = Date.now()
 
   console.log(report)
-  console.log(`Done in ${parseFloat(finishTime - startTime).toFixed(2)}ms.`)
+  console.log(`Done in ${parseInt(finishTime - startTime, 10)} ms.`)
 
   return report
 })()

@@ -1,6 +1,6 @@
 {
   "name": "estimo",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Evaluates how long the browser will execute your javascript code",
   "main": "index.js",
   "scripts": {
@@ -54,8 +54,9 @@
     "url": "https://github.com/mbalabash/estimo/issues"
   },
   "keywords": [
-    "bigrig",
     "chrome",
+    "tracium",
+    "puppeteer",
     "devtools",
     "size-limit",
     "performance",
