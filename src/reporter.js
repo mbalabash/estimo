@@ -35,18 +35,32 @@ async function generateReadableReport(pathToTimelines, timeOption) {
   const garbageCollectionEvents = tasks.filter(({ kind }) => kind === 'garbageCollection')
   const otherEvents = tasks.filter(({ kind }) => kind === 'other')
 
+  const parseHTMLTime = getEventsTime(htmlEvents, timeOption)
+  const styleLayoutTime = getEventsTime(layoutEvents, timeOption)
+  const paintCompositeRenderTime = getEventsTime(paintCompositeEvents, timeOption)
   const scriptParseCompileTime = getEventsTime(scriptParseCompileEvents, timeOption)
   const scriptEvaluationTime = getEventsTime(scriptEvaluationEvents, timeOption)
+  const garbageCollectionTime = getEventsTime(garbageCollectionEvents, timeOption)
+  const otherTime = getEventsTime(otherEvents, timeOption)
 
   const report = {
-    parseHTML: getEventsTime(htmlEvents, timeOption),
-    styleLayout: getEventsTime(layoutEvents, timeOption),
-    paintCompositeRender: getEventsTime(paintCompositeEvents, timeOption),
+    parseHTML: parseHTMLTime,
+    styleLayout: styleLayoutTime,
+    paintCompositeRender: paintCompositeRenderTime,
     scriptParseCompile: scriptParseCompileTime,
     scriptEvaluation: scriptEvaluationTime,
     javaScript: formatTime(scriptParseCompileTime + scriptEvaluationTime),
-    garbageCollection: getEventsTime(garbageCollectionEvents, timeOption),
-    other: getEventsTime(otherEvents, timeOption),
+    garbageCollection: garbageCollectionTime,
+    other: otherTime,
+    total: formatTime(
+      parseHTMLTime
+        + styleLayoutTime
+        + paintCompositeRenderTime
+        + scriptParseCompileTime
+        + scriptEvaluationTime
+        + garbageCollectionTime
+        + otherTime,
+    ),
   }
 
   return report

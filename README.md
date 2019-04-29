@@ -56,26 +56,15 @@ estimo -l ./libs/someLib.js
 
 ```json
 {
-  "start": 0,
-  "end": 159.4800000190735,
-  "duration": 159.4800000190735,
-  "parseHTML": 7.261999999999974,
-  "javaScript": 49.96900000000002,
-  "javaScriptCompile": 4.120999999999981,
-  "styles": 0.8670000000000755,
-  "updateLayerTree": 0.757,
-  "layout": 1.2450000000000045,
-  "paint": 0.05,
-  "raster": 0,
-  "composite": 1.4089999999999918,
-  "extendedInfo": {
-    "domContentLoaded": 156.63200002908707,
-    "loadTime": 155.53799998760223,
-    "firstPaint": 0,
-    "javaScript": {}
-  },
-  "title": "Load",
-  "type": "Load"
+  "parseHTML": 1.55,
+  "styleLayout": 64.48,
+  "paintCompositeRender": 0.7,
+  "scriptParseCompile": 1.14,
+  "scriptEvaluation": 8.45,
+  "javaScript": 9.59,
+  "garbageCollection": 0,
+  "other": 12.81,
+  "total": 89.13
 }
 ```
 
@@ -83,41 +72,23 @@ estimo -l ./libs/someLib.js
 
 **All metrics in milliseconds**.
 
-- **start** - Event start time.
+- **parseHTML** - Time which was spent for `ParseHTML`, `ParseAuthorStyleSheet` events.
 
-- **end** - Event end time.
+- **styleLayout** - Time which was spent for `ScheduleStyleRecalculation`, `UpdateLayoutTree`, `InvalidateLayout`, `Layout` events.
 
-- **duration** - Event duration.
+- **paintCompositeRender** - Time which was spent for `Animation`, `HitTest`, `PaintSetup`, `Paint`, `PaintImage`, `RasterTask`, `ScrollLayer`, `UpdateLayer`, `UpdateLayerTree`, `CompositeLayers` events.
 
-- **parseHtml** - Time for executing HTML parsing algorithm.
+- **scriptParseCompile** - Time which was spent for `v8.compile`, `v8.compileModule`, `v8.parseOnBackground` events.
 
-- **javaScript** - Time which was spent for `FunctionCall`, `EvaluateScript`, `V8.Execute`, `MajorGC`, `MinorGC`, `GCEvent` events.
+- **scriptEvaluation** - Time which was spent for `EventDispatch`, `EvaluateScript`, `v8.evaluateModule`, `FunctionCall`, `TimerFire`, `FireIdleCallback`, `FireAnimationFrame`, `RunMicrotasks`, `V8.Execute` events.
 
-- **javaScriptCompile** - Time which was spent for `v8.compile` event.
+- **javaScript** - Time which was spent for both event groups (**scriptParseCompile** and **scriptEvaluation**).
 
-- **styles** - Time which was spent for `UpdateLayoutTree`, `RecalculateStyles`, `ParseAuthorStyleSheet` events.
+- **garbageCollection** - Time which was spent for `MinorGC`, `MajorGC`, `BlinkGC.AtomicPhase`, `ThreadState::performIdleLazySweep`, `ThreadState::completeSweep`, `BlinkGCMarking` events.
 
-- **updateLayerTree** - Time which was spent for `UpdateLayerTree` event.
+- **other** - Time which was spent for `MessageLoop::RunTask`, `TaskQueueManager::ProcessTaskFromWorkQueue`, `ThreadControllerImpl::DoWork` events.
 
-- **layout** - Time which was spent for `Layout` event.
-
-- **paint** - Time which was spent for `Paint` event.
-
-- **raster** - Time which was spent for `RasterTask`, `Rasterize` events.
-
-- **composite** - Time which was spent for `CompositeLayers` event.
-
-- **extendedInfo.domContentLoaded** - Time, when `MarkDOMContent` was fired.
-
-- **extendedInfo.loadTime** - Time, when `MarkLoad` was fired.
-
-- **extendedInfo.firstPaint** - Time, when `MarkFirstPaint` was fired.
-
-- **extendedInfo.javaScript** - This object holds time which was spent for `FunctionCall`, `EvaluateScript`, `V8.Execute`, `MajorGC`, `MinorGC`, `GCEvent` for concrete remote script.
-
-- **title** - Event title.
-
-- **type** - Event type. One of three: `Load`, `Animation`, `Response` ([see more](https://github.com/googlearchive/big-rig/tree/master/app#projects-and-actions)).
+- **total** - Total time.
 
 ## CPU Throttling Rate Options
 
