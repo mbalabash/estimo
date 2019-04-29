@@ -16,12 +16,15 @@ function formatTime(time) {
   return +parseFloat(time).toFixed(2)
 }
 
-function getEventsTime(events) {
-  const time = events.reduce((acc, cur) => acc + cur.duration, 0)
-  return formatTime(time)
+// Wall time & CPU Time
+// https://stackoverflow.com/questions/7335920/what-specifically-are-wall-clock-time-user-cpu-time-and-system-cpu-time-in-uni
+function getEventsTime(events, type = 'cpu') {
+  const prop = type === 'wall' ? 'duration' : 'selfTime'
+  const time = events.reduce((acc, cur) => acc + cur[prop], 0)
+  return formatTime(Math.round(time * 100) / 100)
 }
 
-async function generateReadableReport(pathToTimelines) {
+async function generateReadableReport(pathToTimelines, timeOption) {
   const tasks = await generateTasksReport(pathToTimelines)
 
   const htmlEvents = tasks.filter(({ kind }) => kind === 'parseHTML')
@@ -32,18 +35,18 @@ async function generateReadableReport(pathToTimelines) {
   const garbageCollectionEvents = tasks.filter(({ kind }) => kind === 'garbageCollection')
   const otherEvents = tasks.filter(({ kind }) => kind === 'other')
 
-  const scriptParseCompileTime = getEventsTime(scriptParseCompileEvents)
-  const scriptEvaluationTime = getEventsTime(scriptEvaluationEvents)
+  const scriptParseCompileTime = getEventsTime(scriptParseCompileEvents, timeOption)
+  const scriptEvaluationTime = getEventsTime(scriptEvaluationEvents, timeOption)
 
   const report = {
-    parseHTML: getEventsTime(htmlEvents),
-    styleLayout: getEventsTime(layoutEvents),
-    paintCompositeRender: getEventsTime(paintCompositeEvents),
+    parseHTML: getEventsTime(htmlEvents, timeOption),
+    styleLayout: getEventsTime(layoutEvents, timeOption),
+    paintCompositeRender: getEventsTime(paintCompositeEvents, timeOption),
     scriptParseCompile: scriptParseCompileTime,
     scriptEvaluation: scriptEvaluationTime,
     javaScript: formatTime(scriptParseCompileTime + scriptEvaluationTime),
-    garbageCollection: getEventsTime(garbageCollectionEvents),
-    other: getEventsTime(otherEvents),
+    garbageCollection: getEventsTime(garbageCollectionEvents, timeOption),
+    other: getEventsTime(otherEvents, timeOption),
   }
 
   return report
