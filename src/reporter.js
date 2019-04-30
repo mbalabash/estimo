@@ -24,39 +24,25 @@ function getEventsTime(events) {
 async function generateReadableReport(pathToTimelines) {
   const tasks = await generateTasksReport(pathToTimelines)
 
-  const htmlEvents = tasks.filter(({ kind }) => kind === 'parseHTML')
-  const layoutEvents = tasks.filter(({ kind }) => kind === 'styleLayout')
-  const paintCompositeEvents = tasks.filter(({ kind }) => kind === 'paintCompositeRender')
-  const scriptParseCompileEvents = tasks.filter(({ kind }) => kind === 'scriptParseCompile')
-  const scriptEvaluationEvents = tasks.filter(({ kind }) => kind === 'scriptEvaluation')
-  const garbageCollectionEvents = tasks.filter(({ kind }) => kind === 'garbageCollection')
-  const otherEvents = tasks.filter(({ kind }) => kind === 'other')
-
-  const parseHTMLTime = getEventsTime(htmlEvents)
-  const styleLayoutTime = getEventsTime(layoutEvents)
-  const paintCompositeRenderTime = getEventsTime(paintCompositeEvents)
-  const scriptParseCompileTime = getEventsTime(scriptParseCompileEvents)
-  const scriptEvaluationTime = getEventsTime(scriptEvaluationEvents)
-  const garbageCollectionTime = getEventsTime(garbageCollectionEvents)
-  const otherTime = getEventsTime(otherEvents)
+  const htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
+  const styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))
+  const renderTime = getEventsTime(tasks.filter(({ kind }) => kind === 'paintCompositeRender'))
+  const compileTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptParseCompile'))
+  const evaluationTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptEvaluation'))
+  const garbageTime = getEventsTime(tasks.filter(({ kind }) => kind === 'garbageCollection'))
+  const otherTime = getEventsTime(tasks.filter(({ kind }) => kind === 'other'))
 
   const report = {
-    parseHTML: parseHTMLTime,
-    styleLayout: styleLayoutTime,
-    paintCompositeRender: paintCompositeRenderTime,
-    scriptParseCompile: scriptParseCompileTime,
-    scriptEvaluation: scriptEvaluationTime,
-    javaScript: formatTime(scriptParseCompileTime + scriptEvaluationTime),
-    garbageCollection: garbageCollectionTime,
+    parseHTML: htmlTime,
+    styleLayout: styleTime,
+    paintCompositeRender: renderTime,
+    scriptParseCompile: compileTime,
+    scriptEvaluation: evaluationTime,
+    javaScript: formatTime(compileTime + evaluationTime),
+    garbageCollection: garbageTime,
     other: otherTime,
     total: formatTime(
-      parseHTMLTime
-        + styleLayoutTime
-        + paintCompositeRenderTime
-        + scriptParseCompileTime
-        + scriptEvaluationTime
-        + garbageCollectionTime
-        + otherTime,
+      htmlTime + styleTime + renderTime + compileTime + evaluationTime + garbageTime + otherTime,
     ),
   }
 

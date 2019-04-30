@@ -3,7 +3,6 @@ const { megabitsToBytes } = require('./utils')
 
 const defaultBrowserOptions = {
   _headless: true,
-  _waitUntil: 'load',
   _timeout: 30000,
   emulateNetworkConditions: false,
   emulateCpuThrottling: false,
@@ -51,8 +50,10 @@ async function createChromeTrace(urlToHtmlFile, pathToTraceFile, browserOptions)
 
   await page.tracing.start({ path: pathToTraceFile })
   try {
-    const { _timeout: timeout, _waitUntil: waitUntil } = options
-    await page.goto(urlToHtmlFile, { timeout, waitUntil })
+    const { _timeout: timeout } = options
+    await page.goto(urlToHtmlFile, { timeout, waitUntil: 'load' })
+    await page.waitFor('h1') // FP, FCP, FMP may not happen in case with local files.
+    await page.waitFor(75) //   But they are required for trace parsing.
   } catch (err) {
     handleSessionError(err, browser)
   }
