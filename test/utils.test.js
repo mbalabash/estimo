@@ -9,6 +9,7 @@ const {
   writeFile,
   readFile,
   megabitsToBytes,
+  getLibraryName,
 } = require('../src/utils')
 
 test('should correctly resolve path to file in temp directory', (t) => {
@@ -90,4 +91,14 @@ test('should correctly transform megabits to bytes', async (t) => {
   t.is(megabitsToBytes(1.6), 209715.2)
   t.is(megabitsToBytes(13), 1703936)
   t.is(megabitsToBytes(0.33), 43253.76)
+})
+
+test('should correctly extract library name', async (t) => {
+  t.is(getLibraryName('http://qwe.asd/myLib.js'), 'myLib.js')
+  t.is(getLibraryName('http://qwe.asd/myLib/some/dir/lib.js'), 'lib.js')
+  t.is(getLibraryName('https://qwe.asd/myLib.js'), 'myLib.js')
+  t.is(getLibraryName('https://qwe.asd/myLib/core.js'), 'core.js')
+  t.is(getLibraryName('./dir/dev/lib/index.js'), 'index.js')
+  t.is(getLibraryName('/Users/dev/project/myLib.js'), 'myLib.js')
+  t.is(getLibraryName('../myLib.js'), 'myLib.js')
 })

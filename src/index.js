@@ -1,5 +1,5 @@
 const { createChromeTrace } = require('./createChromeTrace')
-const { generateHtmlFiles } = require('./generateHtmlFile')
+const { generateHtmlFiles } = require('./generateHtmlFiles')
 const { generateReadableReport } = require('./reporter')
 const { removeTempFiles } = require('./utils')
 
