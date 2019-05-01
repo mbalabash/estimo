@@ -1,8 +1,7 @@
-const { writeFile, getUrlToHtmlFile } = require('./utils')
+const nanoid = require('nanoid')
+const { getLibraryName, writeFile, resolvePathToTempDir } = require('./utils')
 
-const LIB_HTML_SEPARATOR = '\n    '
-
-function prepareHtmlContent(libs) {
+function prepareHtmlContent(lib) {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -12,22 +11,30 @@ function prepareHtmlContent(libs) {
     <title>Estimo Template</title>
   </head>
   <body>
+    ${`<script src="${lib}"></script>`}
     <h1>Estimo</h1>
-    ${libs.map(lib => `<script src="${lib}"></script>`).join(LIB_HTML_SEPARATOR)}
   </body>
 </html>
 `
 }
 
-async function generateHtmlFile(filePath, libs) {
-  const files = Array.isArray(libs) ? libs : [libs]
-  try {
-    await writeFile(filePath, prepareHtmlContent(files))
-    return getUrlToHtmlFile(filePath)
-  } catch (error) {
-    console.error(error.stack)
-    return process.exit(1)
+async function generateHtmlFiles(libs) {
+  const modules = Array.isArray(libs) ? libs : [libs]
+  const htmlFiles = []
+
+  for (const lib of modules) {
+    try {
+      const fileName = resolvePathToTempDir(`${nanoid()}.html`)
+      const fileContent = prepareHtmlContent(lib)
+      await writeFile(fileName, fileContent)
+      htmlFiles.push({ name: getLibraryName(lib), html: fileName })
+    } catch (error) {
+      console.error(error.stack)
+      return process.exit(1)
+    }
   }
+
+  return htmlFiles
 }
 
-module.exports = { generateHtmlFile, prepareHtmlContent }
+module.exports = { generateHtmlFiles, prepareHtmlContent }

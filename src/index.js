@@ -1,10 +1,9 @@
-const nanoid = require('nanoid')
-const { generateHtmlFile } = require('./generateHtmlFile')
 const { createChromeTrace } = require('./createChromeTrace')
+const { generateHtmlFiles } = require('./generateHtmlFile')
 const { generateReadableReport } = require('./reporter')
-const { deleteFile, resolvePathToTempDir } = require('./utils')
+const { removeTempFiles } = require('./utils')
 
-function checkArgs(libs, browserOptions, removeTempFiles) {
+function checkArgs(libs, browserOptions) {
   if (typeof libs !== 'string' && !Array.isArray(libs)) {
     throw new Error(
       'The first argument should be String or Array of Strings which contains a path to the library',
@@ -12,11 +11,6 @@ function checkArgs(libs, browserOptions, removeTempFiles) {
   }
   if (typeof browserOptions !== 'object' || browserOptions.constructor !== Object) {
     throw new Error('The second argument should be an Object which contains browser options')
-  }
-  if (typeof removeTempFiles !== 'boolean') {
-    throw new Error(
-      'The third argument should be a Boolean which represents your expectation about removing temporary files',
-    )
   }
 }
 
@@ -51,21 +45,16 @@ function checkArgs(libs, browserOptions, removeTempFiles) {
  * )
  * console.log(report)
  */
-async function estimo(libs = [], browserOptions = {}, removeTempFiles = true) {
-  checkArgs(libs, browserOptions, removeTempFiles)
-
-  const htmlFileName = resolvePathToTempDir(`${nanoid()}.html`)
-  const timelinesFileName = resolvePathToTempDir(`${nanoid()}.json`)
+async function estimo(libs = [], browserOptions = {}) {
+  checkArgs(libs, browserOptions)
 
   try {
-    const html = await generateHtmlFile(htmlFileName, libs)
-    const timelines = await createChromeTrace(html, timelinesFileName, browserOptions)
-    const report = await generateReadableReport(timelines)
+    const htmlFiles = await generateHtmlFiles(libs)
+    const traceFiles = await createChromeTrace(htmlFiles, browserOptions)
+    const report = await generateReadableReport(traceFiles)
 
-    if (removeTempFiles) {
-      await deleteFile(htmlFileName)
-      await deleteFile(timelinesFileName)
-    }
+    await removeTempFiles(htmlFiles.map(file => file.html))
+    await removeTempFiles(traceFiles.map(file => file.traceFile))
 
     return report
   } catch (error) {

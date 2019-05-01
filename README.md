@@ -57,17 +57,20 @@ estimo -l ./libs/someLib.js
 ## Output
 
 ```json
-{
-  "parseHTML": 1.55,
-  "styleLayout": 64.48,
-  "paintCompositeRender": 0.7,
-  "scriptParseCompile": 1.14,
-  "scriptEvaluation": 8.45,
-  "javaScript": 9.59,
-  "garbageCollection": 0,
-  "other": 12.81,
-  "total": 89.13
-}
+[
+  {
+    "library": "someLib.js",
+    "parseHTML": 1.62,
+    "styleLayout": 54.98,
+    "paintCompositeRender": 1.1,
+    "scriptParseCompile": 1.16,
+    "scriptEvaluation": 8.66,
+    "javaScript": 9.82,
+    "garbageCollection": 0,
+    "other": 15.83,
+    "total": 83.35
+  }
+]
 ```
 
 ## Time
@@ -79,6 +82,8 @@ We measure system-cpu time. The number of seconds that the process has spent on 
 We not including time spent waiting for its turn on the CPU.
 
 ## Fields Description
+
+- **library** - Library name.
 
 - **parseHTML** - Time which was spent for `ParseHTML`, `ParseAuthorStyleSheet` events.
 

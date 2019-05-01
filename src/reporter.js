@@ -21,29 +21,33 @@ function getEventsTime(events) {
   return formatTime(Math.round(time * 100) / 100)
 }
 
-async function generateReadableReport(pathToTimelines) {
-  const tasks = await generateTasksReport(pathToTimelines)
+async function generateReadableReport(traceFiles) {
+  const report = []
 
-  const htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
-  const styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))
-  const renderTime = getEventsTime(tasks.filter(({ kind }) => kind === 'paintCompositeRender'))
-  const compileTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptParseCompile'))
-  const evaluationTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptEvaluation'))
-  const garbageTime = getEventsTime(tasks.filter(({ kind }) => kind === 'garbageCollection'))
-  const otherTime = getEventsTime(tasks.filter(({ kind }) => kind === 'other'))
+  for (const lib of traceFiles) {
+    const tasks = await generateTasksReport(lib.traceFile)
+    const htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
+    const styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))
+    const renderTime = getEventsTime(tasks.filter(({ kind }) => kind === 'paintCompositeRender'))
+    const compileTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptParseCompile'))
+    const evaluationTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptEvaluation'))
+    const garbageTime = getEventsTime(tasks.filter(({ kind }) => kind === 'garbageCollection'))
+    const otherTime = getEventsTime(tasks.filter(({ kind }) => kind === 'other'))
 
-  const report = {
-    parseHTML: htmlTime,
-    styleLayout: styleTime,
-    paintCompositeRender: renderTime,
-    scriptParseCompile: compileTime,
-    scriptEvaluation: evaluationTime,
-    javaScript: formatTime(compileTime + evaluationTime),
-    garbageCollection: garbageTime,
-    other: otherTime,
-    total: formatTime(
-      htmlTime + styleTime + renderTime + compileTime + evaluationTime + garbageTime + otherTime,
-    ),
+    report.push({
+      library: lib.name,
+      parseHTML: htmlTime,
+      styleLayout: styleTime,
+      paintCompositeRender: renderTime,
+      scriptParseCompile: compileTime,
+      scriptEvaluation: evaluationTime,
+      javaScript: formatTime(compileTime + evaluationTime),
+      garbageCollection: garbageTime,
+      other: otherTime,
+      total: formatTime(
+        htmlTime + styleTime + renderTime + compileTime + evaluationTime + garbageTime + otherTime,
+      ),
+    })
   }
 
   return report

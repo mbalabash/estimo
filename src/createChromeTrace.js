@@ -1,9 +1,10 @@
 const puppeteer = require('puppeteer')
-const { megabitsToBytes } = require('./utils')
+const nanoid = require('nanoid')
+const { getUrlToHtmlFile, megabitsToBytes, resolvePathToTempDir } = require('./utils')
 
 const defaultBrowserOptions = {
-  _headless: true,
-  _timeout: 30000,
+  headless: true,
+  timeout: 30000,
   emulateNetworkConditions: false,
   emulateCpuThrottling: false,
   offline: false,
@@ -22,45 +23,50 @@ function handleSessionError(err, browser) {
   process.exit(1)
 }
 
-async function createChromeTrace(urlToHtmlFile, pathToTraceFile, browserOptions) {
+async function createChromeTrace(htmlFiles, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
-  const { _headless: headless, emulateNetworkConditions, emulateCpuThrottling } = options
+  const { headless, emulateNetworkConditions, emulateCpuThrottling } = options
 
+  // Create Chrome entities
   const browser = await puppeteer.launch({ headless })
   const page = await browser.newPage()
   const client = await page.target().createCDPSession()
 
+  // Enable Network Emulation
   if (emulateNetworkConditions) {
-    const {
-      offline, latency, downloadThroughput, uploadThroughput, connectionType,
-    } = options
     await client.send('Network.emulateNetworkConditions', {
-      offline,
-      latency,
-      downloadThroughput: megabitsToBytes(downloadThroughput),
-      uploadThroughput: megabitsToBytes(uploadThroughput),
-      connectionType,
+      offline: options.offline,
+      latency: options.latency,
+      downloadThroughput: megabitsToBytes(options.downloadThroughput),
+      uploadThroughput: megabitsToBytes(options.uploadThroughput),
+      connectionType: options.connectionType,
     })
   }
 
+  // Enable CPU Emulation
   if (emulateCpuThrottling) {
     const { cpuThrottlingRate } = options
     await client.send('Emulation.setCPUThrottlingRate', { rate: cpuThrottlingRate })
   }
 
-  await page.tracing.start({ path: pathToTraceFile })
-  try {
-    const { _timeout: timeout } = options
-    await page.goto(urlToHtmlFile, { timeout })
-    await page.waitFor('h1') // FP, FCP, FMP may not happen in case with local files.
-    await page.waitFor(100) //  But they are required for trace parsing.
-  } catch (err) {
-    handleSessionError(err, browser)
+  // Generate trace files
+  const traceFiles = []
+  for (const lib of htmlFiles) {
+    const traceFile = resolvePathToTempDir(`${nanoid()}.json`)
+    await page.tracing.start({ path: traceFile })
+    try {
+      await page.goto(getUrlToHtmlFile(lib.html), { timeout: options.timeout })
+      await page.waitFor('h1') // FP, FCP, FMP may not happen in case with local files.
+      await page.waitFor(100) //  But they are required for trace parsing.
+    } catch (err) {
+      handleSessionError(err, browser)
+    }
+    await page.tracing.stop()
+    traceFiles.push({ name: lib.name, traceFile })
   }
-  await page.tracing.stop()
-
   await browser.close()
-  return pathToTraceFile
+
+  return traceFiles
 }
 
 module.exports = { createChromeTrace }

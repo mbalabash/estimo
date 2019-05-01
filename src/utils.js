@@ -49,10 +49,25 @@ function megabitsToBytes(megabits) {
   return (megabits * 1024 * 1024) / 8
 }
 
+async function removeTempFiles(files) {
+  for (const file of files) {
+    await deleteFile(file)
+  }
+}
+
+function getLibraryName(lib) {
+  if (/^http/.test(lib)) {
+    return lib.substring(lib.lastIndexOf('/') + 1)
+  }
+  return path.basename(lib)
+}
+
 module.exports = {
   resolvePathToTempDir,
   getUrlToHtmlFile,
   megabitsToBytes,
+  removeTempFiles,
+  getLibraryName,
   deleteFile,
   writeFile,
   readFile,
