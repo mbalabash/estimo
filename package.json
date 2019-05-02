@@ -10,7 +10,7 @@
   "dependencies": {
     "nanoid": "^2.0.1",
     "puppeteer": "^1.15.0",
-    "tracium": "^0.1.1",
+    "tracium": "^0.2.0",
     "yargs": "^13.2.2"
   },
   "devDependencies": {

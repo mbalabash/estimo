@@ -4273,10 +4273,10 @@ toposort@^2.0.2:
   resolved "https://registry.yarnpkg.com/toposort/-/toposort-2.0.2.tgz#ae21768175d1559d48bef35420b2f4962f09c330"
   integrity sha1-riF2gXXRVZ1IvvNUILL0li8JwzA=
 
-tracium@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/tracium/-/tracium-0.1.1.tgz#771938d8817e497a94160397ae6ad430214e0555"
-  integrity sha512-usamXMQDs9K82f2JtyCUC8gHqqEolmmVokh5849Wm3UFwCoRo3WKoCRdoLHcTxC6gg+ghY943F03KuQbv8wUyQ==
+tracium@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/tracium/-/tracium-0.2.0.tgz#a08eb4d31b2f4b3b23aa0d4a3767dfd7ecec2986"
+  integrity sha512-5mzuDXuauD0TR7mwulMilfS5Dhs6W/J7pvtvGIkuHiCFEHN20mUJ8UygVBncacGtcOkFDfWjv5oFv483aklEzA==
   dependencies:
     debug "^4.1.1"
 

@@ -180,6 +180,8 @@ await estimo('/absolute/path/to/lib', {
 estimo -l ./libs/someLib.js --net --latency 150 --download 1.6 --upload 0.75 --connection cellular3g
 ```
 
+[**More examples**](https://github.com/mbalabash/estimo-examples)
+
 ## Contributing
 
 Feel free to ask or open an issue.
