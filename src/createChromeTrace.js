@@ -56,8 +56,6 @@ async function createChromeTrace(htmlFiles, browserOptions) {
     await page.tracing.start({ path: traceFile })
     try {
       await page.goto(getUrlToHtmlFile(lib.html), { timeout: options.timeout })
-      await page.waitFor('h1') // FP, FCP, FMP may not happen in case with local files.
-      await page.waitFor(100) //  But they are required for trace parsing.
     } catch (err) {
       handleSessionError(err, browser)
     }

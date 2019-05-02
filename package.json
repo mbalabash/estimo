@@ -18,11 +18,11 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.17.2",
-    "husky": "^2.1.0",
+    "husky": "^2.2.0",
     "lint-staged": "^8.1.5"
   },
   "engines": {
-    "node": ">=8.9.0"
+    "node": ">=8"
   },
   "preferGlobal": true,
   "bin": {
