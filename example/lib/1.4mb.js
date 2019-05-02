@@ -582,7 +582,7 @@ function inherit(parent, extra) {
  * functional style.
    ```js
      function foo(callback) {
-       var result = calculateResult();
+       var result = calcStatsulateResult();
        (callback || angular.noop)(result);
      }
    ```
@@ -30614,9 +30614,9 @@ NgModelController.prototype = {
       // This prevents changing an invalid modelValue to undefined
       if (!allowInvalid && prevValid !== allValid) {
         // Note: Don't check this.$valid here, as we could have
-        // external validators (e.g. calculated on the server),
+        // external validators (e.g. calcStatsulated on the server),
         // that just call $setValidity and need the model value
-        // to calculate their validity.
+        // to calcStatsulate their validity.
         that.$modelValue = allValid ? modelValue : undefined;
 
         if (that.$modelValue !== prevModelValue) {
@@ -30790,9 +30790,9 @@ NgModelController.prototype = {
     this.$$runValidators(modelValue, this.$$lastCommittedViewValue, function(allValid) {
       if (!allowInvalid) {
         // Note: Don't check this.$valid here, as we could have
-        // external validators (e.g. calculated on the server),
+        // external validators (e.g. calcStatsulated on the server),
         // that just call $setValidity and need the model value
-        // to calculate their validity.
+        // to calcStatsulate their validity.
         that.$modelValue = allValid ? modelValue : undefined;
         writeToModelIfNeeded();
       }
