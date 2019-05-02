@@ -6,8 +6,17 @@ const { removeTempFiles } = require('./utils')
 function checkArgs(libs, browserOptions) {
   if (typeof libs !== 'string' && !Array.isArray(libs)) {
     throw new Error(
-      'The first argument should be String or Array of Strings which contains a path to the library',
+      'The first argument should be String or Array<String> which contains a path to the library',
     )
+  }
+  if (Array.isArray(libs)) {
+    libs.forEach((lib) => {
+      if (typeof lib !== 'string') {
+        throw new Error(
+          'The first argument should be String or Array<String> which contains a path to the libraries',
+        )
+      }
+    })
   }
   if (typeof browserOptions !== 'object' || browserOptions.constructor !== Object) {
     throw new Error('The second argument should be an Object which contains browser options')
