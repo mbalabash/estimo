@@ -73,6 +73,21 @@ estimo -l ./libs/someLib.js
 ]
 ```
 
+## Multiple files
+
+You can also pass few files and they will process in one Chrome instance.
+
+```sh
+estimo -l ./libs/someLib.js ./libs/myLib.js
+```
+
+```js
+const report = await estimo([
+  '/path/to/libs/someLib.js',
+  '/path/to/libs/myLib.js',
+])
+```
+
 ## Time
 
 **All metrics in milliseconds**.
