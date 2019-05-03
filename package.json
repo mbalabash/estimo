@@ -42,6 +42,7 @@
   "lint-staged": {
     "*.(js)": [
       "yarn eslint",
+      "yarn test",
       "git add"
     ]
   },
