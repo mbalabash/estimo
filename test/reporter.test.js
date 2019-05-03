@@ -1,11 +1,12 @@
 const test = require('ava')
+const path = require('path')
 const { generateReadableReport, formatTime, getEventsTime } = require('../src/reporter')
 const { createChromeTrace } = require('../src/createChromeTrace')
 const { generateHtmlFiles } = require('../src/generateHtmlFiles')
 const { removeTempFiles } = require('../src/utils')
 
 test('should create valid report for one lib', async (t) => {
-  const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
+  const lib1 = path.resolve(path.join(__dirname, '__mock__', '1.4mb.js'))
 
   const htmlFiles = await generateHtmlFiles([lib1])
   const traceFiles = await createChromeTrace(htmlFiles, {})
@@ -14,7 +15,7 @@ test('should create valid report for one lib', async (t) => {
   const {
     library, total, javaScript, parseHTML,
   } = report[0]
-  t.is(library, 'react.development.js')
+  t.is(library, '1.4mb.js')
   t.is(typeof total === 'number' && total > 0, true)
   t.is(typeof javaScript === 'number' && javaScript > 0, true)
   t.is(typeof parseHTML === 'number' && parseHTML > 0, true)
@@ -24,8 +25,8 @@ test('should create valid report for one lib', async (t) => {
 })
 
 test('should create valid report for many libs', async (t) => {
-  const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
-  const lib2 = 'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js'
+  const lib1 = path.resolve(path.join(__dirname, '__mock__', '1.4mb.js'))
+  const lib2 = path.resolve(path.join(__dirname, '__mock__', '13kb.js'))
 
   const htmlFiles = await generateHtmlFiles([lib1, lib2])
   const traceFiles = await createChromeTrace(htmlFiles, {})
@@ -37,7 +38,7 @@ test('should create valid report for many libs', async (t) => {
     javaScript: javaScript1,
     parseHTML: parseHTML1,
   } = report[0]
-  t.is(library1, 'react.development.js')
+  t.is(library1, '1.4mb.js')
   t.is(typeof total1 === 'number' && total1 > 0, true)
   t.is(typeof javaScript1 === 'number' && javaScript1 > 0, true)
   t.is(typeof parseHTML1 === 'number' && parseHTML1 > 0, true)
@@ -48,7 +49,7 @@ test('should create valid report for many libs', async (t) => {
     javaScript: javaScript2,
     parseHTML: parseHTML2,
   } = report[1]
-  t.is(library2, 'react.production.min.js')
+  t.is(library2, '13kb.js')
   t.is(typeof total2 === 'number' && total2 > 0, true)
   t.is(typeof javaScript2 === 'number' && javaScript2 > 0, true)
   t.is(typeof parseHTML2 === 'number' && parseHTML2 > 0, true)
