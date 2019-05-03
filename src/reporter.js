@@ -4,8 +4,8 @@ const { readFile } = require('./utils')
 // TODO: Implement RTI when it released to Chrome & Tracium
 // https://stackoverflow.com/questions/22368835/what-does-intel-mean-by-retired
 
-async function generateTasksReport(pathToTimelines) {
-  const content = JSON.parse(await readFile(pathToTimelines))
+async function generateTasksReport(pathToTraceFile) {
+  const content = JSON.parse(await readFile(pathToTraceFile))
   const tasks = tracium.computeMainThreadTasks(content, {
     flatten: true,
   })
