@@ -1,10 +1,21 @@
 dist: trusty
 sudo: required
+
+addons:
+  apt:
+    packages:
+      - libnss3
+
 language: node_js
 node_js:
   - '12'
   - '10'
+
 cache:
   yarn: true
   directories:
     - node_modules
+
+before_install:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
