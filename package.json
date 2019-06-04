@@ -8,18 +8,18 @@
     "test": "ava"
   },
   "dependencies": {
-    "nanoid": "^2.0.1",
-    "puppeteer": "^1.15.0",
+    "nanoid": "^2.0.3",
+    "puppeteer": "^1.17.0",
     "tracium": "^0.2.0",
-    "yargs": "^13.2.2"
+    "yargs": "^13.2.4"
   },
   "devDependencies": {
-    "ava": "^1.4.1",
+    "ava": "^2.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.17.2",
-    "husky": "^2.2.0",
-    "lint-staged": "^8.1.5"
+    "eslint-plugin-import": "^2.17.3",
+    "husky": "^2.3.0",
+    "lint-staged": "^8.1.7"
   },
   "engines": {
     "node": ">=8"
