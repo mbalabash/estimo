@@ -6,7 +6,7 @@ const { generateHtmlFiles } = require('../src/generateHtmlFiles')
 const { removeTempFiles } = require('../src/utils')
 
 test('should create valid report for one lib', async (t) => {
-  const lib1 = path.resolve(path.join(__dirname, '__mock__', '1.4mb.js'))
+  const lib1 = path.resolve(path.join(__dirname, '__mock__', '13kb.js'))
 
   const htmlFiles = await generateHtmlFiles([lib1])
   const traceFiles = await createChromeTrace(htmlFiles, {})
@@ -15,7 +15,7 @@ test('should create valid report for one lib', async (t) => {
   const {
     library, total, javaScript, parseHTML,
   } = report[0]
-  t.is(library, '1.4mb.js')
+  t.is(library, '13kb.js')
   t.is(typeof total === 'number' && total > 0, true)
   t.is(typeof javaScript === 'number' && javaScript > 0, true)
   t.is(typeof parseHTML === 'number' && parseHTML > 0, true)
@@ -25,7 +25,7 @@ test('should create valid report for one lib', async (t) => {
 })
 
 test('should create valid report for many libs', async (t) => {
-  const lib1 = path.resolve(path.join(__dirname, '__mock__', '1.4mb.js'))
+  const lib1 = path.resolve(path.join(__dirname, '__mock__', '19kb.js'))
   const lib2 = path.resolve(path.join(__dirname, '__mock__', '13kb.js'))
 
   const htmlFiles = await generateHtmlFiles([lib1, lib2])
@@ -38,7 +38,7 @@ test('should create valid report for many libs', async (t) => {
     javaScript: javaScript1,
     parseHTML: parseHTML1,
   } = report[0]
-  t.is(library1, '1.4mb.js')
+  t.is(library1, '19kb.js')
   t.is(typeof total1 === 'number' && total1 > 0, true)
   t.is(typeof javaScript1 === 'number' && javaScript1 > 0, true)
   t.is(typeof parseHTML1 === 'number' && parseHTML1 > 0, true)
