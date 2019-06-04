@@ -28,7 +28,7 @@ async function createChromeTrace(htmlFiles, browserOptions) {
   const { headless, emulateNetworkConditions, emulateCpuThrottling } = options
 
   // Create Chrome entities
-  const browser = await puppeteer.launch({ headless, args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'] })
+  const browser = await puppeteer.launch({ headless, args: ['--no-sandbox', '--disable-setuid-sandbox'] })
   const page = await browser.newPage()
   const client = await page.target().createCDPSession()
 
