@@ -6,6 +6,7 @@ const { readFile } = require('./utils')
 
 async function generateTasksReport(pathToTraceFile) {
   const content = JSON.parse(await readFile(pathToTraceFile))
+  console.log(JSON.stringify(content))
   const tasks = tracium.computeMainThreadTasks(content, {
     flatten: true,
   })
