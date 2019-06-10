@@ -16,12 +16,10 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+COPY . /app/
 
-COPY package.json ./
-COPY yarn.lock ./
 RUN yarn install
 
-COPY . /app/
 
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
     && mkdir -p /home/pptruser/Downloads \
