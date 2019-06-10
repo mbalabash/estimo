@@ -4,6 +4,3 @@ node_js:
   - '10'
 
 cache: yarn
-
-before_script:
-  - node ./scripts/findChrome.js
