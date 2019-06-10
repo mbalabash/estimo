@@ -1,5 +1,6 @@
-const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer-core')
 const nanoid = require('nanoid')
+const chromeConf = require('../chrome.json')
 const { getUrlToHtmlFile, megabitsToBytes, resolvePathToTempDir } = require('./utils')
 
 const defaultBrowserOptions = {
@@ -13,6 +14,7 @@ const defaultBrowserOptions = {
   uploadThroughput: 0,
   connectionType: 'none',
   cpuThrottlingRate: 1,
+  executablePath: chromeConf.executablePath,
 }
 
 function handleSessionError(err, browser) {
@@ -25,10 +27,14 @@ function handleSessionError(err, browser) {
 
 async function createChromeTrace(htmlFiles, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
-  const { headless, emulateNetworkConditions, emulateCpuThrottling } = options
+  const { headless, emulateNetworkConditions, emulateCpuThrottling, executablePath } = options
 
   // Create Chrome entities
-  const browser = await puppeteer.launch({ headless, args: ['--no-sandbox', '--disable-setuid-sandbox'] })
+  const browser = await puppeteer.launch({
+    headless,
+    executablePath,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  })
   const page = await browser.newPage()
   const client = await page.target().createCDPSession()
 

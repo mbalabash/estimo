@@ -4,12 +4,14 @@
   "description": "Evaluates how long the browser will execute your javascript code",
   "main": "index.js",
   "scripts": {
+    "install": "node ./findChrome.js",
+    "prettier": "prettier --write -l 'src/**/*.{js,jsx}'",
     "eslint": "eslint --cache src",
     "test": "ava"
   },
   "dependencies": {
     "nanoid": "^2.0.3",
-    "puppeteer": "^1.17.0",
+    "puppeteer-core": "^1.17.0",
     "tracium": "^0.2.0",
     "yargs": "^13.2.4"
   },
@@ -17,16 +19,18 @@
     "ava": "^2.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-import": "^2.17.3",
     "husky": "^2.3.0",
-    "lint-staged": "^8.1.7"
+    "lint-staged": "^8.1.7",
+    "prettier": "^1.18.2"
   },
   "engines": {
     "node": ">=8"
   },
   "preferGlobal": true,
   "bin": {
-    "estimo": "./cli.js"
+    "estimo": "./scripts/cli.js"
   },
   "ava": {
     "files": [

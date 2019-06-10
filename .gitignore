@@ -23,3 +23,5 @@ yarn-error.log*
 
 temp/*.html
 temp/*.json
+temp/chrome/*
+!temp/chrome/.gitkeep

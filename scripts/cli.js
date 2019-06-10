@@ -47,7 +47,7 @@ const { argv } = require('yargs')
   .alias('v', 'version')
   .demandOption(['l'])
 
-const estimo = require('./index')
+const estimo = require('../index')
 
 ;
 
@@ -63,7 +63,7 @@ const estimo = require('./index')
     uploadThroughput: argv.upload || 0,
     connectionType: argv.connection || 'none',
   }
-  const files = libs.map((lib) => {
+  const files = libs.map(lib => {
     if (/^http/.test(lib)) {
       return lib
     }
