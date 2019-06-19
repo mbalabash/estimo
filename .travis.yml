@@ -3,6 +3,9 @@ node_js:
   - '12'
   - '10'
 
+env:
+  - YARN_GPG=no
+
 cache: yarn
   directories:
     - /usr/bin/google-chrome
