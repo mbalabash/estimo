@@ -1,4 +1,4 @@
-## Estimo ![Travis CI Status](https://travis-ci.com/mbalabash/estimo.svg?branch=master)
+## Estimo ![Travis CI Status](https://travis-ci.org/mbalabash/estimo.svg?branch=master)
 
 Estimo was created with idea in mind how to measure parse/compile/execution time for javascript libs.
 
