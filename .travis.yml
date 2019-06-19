@@ -4,3 +4,5 @@ node_js:
   - '10'
 
 cache: yarn
+  directories:
+    - /usr/bin/google-chrome
