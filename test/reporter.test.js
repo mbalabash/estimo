@@ -1,28 +1,28 @@
 const test = require('ava')
-const path = require('path')
-const { generateReadableReport, formatTime, getEventsTime } = require('../src/reporter')
-const { createChromeTrace } = require('../src/createChromeTrace')
-const { generateHtmlFiles } = require('../src/generateHtmlFiles')
-const { removeTempFiles } = require('../src/utils')
+// const path = require('path')
+const { formatTime, getEventsTime } = require('../src/reporter')
+// const { createChromeTrace } = require('../src/createChromeTrace')
+// const { generateHtmlFiles } = require('../src/generateHtmlFiles')
+// const { removeTempFiles } = require('../src/utils')
 
-test('should create valid report for one lib', async (t) => {
-  const lib1 = path.resolve(path.join(__dirname, '__mock__', '13kb.js'))
+// test('should create valid report for one lib', async (t) => {
+//   const lib1 = path.resolve(path.join(__dirname, '__mock__', '13kb.js'))
 
-  const htmlFiles = await generateHtmlFiles([lib1])
-  const traceFiles = await createChromeTrace(htmlFiles, {})
-  const report = await generateReadableReport(traceFiles)
+//   const htmlFiles = await generateHtmlFiles([lib1])
+//   const traceFiles = await createChromeTrace(htmlFiles, {})
+//   const report = await generateReadableReport(traceFiles)
 
-  const {
-    library, total, javaScript, parseHTML,
-  } = report[0]
-  t.is(library, '13kb.js')
-  t.is(typeof total === 'number' && total > 0, true)
-  t.is(typeof javaScript === 'number' && javaScript > 0, true)
-  t.is(typeof parseHTML === 'number' && parseHTML > 0, true)
+//   const {
+//     library, total, javaScript, parseHTML,
+//   } = report[0]
+//   t.is(library, '13kb.js')
+//   t.is(typeof total === 'number' && total > 0, true)
+//   t.is(typeof javaScript === 'number' && javaScript > 0, true)
+//   t.is(typeof parseHTML === 'number' && parseHTML > 0, true)
 
-  await removeTempFiles(htmlFiles.map(file => file.html))
-  await removeTempFiles(traceFiles.map(file => file.traceFile))
-})
+//   await removeTempFiles(htmlFiles.map(file => file.html))
+//   await removeTempFiles(traceFiles.map(file => file.traceFile))
+// })
 
 // test('should create valid report for many libs', async (t) => {
 //   const lib1 = path.resolve(path.join(__dirname, '__mock__', '19kb.js'))
@@ -58,13 +58,13 @@ test('should create valid report for one lib', async (t) => {
 //   await removeTempFiles(traceFiles.map(file => file.traceFile))
 // })
 
-test('should correctly format time', (t) => {
+test('should correctly format time', t => {
   t.is(formatTime(11.2223123131231), 11.22)
   t.is(formatTime('11.226'), 11.23)
   t.is(formatTime(11), 11.0)
 })
 
-test('should correctly calculate time', (t) => {
+test('should correctly calculate time', t => {
   const events1 = [{ selfTime: 11.11 }, { selfTime: 2.43 }, { selfTime: 7.16 }]
   const events2 = [{ selfTime: 80.0 }]
   const events3 = [
