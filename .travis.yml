@@ -7,5 +7,3 @@ env:
   - YARN_GPG=no
 
 cache: yarn
-  directories:
-    - /usr/bin/google-chrome
