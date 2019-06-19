@@ -1,7 +1,7 @@
 const test = require('ava')
 const path = require('path')
 const { formatTime, getEventsTime } = require('../src/reporter')
-// const { createChromeTrace } = require('../src/createChromeTrace')
+const { createChromeTrace } = require('../src/createChromeTrace')
 const { generateHtmlFiles } = require('../src/generateHtmlFiles')
 const { removeTempFiles } = require('../src/utils')
 
@@ -9,11 +9,12 @@ test('should create valid report for one lib', async t => {
   const lib1 = path.resolve(path.join(__dirname, '__mock__', '13kb.js'))
 
   const htmlFiles = await generateHtmlFiles([lib1])
-  // const traceFiles = await createChromeTrace(htmlFiles, {})
+  const traceFiles = await createChromeTrace(htmlFiles, {})
   // const report = await generateReadableReport(traceFiles)
 
   // const { library, total, javaScript, parseHTML } = report[0]
-  t.is('13kb.js', '13kb.js')
+  // t.is(library, '13kb.js')
+  t.is(typeof traceFiles === 'object', true)
   // t.is(typeof total === 'number' && total > 0, true)
   // t.is(typeof javaScript === 'number' && javaScript > 0, true)
   // t.is(typeof parseHTML === 'number' && parseHTML > 0, true)
