@@ -3,10 +3,16 @@ node_js:
   - '12'
   - '10'
 
-dist: trusty
-addons:
-  apt:
-    packages:
-      - libnss3
-
 cache: yarn
+
+dist: trusty
+sudo: false
+addons:
+  chrome: stable
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+
+install:
+  - yarn install
+script:
+  - yarn test
