@@ -7,6 +7,11 @@ cache: yarn
 
 matrix:
   include:
-    - addons:
+    - node_js:
+        - '12'
+        - '10'
+      addons:
         chrome: stable
-    - addons:
+    - node_js:
+        - '12'
+        - '10'
