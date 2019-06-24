@@ -1,15 +1,15 @@
 version: 2
 jobs:
   build:
+    working_directory: ~/estimo
     docker:
-      — image: circleci/node:latest
-    working_directory: ~/repo
+      - image: circleci/node:latest
     steps:
-      — checkout
+      - checkout
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
-      - restore_cache: 
+      - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: install
