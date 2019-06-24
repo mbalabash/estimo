@@ -144,6 +144,9 @@ function linux() {
     }
   })
 
+  console.log('CHROME_PATH ===', process.env.CHROME_PATH)
+  console.log('installations ===', installations)
+
   if (!installations.length) {
     throw new Error(
       'The environment variable CHROME_PATH must be set to executable of a build of Chromium version 54.0 or later.'
