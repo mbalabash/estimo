@@ -199,7 +199,13 @@ async function downloadChromium() {
 }
 
 function isSuitableVersion(executablePath) {
-  const versionOutput = execSync(`${executablePath} --version`).toString()
+  let versionOutput
+  // in case installed Chrome is not runnable
+  try {
+    versionOutput = execSync(`${executablePath} --version`).toString()
+  } catch (e) {
+    return false
+  }
   const versionRe = /(Google Chrome|Chromium) ([0-9]{2}).*/
 
   const match = versionOutput.match(versionRe)
@@ -218,11 +224,13 @@ async function findChrome() {
   else if (process.platform === 'darwin') executablePath = darwin()
 
   if (typeof executablePath === 'string' && executablePath.length > 0) {
+    // check whether installed Chrome major version is >= 75
     if (isSuitableVersion(executablePath)) {
       await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
       console.log(`Local Chrome location: ${executablePath}`)
       return executablePath
     }
+    console.log('Local Chrome version is not suitable')
   }
 
   const revisionInfo = await downloadChromium()
