@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { homedir } = require('os')
 const puppeteer = require('puppeteer-core')
-const { execSync, execFileSync } = require('child_process')
+const { execSync, execFileSync, exec } = require('child_process')
 const pptrCoreJson = require('puppeteer-core/package.json')
 const { writeFile } = require('../src/utils')
 
@@ -198,11 +198,11 @@ async function downloadChromium() {
   }
 }
 
-function isSuitableVersion(executablePath) {
+async function isSuitableVersion(executablePath) {
   let versionOutput
   // in case installed Chrome is not runnable
   try {
-    versionOutput = execSync(`${executablePath} --version`).toString()
+    versionOutput = await exec(`${executablePath} --version`).toString()
   } catch (e) {
     return false
   }
