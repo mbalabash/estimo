@@ -171,7 +171,8 @@ async function downloadChromium() {
     path: chromeTempPath,
   })
 
-  const revision = pptrCoreJson.puppeteer.chromium_revision
+  const revision = process.env.PUPPETEER_CHROMIUM_REVISION || process.env.npm_config_puppeteer_chromium_revision
+    || process.env.npm_package_config_puppeteer_chromium_revision || pptrCoreJson.puppeteer.chromium_revision
   const revisionInfo = browserFetcher.revisionInfo(revision)
 
   // If already downloaded
