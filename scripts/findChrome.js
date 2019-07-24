@@ -197,6 +197,18 @@ async function downloadChromium() {
   }
 }
 
+function isSuitableVersion(executablePath) {
+  const versionOutput = execSync(`${executablePath} --version`).toString()
+  const versionRe = /(Google Chrome|Chromium) ([0-9]{2}).*/
+
+  const match = versionOutput.match(versionRe)
+  if (match && match[2]) {
+    const version = +match[2]
+    return version >= 75
+  }
+  return false
+}
+
 async function findChrome() {
   let executablePath
 
@@ -205,9 +217,11 @@ async function findChrome() {
   else if (process.platform === 'darwin') executablePath = darwin()
 
   if (typeof executablePath === 'string' && executablePath.length > 0) {
-    await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
-    console.log(`Local Chrome location: ${executablePath}`)
-    return executablePath
+    if (isSuitableVersion(executablePath)) {
+      await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
+      console.log(`Local Chrome location: ${executablePath}`)
+      return executablePath
+    }
   }
 
   const revisionInfo = await downloadChromium()
