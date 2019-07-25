@@ -9,6 +9,11 @@ const { writeFile } = require('../src/utils')
 const newLineRegex = /\r?\n/
 const chromeTempPath = path.join(process.cwd(), 'temp', 'chrome')
 const chromeConfigPath = path.join(process.cwd(), 'chrome.json')
+const downloadHost = process.env.PUPPETEER_DOWNLOAD_HOST || process.env.npm_config_puppeteer_download_host
+  || process.env.npm_package_config_puppeteer_download_host
+const isDownloadSkipped = process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+  || process.env.NPM_CONFIG_PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || process.env.npm_config_puppeteer_skip_chromium_download
+  || process.env.NPM_PACKAGE_CONFIG_PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || process.env.npm_package_config_puppeteer_skip_chromium_download
 
 function canAccess(file) {
   if (!file) {
@@ -169,6 +174,7 @@ function linux() {
 async function downloadChromium() {
   const browserFetcher = puppeteer.createBrowserFetcher({
     path: chromeTempPath,
+    host: downloadHost
   })
 
   const revision = process.env.PUPPETEER_CHROMIUM_REVISION || process.env.npm_config_puppeteer_chromium_revision
@@ -225,12 +231,18 @@ async function findChrome() {
 
   if (typeof executablePath === 'string' && executablePath.length > 0) {
     // check whether installed Chrome major version is >= 75
-    if (isSuitableVersion(executablePath)) {
+    if (await isSuitableVersion(executablePath)) {
       await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
       console.log(`Local Chrome location: ${executablePath}`)
       return executablePath
     }
     console.log('Local Chrome version is not suitable')
+  }
+
+  if (isDownloadSkipped) {
+    console.log('Skipping Chromium download. "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" was set in either env variables, ' +
+      'npm config or project config.')
+    return undefined
   }
 
   const revisionInfo = await downloadChromium()
