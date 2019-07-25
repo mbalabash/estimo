@@ -6,6 +6,7 @@ const { execSync, execFileSync, exec } = require('child_process')
 const pptrCoreJson = require('puppeteer-core/package.json')
 const { writeFile } = require('../src/utils')
 
+const MIN_CHROME_VERSION = 75
 const newLineRegex = /\r?\n/
 const chromeTempPath = path.join(process.cwd(), 'temp', 'chrome')
 const chromeConfigPath = path.join(process.cwd(), 'chrome.json')
@@ -217,7 +218,7 @@ async function isSuitableVersion(executablePath) {
   const match = versionOutput.match(versionRe)
   if (match && match[2]) {
     const version = +match[2]
-    return version >= 75
+    return version >= MIN_CHROME_VERSION
   }
   return false
 }
