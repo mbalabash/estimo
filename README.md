@@ -22,6 +22,8 @@ JavaScript is the most expensive part of our frontend.
 
 - [The Cost Of JavaScript In 2018](https://medium.com/@addyosmani/the-cost-of-javascript-in-2018-7d8950fbb5d4)
 
+- [The Cost Of JavaScript In 2019](https://v8.dev/blog/cost-of-javascript-2019)
+
 ## Install
 
 ```js
