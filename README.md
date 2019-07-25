@@ -1,4 +1,4 @@
-## Estimo ![Travis CI Status](https://travis-ci.org/mbalabash/estimo.svg?branch=master)
+## Estimo ![Travis CI Status](https://travis-ci.org/mbalabash/estimo.svg?branch=master) [![CircleCI](https://circleci.com/gh/mbalabash/estimo/tree/master.svg?style=svg)](https://circleci.com/gh/mbalabash/estimo/tree/master)
 
 Estimo was created with idea in mind how to measure parse/compile/execution time for javascript libs.
 
@@ -41,9 +41,7 @@ const estimo = require('estimo')
 const path = require('path')
 
 ;(async () => {
-  const report = await estimo(
-    path.resolve(path.join(__dirname, '..', 'libs', 'someLib.js'))
-  )
+  const report = await estimo(path.resolve(path.join(__dirname, '..', 'libs', 'someLib.js')))
   console.log(report)
 })()
 ```
@@ -82,10 +80,7 @@ estimo -l ./libs/someLib.js ./libs/myLib.js
 ```
 
 ```js
-const report = await estimo([
-  '/path/to/libs/someLib.js',
-  '/path/to/libs/myLib.js',
-])
+const report = await estimo(['/path/to/libs/someLib.js', '/path/to/libs/myLib.js'])
 ```
 
 ## Time
