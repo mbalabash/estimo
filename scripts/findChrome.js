@@ -2,13 +2,19 @@ const fs = require('fs')
 const path = require('path')
 const { homedir } = require('os')
 const puppeteer = require('puppeteer-core')
-const { execSync, execFileSync } = require('child_process')
+const { execSync, execFileSync, exec } = require('child_process')
 const pptrCoreJson = require('puppeteer-core/package.json')
 const { writeFile } = require('../src/utils')
 
+const MIN_CHROME_VERSION = 75
 const newLineRegex = /\r?\n/
 const chromeTempPath = path.join(process.cwd(), 'temp', 'chrome')
 const chromeConfigPath = path.join(process.cwd(), 'chrome.json')
+const downloadHost = process.env.PUPPETEER_DOWNLOAD_HOST || process.env.npm_config_puppeteer_download_host
+  || process.env.npm_package_config_puppeteer_download_host
+const isDownloadSkipped = process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+  || process.env.NPM_CONFIG_PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || process.env.npm_config_puppeteer_skip_chromium_download
+  || process.env.NPM_PACKAGE_CONFIG_PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || process.env.npm_package_config_puppeteer_skip_chromium_download
 
 function canAccess(file) {
   if (!file) {
@@ -169,9 +175,11 @@ function linux() {
 async function downloadChromium() {
   const browserFetcher = puppeteer.createBrowserFetcher({
     path: chromeTempPath,
+    host: downloadHost
   })
 
-  const revision = pptrCoreJson.puppeteer.chromium_revision
+  const revision = process.env.PUPPETEER_CHROMIUM_REVISION || process.env.npm_config_puppeteer_chromium_revision
+    || process.env.npm_package_config_puppeteer_chromium_revision || pptrCoreJson.puppeteer.chromium_revision
   const revisionInfo = browserFetcher.revisionInfo(revision)
 
   // If already downloaded
@@ -197,6 +205,24 @@ async function downloadChromium() {
   }
 }
 
+async function isSuitableVersion(executablePath) {
+  let versionOutput
+  // in case installed Chrome is not runnable
+  try {
+    versionOutput = await exec(`${executablePath} --version`).toString()
+  } catch (e) {
+    return false
+  }
+  const versionRe = /(Google Chrome|Chromium) ([0-9]{2}).*/
+
+  const match = versionOutput.match(versionRe)
+  if (match && match[2]) {
+    const version = +match[2]
+    return version >= MIN_CHROME_VERSION
+  }
+  return false
+}
+
 async function findChrome() {
   let executablePath
 
@@ -205,9 +231,19 @@ async function findChrome() {
   else if (process.platform === 'darwin') executablePath = darwin()
 
   if (typeof executablePath === 'string' && executablePath.length > 0) {
-    await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
-    console.log(`Local Chrome location: ${executablePath}`)
-    return executablePath
+    // check whether installed Chrome major version is >= 75
+    if (await isSuitableVersion(executablePath)) {
+      await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
+      console.log(`Local Chrome location: ${executablePath}`)
+      return executablePath
+    }
+    console.log('Local Chrome version is not suitable')
+  }
+
+  if (isDownloadSkipped) {
+    console.log('Skipping Chromium download. "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" was set in either env variables, ' +
+      'npm config or project config.')
+    return undefined
   }
 
   const revisionInfo = await downloadChromium()
