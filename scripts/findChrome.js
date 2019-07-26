@@ -8,13 +8,22 @@ const { writeFile } = require('../src/utils')
 
 const MIN_CHROME_VERSION = 75
 const newLineRegex = /\r?\n/
-const chromeTempPath = path.join(process.cwd(), 'temp', 'chrome')
-const chromeConfigPath = path.join(process.cwd(), 'chrome.json')
-const downloadHost = process.env.PUPPETEER_DOWNLOAD_HOST || process.env.npm_config_puppeteer_download_host
-  || process.env.npm_package_config_puppeteer_download_host
-const isDownloadSkipped = process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
-  || process.env.NPM_CONFIG_PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || process.env.npm_config_puppeteer_skip_chromium_download
-  || process.env.NPM_PACKAGE_CONFIG_PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || process.env.npm_package_config_puppeteer_skip_chromium_download
+const chromeTempPath = path.join(__dirname, '..', 'temp', 'chrome')
+const chromeConfigPath = path.join(__dirname, '..', 'chrome.json')
+
+console.log(chromeTempPath)
+console.log(chromeConfigPath)
+
+const downloadHost =
+  process.env.PUPPETEER_DOWNLOAD_HOST ||
+  process.env.npm_config_puppeteer_download_host ||
+  process.env.npm_package_config_puppeteer_download_host
+const isDownloadSkipped =
+  process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD ||
+  process.env.NPM_CONFIG_PUPPETEER_SKIP_CHROMIUM_DOWNLOAD ||
+  process.env.npm_config_puppeteer_skip_chromium_download ||
+  process.env.NPM_PACKAGE_CONFIG_PUPPETEER_SKIP_CHROMIUM_DOWNLOAD ||
+  process.env.npm_package_config_puppeteer_skip_chromium_download
 
 function canAccess(file) {
   if (!file) {
@@ -175,11 +184,14 @@ function linux() {
 async function downloadChromium() {
   const browserFetcher = puppeteer.createBrowserFetcher({
     path: chromeTempPath,
-    host: downloadHost
+    host: downloadHost,
   })
 
-  const revision = process.env.PUPPETEER_CHROMIUM_REVISION || process.env.npm_config_puppeteer_chromium_revision
-    || process.env.npm_package_config_puppeteer_chromium_revision || pptrCoreJson.puppeteer.chromium_revision
+  const revision =
+    process.env.PUPPETEER_CHROMIUM_REVISION ||
+    process.env.npm_config_puppeteer_chromium_revision ||
+    process.env.npm_package_config_puppeteer_chromium_revision ||
+    pptrCoreJson.puppeteer.chromium_revision
   const revisionInfo = browserFetcher.revisionInfo(revision)
 
   // If already downloaded
@@ -241,8 +253,10 @@ async function findChrome() {
   }
 
   if (isDownloadSkipped) {
-    console.log('Skipping Chromium download. "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" was set in either env variables, ' +
-      'npm config or project config.')
+    console.log(
+      'Skipping Chromium download. "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" was set in either env variables, ' +
+        'npm config or project config.'
+    )
     return undefined
   }
 
