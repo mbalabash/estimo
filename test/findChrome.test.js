@@ -19,5 +19,5 @@ test('chrome.json should contains correct empty value', async t => {
 test.serial('should add location setting for downloaded chrome in chrome.json', async t => {
   await findChrome()
   const configData = await readChromeConfig()
-  t.is(configData.executablePath.includes('/temp/chrome/'), true)
+  t.is(configData.executablePath.includes('chrome'), true)
 })
