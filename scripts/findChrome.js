@@ -263,4 +263,6 @@ async function findChrome() {
   return revisionInfo.executablePath
 }
 
+module.exports = { findChrome }
+
 findChrome()
