@@ -33,7 +33,7 @@ async function createChromeTrace(htmlFiles, browserOptions) {
   const browser = await puppeteer.launch({
     headless,
     executablePath,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-extensions'],
   })
   const page = await browser.newPage()
   const client = await page.target().createCDPSession()
