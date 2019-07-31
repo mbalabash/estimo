@@ -3,13 +3,15 @@ const path = require('path')
 const { generateReadableReport, formatTime, getEventsTime } = require('../src/reporter')
 const { createChromeTrace } = require('../src/createChromeTrace')
 const { generateHtmlFiles } = require('../src/generateHtmlFiles')
-const { removeTempFiles } = require('../src/utils')
+const { findChrome } = require('../scripts/chromeDetection')
+const { removeTempFiles, writeFile } = require('../src/utils')
 
 test('should create valid report for one lib', async t => {
+  const chromeLocation = await findChrome()
   const lib1 = path.resolve(path.join(__dirname, '__mock__', '13kb.js'))
 
   const htmlFiles = await generateHtmlFiles([lib1])
-  const traceFiles = await createChromeTrace(htmlFiles, {})
+  const traceFiles = await createChromeTrace(htmlFiles, { executablePath: chromeLocation })
   const report = await generateReadableReport(traceFiles)
 
   const { library, total, javaScript, parseHTML } = report[0]
@@ -20,14 +22,16 @@ test('should create valid report for one lib', async t => {
 
   await removeTempFiles(htmlFiles.map(file => file.html))
   await removeTempFiles(traceFiles.map(file => file.traceFile))
+  await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
 
 test('should create valid report for many libs', async t => {
+  const chromeLocation = await findChrome()
   const lib1 = path.resolve(path.join(__dirname, '__mock__', '19kb.js'))
   const lib2 = path.resolve(path.join(__dirname, '__mock__', '13kb.js'))
 
   const htmlFiles = await generateHtmlFiles([lib1, lib2])
-  const traceFiles = await createChromeTrace(htmlFiles, {})
+  const traceFiles = await createChromeTrace(htmlFiles, { executablePath: chromeLocation })
   const report = await generateReadableReport(traceFiles)
 
   const {
@@ -54,6 +58,7 @@ test('should create valid report for many libs', async t => {
 
   await removeTempFiles(htmlFiles.map(file => file.html))
   await removeTempFiles(traceFiles.map(file => file.traceFile))
+  await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
 
 test('should correctly format time', t => {
