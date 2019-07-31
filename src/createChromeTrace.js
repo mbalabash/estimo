@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer-core')
 const nanoid = require('nanoid')
-const chromeConf = require('../chrome.json')
 const { getUrlToHtmlFile, megabitsToBytes, resolvePathToTempDir } = require('./utils')
+const chromeConfig = require('../chrome.json')
 
 const defaultBrowserOptions = {
   headless: true,
@@ -14,7 +14,7 @@ const defaultBrowserOptions = {
   uploadThroughput: 0,
   connectionType: 'none',
   cpuThrottlingRate: 1,
-  executablePath: chromeConf.executablePath,
+  executablePath: chromeConfig.executablePath,
 }
 
 function handleSessionError(err, browser) {
