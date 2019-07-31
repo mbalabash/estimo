@@ -6,7 +6,7 @@ const { generateHtmlFiles } = require('../src/generateHtmlFiles')
 const { findChrome } = require('../scripts/chromeDetection')
 const { removeTempFiles, writeFile } = require('../src/utils')
 
-test('should create valid report for one lib', async t => {
+test('[reporter]: should create valid Estimo report for one library', async t => {
   const chromeLocation = await findChrome()
   const lib1 = path.resolve(path.join(__dirname, '__mock__', '13kb.js'))
 
@@ -25,7 +25,7 @@ test('should create valid report for one lib', async t => {
   await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
 
-test('should create valid report for many libs', async t => {
+test('[reporter]: should create valid Estimo report for few libraries', async t => {
   const chromeLocation = await findChrome()
   const lib1 = path.resolve(path.join(__dirname, '__mock__', '19kb.js'))
   const lib2 = path.resolve(path.join(__dirname, '__mock__', '13kb.js'))
@@ -61,13 +61,13 @@ test('should create valid report for many libs', async t => {
   await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
 
-test('should correctly format time', t => {
+test('[reporter]: should correctly format time', t => {
   t.is(formatTime(11.2223123131231), 11.22)
   t.is(formatTime('11.226'), 11.23)
   t.is(formatTime(11), 11.0)
 })
 
-test('should correctly calculate time', t => {
+test('[reporter]: should correctly calculate time', t => {
   const events1 = [{ selfTime: 11.11 }, { selfTime: 2.43 }, { selfTime: 7.16 }]
   const events2 = [{ selfTime: 80.0 }]
   const events3 = [
