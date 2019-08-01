@@ -3,7 +3,7 @@ const test = require('ava')
 const { removeTempFiles } = require('../src/utils')
 const { prepareHtmlContent, generateHtmlFiles } = require('../src/generateHtmlFiles')
 
-test('should generate correct html with one lib', async (t) => {
+test('should generate correct html for one library', async (t) => {
   const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
 
   const htmlFiles = await generateHtmlFiles([lib1])
@@ -15,7 +15,7 @@ test('should generate correct html with one lib', async (t) => {
   await removeTempFiles(htmlFiles.map(file => file.html))
 })
 
-test('should generate correct html with many libs', async (t) => {
+test('should generate correct html for few libraries', async (t) => {
   const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
   const lib2 = 'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js'
 

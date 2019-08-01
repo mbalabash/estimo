@@ -12,7 +12,7 @@ const {
   getLibraryName,
 } = require('../src/utils')
 
-test('should correctly resolve path to file in temp directory', (t) => {
+test('[resolvePathToTempDir]: should correctly resolve path to file in temp directory', (t) => {
   const fileName = 'someFile.txt'
   const customTempDir = '../test/__mock__/'
 
@@ -21,7 +21,7 @@ test('should correctly resolve path to file in temp directory', (t) => {
   t.is(resolvePathToTempDir(fileName, customTempDir), path.join(__dirname, customTempDir, fileName))
 })
 
-test('should correctly generate url to file', (t) => {
+test('[getUrlToHtmlFile]: should correctly generate url to file', (t) => {
   const fileName = 'index.html'
   t.is(
     getUrlToHtmlFile(resolvePathToTempDir(fileName)),
@@ -29,7 +29,7 @@ test('should correctly generate url to file', (t) => {
   )
 })
 
-test('should write file in right place', async (t) => {
+test('[writeFile]: should write file in right place', async (t) => {
   const customTempDir = '../test/__mock__/'
   const fileName = `${nanoid()}.txt`
   const fileContent = 'information'
@@ -47,7 +47,7 @@ test('should write file in right place', async (t) => {
   t.is(isFileExist, false)
 })
 
-test('should delete file in right place', async (t) => {
+test('[deleteFile]: should delete file in right place', async (t) => {
   const customTempDir = '../test/__mock__/'
   const fileName = `${nanoid()}.txt`
   const fileContent = 'information'
@@ -65,7 +65,7 @@ test('should delete file in right place', async (t) => {
   t.is(isFileExist, false)
 })
 
-test('should correctly read data from file', async (t) => {
+test('[readFile]: should read data from right file', async (t) => {
   const customTempDir = '../test/__mock__/'
   const fileName = `${nanoid()}.txt`
   const fileContent = 'information'
@@ -86,14 +86,14 @@ test('should correctly read data from file', async (t) => {
   t.is(isFileExist, false)
 })
 
-test('should correctly transform megabits to bytes', async (t) => {
+test('[megabitsToBytes]: should correctly transform megabits to bytes', async (t) => {
   t.is(megabitsToBytes(0.75), 98304)
   t.is(megabitsToBytes(1.6), 209715.2)
   t.is(megabitsToBytes(13), 1703936)
   t.is(megabitsToBytes(0.33), 43253.76)
 })
 
-test('should correctly extract library name', async (t) => {
+test('[getLibraryName]: should correctly extract library name', async (t) => {
   t.is(getLibraryName('http://qwe.asd/myLib.js'), 'myLib.js')
   t.is(getLibraryName('http://qwe.asd/myLib/some/dir/lib.js'), 'lib.js')
   t.is(getLibraryName('https://qwe.asd/myLib.js'), 'myLib.js')
