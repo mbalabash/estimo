@@ -34,7 +34,7 @@ async function createChromeTrace(htmlFiles, browserOptions) {
     headless,
     executablePath,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    ignoreDefaultArgs: ['--disable-extensions']
+    ignoreDefaultArgs: ['--disable-extensions'],
   })
   const page = await browser.newPage()
   const client = await page.target().createCDPSession()
@@ -64,7 +64,7 @@ async function createChromeTrace(htmlFiles, browserOptions) {
     try {
       page.on('error', msg => {
         throw msg
-      });
+      })
       await page.goto(getUrlToHtmlFile(lib.html), { timeout: options.timeout })
     } catch (err) {
       handleSessionError(err, browser)

@@ -1,15 +1,11 @@
 const tracium = require('tracium')
 const { readFile } = require('./utils')
 
-// TODO: Implement RTI when it released to Chrome & Tracium
-// https://stackoverflow.com/questions/22368835/what-does-intel-mean-by-retired
-
 async function generateTasksReport(pathToTraceFile) {
   const content = JSON.parse(await readFile(pathToTraceFile))
-  const tasks = tracium.computeMainThreadTasks(content, {
+  return tracium.computeMainThreadTasks(content, {
     flatten: true,
   })
-  return tasks
 }
 
 function formatTime(time) {
@@ -21,7 +17,7 @@ function getEventsTime(events) {
   return formatTime(Math.round(time * 100) / 100)
 }
 
-async function generateReadableReport(traceFiles) {
+async function generatePrettyReport(traceFiles) {
   const report = []
 
   for (const lib of traceFiles) {
@@ -35,7 +31,7 @@ async function generateReadableReport(traceFiles) {
     const otherTime = getEventsTime(tasks.filter(({ kind }) => kind === 'other'))
 
     report.push({
-      library: lib.name,
+      path: lib.name,
       parseHTML: htmlTime,
       styleLayout: styleTime,
       paintCompositeRender: renderTime,
@@ -45,7 +41,7 @@ async function generateReadableReport(traceFiles) {
       garbageCollection: garbageTime,
       other: otherTime,
       total: formatTime(
-        htmlTime + styleTime + renderTime + compileTime + evaluationTime + garbageTime + otherTime
+        htmlTime + styleTime + renderTime + compileTime + evaluationTime + garbageTime + otherTime,
       ),
     })
   }
@@ -53,4 +49,4 @@ async function generateReadableReport(traceFiles) {
   return report
 }
 
-module.exports = { generateReadableReport, formatTime, getEventsTime }
+module.exports = { generateReadableReport: generatePrettyReport, formatTime, getEventsTime }

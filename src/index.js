@@ -3,23 +3,23 @@ const { generateHtmlFiles } = require('./generateHtmlFiles')
 const { generateReadableReport } = require('./reporter')
 const { removeTempFiles } = require('./utils')
 
-function checkArgs(libs, browserOptions) {
-  if (typeof libs !== 'string' && !Array.isArray(libs)) {
+function checkInputArgs(resources, browserOptions) {
+  if (typeof resources !== 'string' && !Array.isArray(resources)) {
     throw new Error(
-      'The first argument should be String or Array<String> which contains a path to the library'
+      'The first argument should be String or Array<String> which contains a path to the resource (js file or web page).',
     )
   }
-  if (Array.isArray(libs)) {
-    libs.forEach(lib => {
+  if (Array.isArray(resources)) {
+    resources.forEach(lib => {
       if (typeof lib !== 'string') {
         throw new Error(
-          'The first argument should be String or Array<String> which contains a path to the libraries'
+          'All resources should be represented as a <String> path to the resource (js file or web page).',
         )
       }
     })
   }
   if (typeof browserOptions !== 'object' || browserOptions.constructor !== Object) {
-    throw new Error('The second argument should be an Object which contains browser options')
+    throw new Error('The second argument should be an Object which contains browser options (see README.md for docs).')
   }
 }
 
@@ -35,9 +35,8 @@ function checkArgs(libs, browserOptions) {
  * @see {@link https://github.com/GoogleChrome/puppeteer|Puppeteer}
  * @see {@link https://github.com/aslushnikov/tracium|Tracium}
  *
- * @param {String|Array} libs Path to the library. Can be local or remote (see example).
+ * @param {String|Array} resources Path to the js file or url to web page. Can be local or remote (see example).
  * @param {Object} browserOptions Options which will be passed to Puppeteer's browser instance.
- * @param {Boolean} removeTempFiles Default: true. Temp files can help with debugging.
  * @returns {Object} Estimo report
  *
  * @example
@@ -45,6 +44,7 @@ function checkArgs(libs, browserOptions) {
  *
  * const report = await estimo([
  *   'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js',
+ *   'https://www.google.com',
  *   '/absolute/path/to/your/lib.js'
  *   ],
  *   {
@@ -54,11 +54,11 @@ function checkArgs(libs, browserOptions) {
  * )
  * console.log(report)
  */
-async function estimo(libs = [], browserOptions = {}) {
-  checkArgs(libs, browserOptions)
+async function estimo(resources = [], browserOptions = {}) {
+  checkInputArgs(resources, browserOptions)
 
   try {
-    const htmlFiles = await generateHtmlFiles(libs)
+    const htmlFiles = await generateHtmlFiles(resources)
     const traceFiles = await createChromeTrace(htmlFiles, browserOptions)
     const report = await generateReadableReport(traceFiles)
 

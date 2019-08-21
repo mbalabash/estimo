@@ -15,8 +15,7 @@ async function readFile(filePath) {
     if (!fs.existsSync(filePath)) {
       throw new Error(`${filePath} - file not exist!`)
     }
-    const content = await read(filePath, 'utf8')
-    return content
+    return await read(filePath, 'utf8')
   } catch (error) {
     console.error(error.stack)
     return process.exit(1)
