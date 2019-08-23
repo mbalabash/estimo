@@ -1,8 +1,8 @@
 const test = require('ava')
 const path = require('path')
 const { generateReadableReport, formatTime, getEventsTime } = require('../src/reporter')
-const { createChromeTrace } = require('../src/createChromeTrace')
-const { generateHtmlFiles } = require('../src/generateHtmlFiles')
+const { createChromeTrace } = require('../src/create-chrome-trace')
+const { generateHtmlFiles } = require('../src/generate-html-files')
 const { findChrome } = require('../scripts/chromeDetection')
 const { removeTempFiles, writeFile } = require('../src/utils')
 

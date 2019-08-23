@@ -61,6 +61,16 @@ function getLibraryName(lib) {
   return path.basename(lib)
 }
 
+function isJsFile(p) {
+  const JS_FILES = /\.m?js$/i
+  return JS_FILES.test(path.extname(path.basename(p)))
+}
+
+function isWebPage(p) {
+  const WEB_PAGES = /^(https?|file):/
+  return WEB_PAGES.test(p) && !isJsFile(p)
+}
+
 module.exports = {
   resolvePathToTempDir,
   getUrlToHtmlFile,
@@ -69,5 +79,7 @@ module.exports = {
   getLibraryName,
   deleteFile,
   writeFile,
+  isWebPage,
+  isJsFile,
   readFile,
 }
