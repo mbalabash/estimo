@@ -1,7 +1,7 @@
 const fs = require('fs')
 const test = require('ava')
 const { removeTempFiles } = require('../src/utils')
-const { prepareHtmlContent, generateHtmlFiles } = require('../src/js-mode/generate-html-files')
+const { prepareHtmlContent, generateHtmlFiles } = require('../src/js-mode/generate-html-file')
 
 test('should generate correct html for one library', async (t) => {
   const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'

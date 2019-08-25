@@ -18,7 +18,7 @@ function createHtmlContent(library) {
 `
 }
 
-async function generateHtmlFiles(library, htmlContent) {
+async function generateHtmlFile(library, htmlContent) {
   const fileName = resolvePathToTempDir(`${nanoid()}.html`)
   try {
     await writeFile(fileName, htmlContent)
@@ -29,4 +29,4 @@ async function generateHtmlFiles(library, htmlContent) {
   return fileName
 }
 
-module.exports = { generateHtmlFiles, createHtmlContent }
+module.exports = { generateHtmlFile, createHtmlContent }
