@@ -17,11 +17,11 @@ function getEventsTime(events) {
   return formatTime(Math.round(time * 100) / 100)
 }
 
-async function generatePrettyReport(traceFiles) {
+async function generatePrettyReport(resources) {
   const report = []
 
-  for (const lib of traceFiles) {
-    const tasks = await generateTasksReport(lib.traceFile)
+  for (const item of resources) {
+    const tasks = await generateTasksReport(item.trace)
     const htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
     const styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))
     const renderTime = getEventsTime(tasks.filter(({ kind }) => kind === 'paintCompositeRender'))
@@ -31,7 +31,7 @@ async function generatePrettyReport(traceFiles) {
     const otherTime = getEventsTime(tasks.filter(({ kind }) => kind === 'other'))
 
     report.push({
-      path: lib.name,
+      name: item.name,
       parseHTML: htmlTime,
       styleLayout: styleTime,
       paintCompositeRender: renderTime,
