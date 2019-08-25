@@ -1,6 +1,6 @@
-const { createChromeTrace } = require('./create-chrome-trace')
-const { generateReadableReport } = require('./reporter')
-const { removeTempFiles, getLibraryName } = require('./utils')
+const { createChromeTrace } = require('../create-chrome-trace')
+const { generateReadableReport } = require('../reporter')
+const { removeTempFiles, getLibraryName } = require('../utils')
 
 async function estimoPageMode(pages, browserOptions) {
   try {

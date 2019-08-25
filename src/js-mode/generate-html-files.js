@@ -1,5 +1,5 @@
 const nanoid = require('nanoid')
-const { getLibraryName, writeFile, resolvePathToTempDir } = require('./utils')
+const { getLibraryName, writeFile, resolvePathToTempDir } = require('../utils')
 
 function prepareHtmlContent(lib) {
   return `

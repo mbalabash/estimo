@@ -1,7 +1,7 @@
-const { createChromeTrace } = require('./create-chrome-trace')
+const { createChromeTrace } = require('../create-chrome-trace')
 const { generateHtmlFiles } = require('./generate-html-files')
-const { generateReadableReport } = require('./reporter')
-const { removeTempFiles } = require('./utils')
+const { generateReadableReport } = require('../reporter')
+const { removeTempFiles } = require('../utils')
 
 async function estimoJsMode(libraries, browserOptions) {
   try {
