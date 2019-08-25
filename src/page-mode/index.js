@@ -1,14 +1,14 @@
 const { createChromeTrace } = require('../create-chrome-trace')
-const { generateReadableReport } = require('../reporter')
-const { removeTempFiles, getLibraryName } = require('../utils')
+const { generatePrettyReport } = require('../reporter')
+const { removeTempFiles } = require('../utils')
 
 async function estimoPageMode(pages, browserOptions) {
   try {
-    const items = pages.map((page) => ({ name: getLibraryName(page), html: page }))
-    const traceFiles = await createChromeTrace(items, browserOptions)
-    const report = await generateReadableReport(traceFiles)
+    let resources = pages.map((page) => ({ name: page, url: page }))
+    resources = await createChromeTrace(resources, browserOptions)
+    const report = await generatePrettyReport(resources)
 
-    await removeTempFiles(traceFiles.map(file => file.traceFile))
+    await removeTempFiles(resources.map(file => file.trace))
 
     return report
   } catch (error) {
@@ -17,4 +17,4 @@ async function estimoPageMode(pages, browserOptions) {
   }
 }
 
-module.exports = { estimoPageMode }
+module.exports = estimoPageMode

@@ -1,5 +1,5 @@
 const estimoJsMode = require('./js-mode')
-const { estimoPageMode } = require('./page-mode')
+const estimoPageMode = require('./page-mode')
 const { isUrl, isJsFile } = require('./utils')
 
 function splitResourcesForEstimo(resources) {

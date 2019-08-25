@@ -1,5 +1,12 @@
 export interface TaskEvent {
-  kind: 'parseHTML' | 'styleLayout' | 'paintCompositeRender' | 'scriptParseCompile' | 'scriptEvaluation' | 'garbageCollection' | 'other'
+  kind:
+    'parseHTML' |
+    'styleLayout' |
+    'paintCompositeRender' |
+    'scriptParseCompile' |
+    'scriptEvaluation' |
+    'garbageCollection' |
+    'other'
   /**
    * Monotonic start time in milliseconds
    */
