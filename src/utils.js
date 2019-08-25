@@ -48,7 +48,7 @@ function megabitsToBytes(megabits) {
   return (megabits * 1024 * 1024) / 8
 }
 
-async function removeTempFiles(files) {
+async function removeAllFiles(files) {
   for (const file of files) {
     await deleteFile(file)
   }
@@ -67,8 +67,8 @@ function isJsFile(p) {
 }
 
 function isUrl(p) {
-  const WEB_PAGES = /^(https?|file):/
-  return WEB_PAGES.test(p)
+  const WEB_URLS = /^(https?|file):/
+  return WEB_URLS.test(p)
 }
 
 function handlePuppeteerSessionError(err, browser) {
@@ -79,16 +79,35 @@ function handlePuppeteerSessionError(err, browser) {
   process.exit(1)
 }
 
+function splitResourcesForEstimo(resources) {
+  const items = Array.isArray(resources) ? resources : [resources]
+  const pages = []
+  const libraries = []
+
+  items.forEach(item => {
+    if (isJsFile(item)) {
+      libraries.push(item)
+    } else if (isUrl(item) && !isJsFile(item)) {
+      pages.push(item)
+    } else {
+      throw new Error('Resources can be only js files or web pages')
+    }
+  })
+
+  return { libraries, pages }
+}
+
 module.exports = {
   handlePuppeteerSessionError,
+  splitResourcesForEstimo,
   resolvePathToTempDir,
   getUrlToHtmlFile,
   megabitsToBytes,
-  removeTempFiles,
   getLibraryName,
+  removeAllFiles,
   deleteFile,
   writeFile,
-  isUrl,
   isJsFile,
   readFile,
+  isUrl,
 }

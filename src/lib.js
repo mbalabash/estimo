@@ -1,24 +1,6 @@
 const estimoJsMode = require('./js-mode')
 const estimoPageMode = require('./page-mode')
-const { isUrl, isJsFile } = require('./utils')
-
-function splitResourcesForEstimo(resources) {
-  const items = Array.isArray(resources) ? resources : [resources]
-  const pages = []
-  const libraries = []
-
-  items.forEach(item => {
-    if (isJsFile(item)) {
-      libraries.push(item)
-    } else if (isUrl(item) && !isJsFile(item)) {
-      pages.push(item)
-    } else {
-      throw new Error('Resources can be only js files or web pages')
-    }
-  })
-
-  return { libraries, pages }
-}
+const { splitResourcesForEstimo } = require('./utils')
 
 function checkInputArgs(resources, browserOptions) {
   if (typeof resources !== 'string' && !Array.isArray(resources)) {

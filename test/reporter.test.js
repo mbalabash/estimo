@@ -4,7 +4,7 @@ const { generateReadableReport, formatTime, getEventsTime } = require('../src/re
 const { createChromeTrace } = require('../src/create-chrome-trace')
 const { generateHtmlFiles } = require('../src/js-mode/generate-html-file')
 const { findChrome } = require('../scripts/chromeDetection')
-const { removeTempFiles, writeFile } = require('../src/utils')
+const { removeAllFiles, writeFile } = require('../src/utils')
 
 test('should create valid Estimo report for one library', async t => {
   const chromeLocation = await findChrome()
@@ -20,8 +20,8 @@ test('should create valid Estimo report for one library', async t => {
   t.is(typeof javaScript === 'number' && javaScript > 0, true)
   t.is(typeof parseHTML === 'number' && parseHTML > 0, true)
 
-  await removeTempFiles(htmlFiles.map(file => file.html))
-  await removeTempFiles(traceFiles.map(file => file.traceFile))
+  await removeAllFiles(htmlFiles.map(file => file.html))
+  await removeAllFiles(traceFiles.map(file => file.traceFile))
   await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
 
@@ -56,8 +56,8 @@ test('should create valid Estimo report for few libraries', async t => {
   t.is(typeof javaScript2 === 'number' && javaScript2 > 0, true)
   t.is(typeof parseHTML2 === 'number' && parseHTML2 > 0, true)
 
-  await removeTempFiles(htmlFiles.map(file => file.html))
-  await removeTempFiles(traceFiles.map(file => file.traceFile))
+  await removeAllFiles(htmlFiles.map(file => file.html))
+  await removeAllFiles(traceFiles.map(file => file.traceFile))
   await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
 
