@@ -1,16 +1,16 @@
+const { prepareLibrariesForEstimation } = require('./prepare-libs-for-estimo')
 const { createChromeTrace } = require('../create-chrome-trace')
-const { generateHtmlFiles } = require('./generate-html-files')
-const { generateReadableReport } = require('../reporter')
+const { generatePrettyReport } = require('../reporter')
 const { removeTempFiles } = require('../utils')
 
 async function estimoJsMode(libraries, browserOptions) {
   try {
-    const htmlFiles = generateHtmlFiles(libraries)
-    const traceFiles = await createChromeTrace(htmlFiles, browserOptions)
-    const report = await generateReadableReport(traceFiles)
+    const resources = await prepareLibrariesForEstimation(libraries)
+    const traces = await createChromeTrace(resources, browserOptions)
+    const report = await generatePrettyReport(traces)
 
-    await removeTempFiles(htmlFiles.map(file => file.html))
-    await removeTempFiles(traceFiles.map(file => file.traceFile))
+    await removeTempFiles(resources.map(item => item.html))
+    await removeTempFiles(resources.map(item => item.trace))
 
     return report
   } catch (error) {
@@ -19,4 +19,4 @@ async function estimoJsMode(libraries, browserOptions) {
   }
 }
 
-module.exports = { estimoJsMode }
+module.exports = estimoJsMode

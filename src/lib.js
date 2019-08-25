@@ -1,4 +1,4 @@
-const { estimoJsMode } = require('./js-mode')
+const estimoJsMode = require('./js-mode')
 const { estimoPageMode } = require('./page-mode')
 const { isUrl, isJsFile } = require('./utils')
 

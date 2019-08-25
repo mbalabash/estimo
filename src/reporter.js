@@ -49,4 +49,4 @@ async function generatePrettyReport(traceFiles) {
   return report
 }
 
-module.exports = { generateReadableReport: generatePrettyReport, formatTime, getEventsTime }
+module.exports = { generatePrettyReport, formatTime, getEventsTime }
