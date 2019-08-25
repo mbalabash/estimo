@@ -5,9 +5,9 @@ const { removeTempFiles } = require('../utils')
 
 async function estimoJsMode(libraries, browserOptions) {
   try {
-    const resources = await prepareLibrariesForEstimation(libraries)
-    const traces = await createChromeTrace(resources, browserOptions)
-    const report = await generatePrettyReport(traces)
+    let resources = await prepareLibrariesForEstimation(libraries)
+    resources = await createChromeTrace(resources, browserOptions)
+    const report = await generatePrettyReport(resources)
 
     await removeTempFiles(resources.map(item => item.html))
     await removeTempFiles(resources.map(item => item.trace))

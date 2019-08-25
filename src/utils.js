@@ -71,7 +71,16 @@ function isUrl(p) {
   return WEB_PAGES.test(p)
 }
 
+function handlePuppeteerSessionError(err, browser) {
+  if (err) console.error(err)
+  if (browser && browser.constructor && browser.constructor.name === 'Browser') {
+    browser.close()
+  }
+  process.exit(1)
+}
+
 module.exports = {
+  handlePuppeteerSessionError,
   resolvePathToTempDir,
   getUrlToHtmlFile,
   megabitsToBytes,

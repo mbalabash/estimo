@@ -1,4 +1,7 @@
 export interface BrowserOptions {
+  headless?: boolean
+  timeout?: number
+  executablePath?: string
   emulateNetworkConditions?: boolean
   offline?: boolean
   latency?: number

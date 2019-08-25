@@ -1,11 +1,11 @@
 const puppeteer = require('puppeteer-core')
 const nanoid = require('nanoid')
-const { getUrlToHtmlFile, megabitsToBytes, resolvePathToTempDir } = require('./utils')
+const { megabitsToBytes, resolvePathToTempDir, handlePuppeteerSessionError } = require('./utils')
 const chromeConfig = require('../chrome.json')
 
 const defaultBrowserOptions = {
   headless: true,
-  timeout: 30000,
+  timeout: 20000,
   emulateNetworkConditions: false,
   emulateCpuThrottling: false,
   offline: false,
@@ -17,30 +17,22 @@ const defaultBrowserOptions = {
   executablePath: chromeConfig.executablePath,
 }
 
-function handleSessionError(err, browser) {
-  if (err) console.error(err)
-  if (browser && browser.constructor && browser.constructor.name === 'Browser') {
-    browser.close()
-  }
-  process.exit(1)
-}
-
-async function createChromeTrace(htmlFiles, browserOptions) {
+async function createChromeTrace(resources, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
-  const { headless, emulateNetworkConditions, emulateCpuThrottling, executablePath } = options
 
   // Create Chrome entities
   const browser = await puppeteer.launch({
-    headless,
-    executablePath,
+    headless: options.headless,
+    executablePath: options.executablePath,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     ignoreDefaultArgs: ['--disable-extensions'],
   })
   const page = await browser.newPage()
+  page.on('error', handlePuppeteerSessionError)
   const client = await page.target().createCDPSession()
 
   // Enable Network Emulation
-  if (emulateNetworkConditions) {
+  if (options.emulateNetworkConditions) {
     await client.send('Network.emulateNetworkConditions', {
       offline: options.offline,
       latency: options.latency,
@@ -51,30 +43,26 @@ async function createChromeTrace(htmlFiles, browserOptions) {
   }
 
   // Enable CPU Emulation
-  if (emulateCpuThrottling) {
-    const { cpuThrottlingRate } = options
-    await client.send('Emulation.setCPUThrottlingRate', { rate: cpuThrottlingRate })
+  if (options.emulateCpuThrottling) {
+    await client.send('Emulation.setCPUThrottlingRate', { rate: options.cpuThrottlingRate })
   }
 
   // Generate trace files
-  const traceFiles = []
-  for (const lib of htmlFiles) {
-    const traceFile = resolvePathToTempDir(`${nanoid()}.json`)
-    await page.tracing.start({ path: traceFile })
-    try {
-      page.on('error', msg => {
-        throw msg
-      })
-      await page.goto(getUrlToHtmlFile(lib.html), { timeout: options.timeout })
-    } catch (err) {
-      handleSessionError(err, browser)
+  const resourcesWithTrace = []
+  try {
+    for (const item of resources) {
+      const traceFile = resolvePathToTempDir(`${nanoid()}.json`)
+      await page.tracing.start({ path: traceFile })
+      await page.goto(item.url, { timeout: options.timeout })
+      await page.tracing.stop()
+      resourcesWithTrace.push({ ...item, trace: traceFile })
     }
-    await page.tracing.stop()
-    traceFiles.push({ name: lib.name, traceFile })
+  } catch (err) {
+    handlePuppeteerSessionError(err, browser)
   }
-  await browser.close()
 
-  return traceFiles
+  await browser.close()
+  return resourcesWithTrace
 }
 
-module.exports = { createChromeTrace }
+module.exports = createChromeTrace
