@@ -66,9 +66,9 @@ function isJsFile(p) {
   return JS_FILES.test(path.extname(path.basename(p)))
 }
 
-function isWebPage(p) {
+function isUrl(p) {
   const WEB_PAGES = /^(https?|file):/
-  return WEB_PAGES.test(p) && !isJsFile(p)
+  return WEB_PAGES.test(p)
 }
 
 module.exports = {
@@ -79,7 +79,7 @@ module.exports = {
   getLibraryName,
   deleteFile,
   writeFile,
-  isWebPage,
+  isUrl,
   isJsFile,
   readFile,
 }

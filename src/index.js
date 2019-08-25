@@ -1,6 +1,6 @@
 const { estimoJsMode } = require('./js-mode')
 const { estimoPageMode } = require('./page-mode')
-const { isWebPage, isJsFile } = require('./utils')
+const { isUrl, isJsFile } = require('./utils')
 
 function splitResourcesForEstimo(resources) {
   const items = Array.isArray(resources) ? resources : [resources]
@@ -10,7 +10,7 @@ function splitResourcesForEstimo(resources) {
   items.forEach(item => {
     if (isJsFile(item)) {
       libraries.push(item)
-    } else if (isWebPage(item)) {
+    } else if (isUrl(item) && !isJsFile(item)) {
       pages.push(item)
     } else {
       throw new Error('Resources can be only js files or web pages')
