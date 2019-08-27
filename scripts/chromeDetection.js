@@ -218,7 +218,7 @@ async function isSuitableVersion(executablePath) {
   let versionOutput
   // in case installed Chrome is not runnable
   try {
-    versionOutput = execSync(`${executablePath} --version`).toString()
+    versionOutput = execSync(`"${executablePath}" --version`).toString()
   } catch (e) {
     return false
   }
