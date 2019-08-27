@@ -18,4 +18,4 @@ async function prepareLibrariesForEstimation(libraries) {
   return resources
 }
 
-module.exports = prepareLibrariesForEstimation
+module.exports = { prepareLibrariesForEstimation }

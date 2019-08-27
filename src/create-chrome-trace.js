@@ -65,4 +65,4 @@ async function createChromeTrace(resources, browserOptions) {
   return resourcesWithTrace
 }
 
-module.exports = createChromeTrace
+module.exports = { createChromeTrace }
