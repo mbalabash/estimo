@@ -1,4 +1,6 @@
 export interface BrowserOptions {
+  width?: number
+  height?: number
   headless?: boolean
   timeout?: number
   executablePath?: string

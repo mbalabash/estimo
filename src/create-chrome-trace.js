@@ -4,6 +4,8 @@ const { megabitsToBytes, resolvePathToTempDir, handlePuppeteerSessionError } = r
 const chromeConfig = require('../chrome.json')
 
 const defaultBrowserOptions = {
+  width: 1366,
+  height: 768,
   headless: true,
   timeout: 20000,
   emulateNetworkConditions: false,
@@ -24,10 +26,13 @@ async function createChromeTrace(resources, browserOptions) {
   const browser = await puppeteer.launch({
     headless: options.headless,
     executablePath: options.executablePath,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    args: ['--no-sandbox', '--disable-setuid-sandbox', `--window-size=${options.width},${options.height}`],
     ignoreDefaultArgs: ['--disable-extensions'],
   })
   const page = await browser.newPage()
+  await page.setViewport({
+    width: options.width, height: options.height,
+  })
   page.on('error', handlePuppeteerSessionError)
   const client = await page.target().createCDPSession()
 
