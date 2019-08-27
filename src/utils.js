@@ -50,7 +50,9 @@ function megabitsToBytes(megabits) {
 
 async function removeAllFiles(files) {
   for (const file of files) {
-    await deleteFile(file)
+    if (file) {
+      await deleteFile(file)
+    }
   }
 }
 
