@@ -1,7 +1,7 @@
 const test = require('ava')
 const path = require('path')
-const { readFile, writeFile } = require('../src/utils')
-const { findChrome } = require('../scripts/chromeDetection')
+const { readFile, writeFile } = require('../../src/utils')
+const { findChrome } = require('../../scripts/chromeDetection')
 
 test('should set location setting for downloaded or local chrome', async t => {
   await findChrome()

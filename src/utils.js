@@ -90,7 +90,7 @@ function splitResourcesForEstimo(resources) {
     } else if (isUrl(item) && !isJsFile(item)) {
       pages.push(item)
     } else {
-      throw new Error('Resources can be only js files or web pages')
+      throw new Error(`Estimo works only with resources which is path to js files OR url to pages (<String> OR <Array<String>>)`)
     }
   })
 
