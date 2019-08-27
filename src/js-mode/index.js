@@ -19,4 +19,4 @@ async function estimoJsMode(libraries, browserOptions) {
   }
 }
 
-module.exports = estimoJsMode
+module.exports = { estimoJsMode }

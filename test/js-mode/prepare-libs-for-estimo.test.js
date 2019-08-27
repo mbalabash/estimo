@@ -9,10 +9,6 @@ test('should properly prepare resources for Estimo', async (t) => {
 
   t.deepEqual(await prepareLibrariesForEstimation([]), [])
 
-  t.deepEqual(await prepareLibrariesForEstimation([lib3]), [
-    { name: 'react.development.js', url: 'https://unpkg.com/react@16/umd/react.development.js', html: undefined },
-  ])
-
   const resources = await prepareLibrariesForEstimation([lib1, lib2, lib3])
   t.is(resources[0].name, '19kb.js')
   t.is(resources[0].url.includes('file://'), true)
@@ -28,9 +24,10 @@ test('should properly prepare resources for Estimo', async (t) => {
   t.is(resources[1].html.includes('temp'), true)
   t.is(resources[1].html.includes('.html'), true)
 
-  t.deepEqual(resources[2], {
-    name: 'react.development.js',
-    url: 'https://unpkg.com/react@16/umd/react.development.js',
-    html: undefined,
-  })
+  t.is(resources[2].name, 'react.development.js')
+  t.is(resources[2].url.includes('file://'), true)
+  t.is(resources[2].url.includes('temp'), true)
+  t.is(resources[2].url.includes('.html'), true)
+  t.is(resources[2].html.includes('temp'), true)
+  t.is(resources[2].html.includes('.html'), true)
 })
