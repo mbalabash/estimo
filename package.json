@@ -1,6 +1,6 @@
 {
   "name": "estimo",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Evaluates how long the browser will execute your javascript code",
   "main": "index.js",
   "scripts": {
