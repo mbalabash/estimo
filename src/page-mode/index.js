@@ -17,4 +17,4 @@ async function estimoPageMode(pages, browserOptions) {
   }
 }
 
-module.exports = estimoPageMode
+module.exports = { estimoPageMode }
