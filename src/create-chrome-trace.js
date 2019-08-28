@@ -8,14 +8,6 @@ const defaultBrowserOptions = {
   height: 768,
   headless: true,
   timeout: 20000,
-  emulateNetworkConditions: false,
-  emulateCpuThrottling: false,
-  offline: false,
-  latency: 0,
-  downloadThroughput: 0,
-  uploadThroughput: 0,
-  connectionType: 'none',
-  cpuThrottlingRate: 1,
   executablePath: chromeConfig.executablePath,
 }
 
@@ -30,6 +22,9 @@ async function createChromeTrace(resources, browserOptions) {
     ignoreDefaultArgs: ['--disable-extensions'],
   })
   const page = await browser.newPage()
+  if (options.userAgent) {
+    await page.setUserAgent(options.userAgent)
+  }
   await page.setViewport({
     width: options.width, height: options.height,
   })
