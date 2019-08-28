@@ -6,14 +6,14 @@ async function estimoPageMode(pages, browserOptions) {
   try {
     let resources = pages.map((page) => ({ name: page, url: page }))
     resources = await createChromeTrace(resources, browserOptions)
+    debugLog(`\n[page-mode]: Next url's resources has been prepared: ${JSON.stringify(resources)}\n`)
 
-    debugLog(`[page-mode]: Next url's resources has been prepared: ${JSON.stringify(resources)}`)
-
-    const report = await generatePrettyReport(resources)
+    const reports = await generatePrettyReport(resources)
+    debugLog(`\n[page-mode]: Got reports for web pages: ${JSON.stringify(reports)}\n`)
 
     await removeAllFiles(resources.map(file => file.trace))
 
-    return report
+    return reports
   } catch (error) {
     console.error(error.stack)
     return process.exit(1)

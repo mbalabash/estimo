@@ -7,7 +7,8 @@
     "install": "node ./scripts/findChrome.js",
     "prettier": "prettier --write -l 'src/**/*.{js,jsx}'",
     "eslint": "eslint --cache src",
-    "test": "ava --exit"
+    "test": "ava --exit",
+    "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js"
   },
   "dependencies": {
     "nanoid": "^2.0.4",

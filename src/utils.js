@@ -31,7 +31,7 @@ async function readFile(filePath) {
 async function writeFile(filePath, content) {
   try {
     await write(filePath, content)
-    debugLog(`[estimo]: The file has been written: ${filePath}`)
+    debugLog(`\n[estimo]: The file has been written: ${filePath}\n`)
   } catch (error) {
     console.error(error.stack)
     process.exit(1)
@@ -41,7 +41,7 @@ async function writeFile(filePath, content) {
 async function deleteFile(filePath) {
   try {
     await unlink(filePath)
-    debugLog(`[estimo]: The file has been removed: ${filePath}`)
+    debugLog(`\n[estimo]: The file has been removed: ${filePath}\n`)
   } catch (error) {
     console.error(error)
     process.exit(1)

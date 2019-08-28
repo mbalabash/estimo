@@ -28,20 +28,20 @@ async function estimo(resources = [], browserOptions = {}) {
 
   try {
     const { pages, libraries } = splitResourcesForEstimo(resources)
-    const reports = []
+    let reports = []
 
-    debugLog(`[estimo]: Found next js files: ${libraries}`)
-    debugLog(`[estimo]: Found next web pages: ${pages}`)
+    debugLog(`\n[estimo]: Found next js files: ${libraries}\n`)
+    debugLog(`\n[estimo]: Found next web pages: ${pages}\n`)
 
     if (libraries.length > 0) {
-      reports.concat(estimoJsMode(libraries, browserOptions))
+      reports = reports.concat(await estimoJsMode(libraries, browserOptions))
     }
 
     if (pages.length > 0) {
-      reports.concat(estimoPageMode(pages, browserOptions))
+      reports = reports.concat(await estimoPageMode(pages, browserOptions))
     }
 
-    debugLog(`[estimo]: Result reports: ${JSON.stringify(reports)}`)
+    debugLog(`\n[estimo]: Result reports: ${JSON.stringify(reports)}\n`)
 
     return reports
   } catch (error) {

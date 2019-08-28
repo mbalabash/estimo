@@ -21,7 +21,7 @@ async function generatePrettyReport(resources) {
   const report = []
 
   for (const item of resources) {
-    debugLog(`[report]: Processing resource: ${JSON.stringify(item)}`)
+    debugLog(`\n[report]: Processing resource: ${JSON.stringify(item)}\n`)
     const tasks = await generateTasksReport(item.trace)
     const htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
     const styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))

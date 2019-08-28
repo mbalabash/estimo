@@ -11,13 +11,13 @@ async function prepareLibrariesForEstimation(libraries) {
       const name = getLibraryName(lib)
       const url = getUrlToHtmlFile(html)
 
-      debugLog(`[js-mode]: ------------------------------------------`)
+      debugLog(`\n[js-mode]: ------------------------------------------`)
       debugLog(`[js-mode]: Creating html content for js file: ${lib}`)
       debugLog(`[js-mode]: Js file name: ${name}`)
       debugLog(`[js-mode]: Html file: ${html}`)
       debugLog(`[js-mode]: Url to html file: ${url}`)
       debugLog(`[js-mode]: Html content: ${htmlContent}`)
-      debugLog(`[js-mode]: ------------------------------------------`)
+      debugLog(`[js-mode]: ------------------------------------------\n`)
 
       resources.push({ name, url, html })
     } catch (error) {
