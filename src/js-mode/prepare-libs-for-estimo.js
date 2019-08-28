@@ -1,5 +1,5 @@
 const { createHtmlContent, generateHtmlFile } = require('./generate-html-file')
-const { getLibraryName, getUrlToHtmlFile } = require('../utils')
+const { getLibraryName, getUrlToHtmlFile, debugLog } = require('../utils')
 
 async function prepareLibrariesForEstimation(libraries) {
   const resources = []
@@ -7,8 +7,19 @@ async function prepareLibrariesForEstimation(libraries) {
   for (const lib of libraries) {
     try {
       const htmlContent = createHtmlContent(lib)
-      const htmlFile = await generateHtmlFile(lib, htmlContent)
-      resources.push({ name: getLibraryName(lib), url: getUrlToHtmlFile(htmlFile), html: htmlFile })
+      const html = await generateHtmlFile(lib, htmlContent)
+      const name = getLibraryName(lib)
+      const url = getUrlToHtmlFile(html)
+
+      debugLog(`[js-mode]: ------------------------------------------`)
+      debugLog(`[js-mode]: Creating html content for js file: ${lib}`)
+      debugLog(`[js-mode]: Js file name: ${name}`)
+      debugLog(`[js-mode]: Html file: ${html}`)
+      debugLog(`[js-mode]: Url to html file: ${url}`)
+      debugLog(`[js-mode]: Html content: ${htmlContent}`)
+      debugLog(`[js-mode]: ------------------------------------------`)
+
+      resources.push({ name, url, html })
     } catch (error) {
       console.error(error.stack)
       return process.exit(1)

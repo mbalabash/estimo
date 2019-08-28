@@ -1,5 +1,5 @@
 const tracium = require('tracium')
-const { readFile } = require('./utils')
+const { readFile, debugLog } = require('./utils')
 
 async function generateTasksReport(pathToTraceFile) {
   const content = JSON.parse(await readFile(pathToTraceFile))
@@ -21,6 +21,7 @@ async function generatePrettyReport(resources) {
   const report = []
 
   for (const item of resources) {
+    debugLog(`[report]: Processing resource: ${JSON.stringify(item)}`)
     const tasks = await generateTasksReport(item.trace)
     const htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
     const styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))

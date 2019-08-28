@@ -1,6 +1,6 @@
-const estimoJsMode = require('./js-mode')
-const estimoPageMode = require('./page-mode')
-const { splitResourcesForEstimo } = require('./utils')
+const { estimoJsMode } = require('./js-mode')
+const { estimoPageMode } = require('./page-mode')
+const { splitResourcesForEstimo, debugLog } = require('./utils')
 
 function checkInputArgs(resources, browserOptions) {
   if (typeof resources !== 'string' && !Array.isArray(resources)) {
@@ -22,12 +22,16 @@ function checkInputArgs(resources, browserOptions) {
   }
 }
 
+
 async function estimo(resources = [], browserOptions = {}) {
   checkInputArgs(resources, browserOptions)
 
   try {
     const { pages, libraries } = splitResourcesForEstimo(resources)
     const reports = []
+
+    debugLog(`[estimo]: Found next js files: ${libraries}`)
+    debugLog(`[estimo]: Found next web pages: ${pages}`)
 
     if (libraries.length > 0) {
       reports.concat(estimoJsMode(libraries, browserOptions))
@@ -36,6 +40,8 @@ async function estimo(resources = [], browserOptions = {}) {
     if (pages.length > 0) {
       reports.concat(estimoPageMode(pages, browserOptions))
     }
+
+    debugLog(`[estimo]: Result reports: ${JSON.stringify(reports)}`)
 
     return reports
   } catch (error) {
