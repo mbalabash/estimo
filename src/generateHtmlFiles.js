@@ -1,5 +1,5 @@
 const nanoid = require('nanoid')
-const { getLibraryName, writeFile, resolvePathToTempDir, assureFileExists } = require('./utils')
+const { getLibraryName, writeFile, resolvePathToTempDir, assureFileExists, isHttp } = require('./utils')
 
 function prepareHtmlContent(lib) {
   return `
@@ -24,10 +24,16 @@ async function generateHtmlFiles(libs) {
 
   for (const lib of modules) {
     try {
-      assureFileExists(lib)
-      const fileName = resolvePathToTempDir(`${nanoid()}.html`)
-      const fileContent = prepareHtmlContent(lib)
-      await writeFile(fileName, fileContent)
+      let fileName;
+      if (isHttp(lib)) {
+        fileName = lib
+      }
+      else {
+        assureFileExists(lib)
+        fileName = resolvePathToTempDir(`${nanoid()}.html`)
+        const fileContent = prepareHtmlContent(lib)
+        await writeFile(fileName, fileContent)
+      }
       htmlFiles.push({ name: getLibraryName(lib), html: fileName })
     } catch (error) {
       console.error(error.stack)

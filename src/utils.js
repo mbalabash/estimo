@@ -53,7 +53,14 @@ async function deleteFile(filePath) {
   }
 }
 
+function isHttp(file) {
+  return (file.indexOf('http://') === 0 || file.indexOf('https://') === 0)
+}
+
 function getUrlToHtmlFile(file) {
+  if (isHttp(file)) {
+    return file
+  }
   return `file://${path.resolve(file)}`
 }
 
@@ -63,7 +70,9 @@ function megabitsToBytes(megabits) {
 
 async function removeTempFiles(files) {
   for (const file of files) {
-    await deleteFile(file)
+    if (!isHttp(file)) {
+      await deleteFile(file)
+    }
   }
 }
 
@@ -77,6 +86,7 @@ function getLibraryName(lib) {
 module.exports = {
   resolvePathToTempDir,
   assureFileExists,
+  isHttp,
   getUrlToHtmlFile,
   megabitsToBytes,
   removeTempFiles,

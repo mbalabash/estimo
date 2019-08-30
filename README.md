@@ -85,6 +85,18 @@ estimo -l ./libs/someLib.js ./libs/myLib.js
 const report = await estimo(['/path/to/libs/someLib.js', '/path/to/libs/myLib.js'])
 ```
 
+## HTML URLs
+
+You can also pass URLs to HTML pages served over HTTP(S)
+
+```sh
+estimo -l http://localhost:8080/myLib.html
+```
+
+```js
+const report = await estimo(['http://localhost:8080/myLib.html'])
+```
+
 ## Time
 
 **All metrics in milliseconds**.
