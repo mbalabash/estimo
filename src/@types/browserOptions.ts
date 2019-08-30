@@ -2,6 +2,7 @@ export interface BrowserOptions {
   width?: number
   height?: number
   userAgent?: string
+  device?: string
   headless?: boolean
   timeout?: number
   executablePath?: string

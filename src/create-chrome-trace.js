@@ -4,8 +4,6 @@ const { megabitsToBytes, resolvePathToTempDir, handlePuppeteerSessionError } = r
 const chromeConfig = require('../chrome.json')
 
 const defaultBrowserOptions = {
-  width: 1366,
-  height: 768,
   headless: true,
   timeout: 20000,
   executablePath: chromeConfig.executablePath,
@@ -14,20 +12,31 @@ const defaultBrowserOptions = {
 async function createChromeTrace(resources, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
 
-  // Create Chrome entities
+  // Create browser entity
+  const launchArgs = ['--no-sandbox', '--disable-setuid-sandbox']
+  if (options.width && options.height) {
+    launchArgs.push(`--window-size=${options.width},${options.height}`)
+  }
   const browser = await puppeteer.launch({
     headless: options.headless,
     executablePath: options.executablePath,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', `--window-size=${options.width},${options.height}`],
+    args: launchArgs,
     ignoreDefaultArgs: ['--disable-extensions'],
   })
+
+  // Set-up page entity
   const page = await browser.newPage()
   if (options.userAgent) {
     await page.setUserAgent(options.userAgent)
   }
-  await page.setViewport({
-    width: options.width, height: options.height,
-  })
+  if (options.width && options.height) {
+    await page.setViewport({
+      width: options.width, height: options.height,
+    })
+  }
+  if (options.device) {
+    await page.emulate(puppeteer.devices[options.device])
+  }
   page.on('error', handlePuppeteerSessionError)
   const client = await page.target().createCDPSession()
 
