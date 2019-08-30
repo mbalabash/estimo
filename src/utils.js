@@ -10,6 +10,18 @@ function resolvePathToTempDir(fileName, tempDir = '../temp/') {
   return path.join(__dirname, tempDir, fileName)
 }
 
+async function assureFileExists(filePath) {
+  try {
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`${filePath} - file not exist!`)
+    }
+    return true
+  } catch (error) {
+    console.error(error.stack)
+    return process.exit(1)
+  }
+}
+
 async function readFile(filePath) {
   try {
     if (!fs.existsSync(filePath)) {
@@ -64,6 +76,7 @@ function getLibraryName(lib) {
 
 module.exports = {
   resolvePathToTempDir,
+  assureFileExists,
   getUrlToHtmlFile,
   megabitsToBytes,
   removeTempFiles,
