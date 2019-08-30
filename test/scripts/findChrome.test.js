@@ -9,6 +9,7 @@ test('should set location setting for downloaded or local chrome', async t => {
 
   t.is(typeof pathToChrome === 'string' && pathToChrome.length > 0, true)
   t.is(configData.executablePath.length > 0, true)
+  t.is(configData.executablePath === pathToChrome, true)
 
   await writeFile(path.join(__dirname, '../..', 'chrome.json'), '{ "executablePath": "" }')
 })
