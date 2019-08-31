@@ -13,14 +13,14 @@ async function createChromeTrace(resources, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
 
   // Create browser entity
-  const launchArgs = ['--no-sandbox', '--disable-setuid-sandbox']
-  if (options.width && options.height) {
-    launchArgs.push(`--window-size=${options.width},${options.height}`)
-  }
+  // const launchArgs = ['--no-sandbox', '--disable-setuid-sandbox']
+  // if (options.width && options.height) {
+  //   launchArgs.push(`--window-size=${options.width},${options.height}`)
+  // }
   const browser = await puppeteer.launch({
     headless: options.headless,
     executablePath: options.executablePath,
-    args: launchArgs,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', `--window-size=${options.width},${options.height}`],
     ignoreDefaultArgs: ['--disable-extensions'],
   })
 
