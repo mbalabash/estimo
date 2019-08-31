@@ -72,7 +72,6 @@ async function createChromeTrace(resources, browserOptions) {
     console.error(error)
     return process.exit(1)
   } finally {
-    await client.detach()
     await page.close()
     await browser.close()
   }
