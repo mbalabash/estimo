@@ -81,14 +81,6 @@ function isUrl(p) {
   return WEB_URLS.test(p)
 }
 
-function handlePuppeteerSessionError(err, browser) {
-  if (err) console.error(err)
-  if (browser && browser.constructor && browser.constructor.name === 'Browser') {
-    browser.close()
-  }
-  process.exit(1)
-}
-
 function splitResourcesForEstimo(resources) {
   const items = Array.isArray(resources) ? resources : [resources]
   const pages = []
@@ -108,7 +100,6 @@ function splitResourcesForEstimo(resources) {
 }
 
 module.exports = {
-  handlePuppeteerSessionError,
   splitResourcesForEstimo,
   resolvePathToTempDir,
   getUrlToHtmlFile,

@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer-core')
 const nanoid = require('nanoid')
-const { megabitsToBytes, resolvePathToTempDir, handlePuppeteerSessionError } = require('./utils')
+const { megabitsToBytes, resolvePathToTempDir } = require('./utils')
 const chromeConfig = require('../chrome.json')
 
 const defaultBrowserOptions = {
@@ -37,7 +37,9 @@ async function createChromeTrace(resources, browserOptions) {
   if (options.device) {
     await page.emulate(puppeteer.devices[options.device])
   }
-  page.on('error', handlePuppeteerSessionError)
+  page.on('error', msg => {
+    throw msg
+  })
   const client = await page.target().createCDPSession()
 
   // Enable Network Emulation
@@ -66,8 +68,12 @@ async function createChromeTrace(resources, browserOptions) {
       await page.tracing.stop()
       resourcesWithTrace.push({ ...item, trace: traceFile })
     }
-  } catch (err) {
-    handlePuppeteerSessionError(err, browser)
+  } catch (error) {
+    console.error(error)
+    return process.exit(1)
+  } finally {
+    await page.close()
+    await browser.close()
   }
 
   await browser.close()
