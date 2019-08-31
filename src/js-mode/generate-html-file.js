@@ -14,8 +14,7 @@ function createHtmlContent(library) {
     ${`<script src="${library}"></script>`}
     <h1>Estimo</h1>
   </body>
-</html>
-`
+</html>`
 }
 
 async function generateHtmlFile(library, htmlContent) {

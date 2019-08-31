@@ -7,8 +7,8 @@ const { writeFile } = require('../../src/utils')
 test('estimoJsMode - should works properly', async (t) => {
   const chromeLocation = await findChrome()
 
-  const lib1 = path.join(__dirname, '__mock__', '19kb.js')
-  const lib2 = path.join(__dirname, '__mock__', '13kb.js')
+  const lib1 = path.join(__dirname, '..', '__mock__', '19kb.js')
+  const lib2 = path.join(__dirname, '..', '__mock__', '13kb.js')
   const lib3 = 'https://unpkg.com/react@16/umd/react.development.js'
 
   const reports = await estimoJsMode([lib1, lib2, lib3], { executablePath: chromeLocation })

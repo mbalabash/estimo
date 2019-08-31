@@ -22,8 +22,7 @@ test('should properly generate content for html file', (t) => {
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <h1>Estimo</h1>
   </body>
-</html>
-`,
+</html>`,
   )
 })
 

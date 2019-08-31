@@ -3,8 +3,8 @@ const path = require('path')
 const { prepareLibrariesForEstimation } = require('../../src/js-mode/prepare-libs-for-estimo')
 
 test('should properly prepare resources for Estimo', async (t) => {
-  const lib1 = path.join(__dirname, '__mock__', '19kb.js')
-  const lib2 = path.join(__dirname, '__mock__', '13kb.js')
+  const lib1 = path.join(__dirname, '..', '__mock__', '19kb.js')
+  const lib2 = path.join(__dirname, '..', '__mock__', '13kb.js')
   const lib3 = 'https://unpkg.com/react@16/umd/react.development.js'
 
   t.deepEqual(await prepareLibrariesForEstimation([]), [])
@@ -30,4 +30,9 @@ test('should properly prepare resources for Estimo', async (t) => {
   t.is(resources[2].url.includes('.html'), true)
   t.is(resources[2].html.includes('temp'), true)
   t.is(resources[2].html.includes('.html'), true)
+})
+
+test('should throw an error for not existed local js files', async (t) => {
+  const error = await t.throwsAsync(prepareLibrariesForEstimation(['some/not/existed/file.js']))
+  t.is(error.message, `some/not/existed/file.js - file not exist!`)
 })
