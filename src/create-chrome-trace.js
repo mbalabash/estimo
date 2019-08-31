@@ -4,6 +4,8 @@ const { megabitsToBytes, resolvePathToTempDir, handlePuppeteerSessionError } = r
 const chromeConfig = require('../chrome.json')
 
 const defaultBrowserOptions = {
+  width: 1366,
+  height: 768,
   headless: true,
   timeout: 20000,
   executablePath: chromeConfig.executablePath,
