@@ -145,7 +145,7 @@ estimo -r ./libs/someLib.js --net --latency 150 --download 1.6 --upload 0.75 --c
 
 The Chrome Device Emulation allow you to generate a Performance timeline under specified device conditions.
 
-- **device** (default: `undefined`) - One of [Puppeteer Device Descriptor](https://github.com/GoogleChrome/puppeteer/blob/master/lib/DeviceDescriptors.js).
+- **device** (default: `false`) - One of [Puppeteer Device Descriptor](https://github.com/GoogleChrome/puppeteer/blob/master/lib/DeviceDescriptors.js).
 
 
 **JS API**
@@ -162,7 +162,7 @@ const report = await estimo('/path/to/someLib.js', {
 estimo -r ./libs/someLib.js -d Galaxy\ S5
 ```
 
-*When using CLI, for device names with spaces you should use symbols escaping*.
+When using CLI, for device names with spaces you should use symbols escaping.
 
 ### Multiple Resources
 
