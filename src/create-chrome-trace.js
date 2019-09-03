@@ -23,9 +23,10 @@ async function createChromeTrace(resources, browserOptions) {
     args: launchArgs,
     ignoreDefaultArgs: ['--disable-extensions'],
   })
+  const context = await browser.createIncognitoBrowserContext()
 
   // Set-up page entity
-  const page = await browser.newPage()
+  const page = await context.newPage()
   if (options.userAgent) {
     await page.setUserAgent(options.userAgent)
   }
