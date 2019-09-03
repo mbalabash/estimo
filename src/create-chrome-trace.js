@@ -36,7 +36,11 @@ async function createChromeTrace(resources, browserOptions) {
     })
   }
   if (options.device) {
-    await page.emulate(puppeteer.devices[options.device])
+    if (puppeteer.devices[options.device]) {
+      await page.emulate(puppeteer.devices[options.device])
+    } else {
+      throw new Error(`${options.device} - unknown Device option!`)
+    }
   }
   page.on('error', msg => {
     throw msg
