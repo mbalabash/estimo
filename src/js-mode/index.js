@@ -7,7 +7,9 @@ async function estimoJsMode(libraries, browserOptions) {
   try {
     let resources = await prepareLibrariesForEstimation(libraries)
     resources = await createChromeTrace(resources, browserOptions)
-    debugLog(`\n[js-mode]: Next javascript resources has been prepared: ${JSON.stringify(resources)}\n`)
+    debugLog(
+      `\n[js-mode]: Next javascript resources has been prepared: ${JSON.stringify(resources)}\n`,
+    )
 
     const reports = await generatePrettyReport(resources)
     debugLog(`\n[js-mode]: Got reports for js files: ${JSON.stringify(reports)}\n`)

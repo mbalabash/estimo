@@ -32,7 +32,8 @@ async function createChromeTrace(resources, browserOptions) {
   }
   if (options.width && options.height) {
     await page.setViewport({
-      width: options.width, height: options.height,
+      width: options.width,
+      height: options.height,
     })
   }
   if (options.device) {
