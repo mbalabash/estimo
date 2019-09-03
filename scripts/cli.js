@@ -4,11 +4,16 @@ const { argv } = require('yargs')
   .scriptName('estimo')
   .usage('Usage: $0 [options]')
   .showHelpOnFail(true)
-  .option('l', {
-    alias: 'libs',
-    describe: 'JavaScript files for evaluates',
+  .option('r', {
+    alias: 'resources',
+    describe: 'JavaScript files or Web pages',
     type: 'array',
     demand: true,
+  })
+  .option('d', {
+    alias: 'device',
+    describe: 'Enable Device Emulation',
+    type: 'string',
   })
   .option('cpu', {
     describe: 'Enable CPU Throttling',
@@ -45,15 +50,14 @@ const { argv } = require('yargs')
   .help('h')
   .alias('h', 'help')
   .alias('v', 'version')
-  .demandOption(['l'])
+  .demandOption(['r'])
 
-const estimo = require('../index')
-
-;
+const estimo = require('../index');
 
 (async () => {
-  const { libs } = argv
+  const { resources } = argv
   const options = {
+    device: argv.device || false,
     emulateCpuThrottling: argv.cpu || false,
     cpuThrottlingRate: argv.cpuRate || 1,
     emulateNetworkConditions: argv.net || false,
@@ -63,7 +67,7 @@ const estimo = require('../index')
     uploadThroughput: argv.upload || 0,
     connectionType: argv.connection || 'none',
   }
-  const files = libs.map(lib => {
+  const files = resources.map(lib => {
     if (/^http/.test(lib)) {
       return lib
     }

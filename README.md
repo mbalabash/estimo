@@ -37,7 +37,7 @@ const estimo = require('estimo')
 **CLI**
 
 ```sh
-estimo -l ./libs/someLib.js
+estimo -r ./libs/someLib.js
 ```
 
 **Output**
@@ -103,7 +103,7 @@ await estimo('/path/to/someLib.js', {
 **CLI**:
 
 ```sh
-estimo -l ./libs/someLib.js --cpu --cpuRate 4
+estimo -r ./libs/someLib.js --cpu --cpuRate 4
 ```
 
 ### Network Emulation
@@ -138,14 +138,15 @@ await estimo('/path/to/someLib.js', {
 **CLI**:
 
 ```sh
-estimo -l ./libs/someLib.js --net --latency 150 --download 1.6 --upload 0.75 --connection cellular3g
+estimo -r ./libs/someLib.js --net --latency 150 --download 1.6 --upload 0.75 --connection cellular3g
 ```
 
 ### Chrome Device Emulation
 
 The Chrome Device Emulation allow you to generate a Performance timeline under specified device conditions.
 
-- **device** (default: `undefined`) - One of [Puppeteer Device Descriptor](https://github.com/GoogleChrome/puppeteer/blob/master/lib/DeviceDescriptors.js)
+- **device** (default: `undefined`) - One of [Puppeteer Device Descriptor](https://github.com/GoogleChrome/puppeteer/blob/master/lib/DeviceDescriptors.js).
+
 
 **JS API**
 
@@ -158,8 +159,10 @@ const report = await estimo('/path/to/someLib.js', {
 **CLI**
 
 ```sh
-estimo -l ./libs/someLib.js -d 'Galaxy S5'
+estimo -r ./libs/someLib.js -d Galaxy\ S5
 ```
+
+*When using CLI, for device names with spaces you should use symbols escaping*.
 
 ### Multiple Resources
 
@@ -172,7 +175,7 @@ const report = await estimo(['/path/to/libs/someLib.js', 'https://unpkg.com/reac
 **CLI**
 
 ```sh
-estimo -l /path/to/libs/someLib.js https://unpkg.com/react@16/umd/react.development.js
+estimo -r /path/to/libs/someLib.js https://unpkg.com/react@16/umd/react.development.js
 ```
 
 ### Pages
@@ -190,7 +193,7 @@ const report = await estimo('https://www.google.com/')
 **CLI**
 
 ```sh
-estimo -l https://www.google.com/
+estimo -r https://www.google.com/
 ```
 
 ## Time
