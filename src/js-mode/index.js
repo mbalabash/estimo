@@ -15,7 +15,7 @@ async function estimoJsMode(libraries, browserOptions) {
     debugLog(`\n[js-mode]: Got reports for js files: ${JSON.stringify(reports)}\n`)
 
     await removeAllFiles(resources.map(item => item.html))
-    await removeAllFiles(resources.map(item => item.trace))
+    // await removeAllFiles(resources.map(item => item.trace))
 
     return reports
   } catch (error) {

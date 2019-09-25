@@ -13,7 +13,7 @@ async function createChromeTrace(resources, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
 
   // Create browser entity
-  const launchArgs = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+  const launchArgs = ['--enable-thread-instruction-count', '--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
   if (options.width && options.height) {
     launchArgs.push(`--window-size=${options.width},${options.height}`)
   }

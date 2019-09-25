@@ -1,3 +1,4 @@
+const { generatePrettyReport } = require('./reporter')
 const { estimoJsMode } = require('./js-mode')
 const { estimoPageMode } = require('./page-mode')
 const { splitResourcesForEstimo, debugLog } = require('./utils')
@@ -54,3 +55,4 @@ async function estimo(resources = [], browserOptions = {}) {
 module.exports = estimo
 module.exports.estimoJsMode = estimoJsMode
 module.exports.estimoPageMode = estimoPageMode
+module.exports.generatePrettyReport = generatePrettyReport
