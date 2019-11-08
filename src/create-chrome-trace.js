@@ -6,7 +6,7 @@ const chromeConfig = require('../chrome.json')
 const defaultBrowserOptions = {
   headless: true,
   timeout: 20000,
-  executablePath: chromeConfig.executablePath,
+  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || chromeConfig.executablePath,
 }
 
 async function createChromeTrace(resources, browserOptions) {

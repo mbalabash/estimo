@@ -2,6 +2,9 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.1
+- Use `PUPPETEER_EXECUTABLE_PATH` to find chrome execute path if variable available
+
 ## 2.0.0
 
 - Add page-mode for processing web pages by url.
