@@ -8,7 +8,9 @@
     "prettier": "prettier --write -l 'src/**/*.{js,jsx}'",
     "eslint": "eslint --cache src",
     "test": "ava --exit",
-    "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js"
+    "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js",
+    "docker:b": "docker build -t estimo .",
+    "docker:t": "docker run --rm --init -v $(pwd)/temp:/app/temp estimo"
   },
   "dependencies": {
     "nanoid": "^2.0.4",
