@@ -6,7 +6,7 @@ const { execSync, execFileSync } = require('child_process')
 const pptrCoreJson = require('puppeteer-core/package.json')
 const { writeFile } = require('../src/utils')
 
-const MIN_CHROME_VERSION = 75
+const MIN_CHROME_VERSION = 77
 const newLineRegex = /\r?\n/
 const chromeTempPath = path.join(__dirname, '..', 'temp', 'chrome')
 const chromeConfigPath = path.join(__dirname, '..', 'chrome.json')
