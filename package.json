@@ -30,7 +30,7 @@
     "prettier": "^1.18.2"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "preferGlobal": true,
   "bin": {
