@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "nanoid": "^2.0.4",
-    "puppeteer-core": "^1.17.0",
+    "puppeteer-core": "^2.0.0",
     "tracium": "^0.2.1",
     "yargs": "^14.0.0"
   },
