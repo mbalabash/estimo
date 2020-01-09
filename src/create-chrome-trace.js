@@ -9,24 +9,31 @@ const defaultBrowserOptions = {
   executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || chromeConfig.executablePath,
 }
 
-async function createChromeTrace(resources, browserOptions) {
-  const options = { ...defaultBrowserOptions, ...browserOptions }
+const chromeLaunchArgs = [
+  '--enable-thread-instruction-count',
+  '--no-sandbox',
+  '--disable-setuid-sandbox',
+  '--disable-dev-shm-usage',
+]
 
-  // Create browser entity
-  const launchArgs = ['--enable-thread-instruction-count', '--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+async function createBrowserEntity(options) {
   if (options.width && options.height) {
-    launchArgs.push(`--window-size=${options.width},${options.height}`)
+    chromeLaunchArgs.push(`--window-size=${options.width},${options.height}`)
   }
-  const browser = await puppeteer.launch({
+  const browserConfig = {
     headless: options.headless,
     executablePath: options.executablePath,
-    args: launchArgs,
+    args: chromeLaunchArgs,
     ignoreDefaultArgs: ['--disable-extensions'],
-  })
-  const context = await browser.createIncognitoBrowserContext()
+  }
+  if (process.env.ESTIMO_DEBUG) {
+    browserConfig.dumpio = true
+  }
+  const browser = await puppeteer.launch(browserConfig)
+  return browser
+}
 
-  // Set-up page entity
-  const page = await context.newPage()
+async function setupPageEntity(page, options) {
   if (options.userAgent) {
     await page.setUserAgent(options.userAgent)
   }
@@ -46,11 +53,12 @@ async function createChromeTrace(resources, browserOptions) {
   page.on('error', msg => {
     throw msg
   })
-  const client = await page.target().createCDPSession()
+}
 
+async function setupCdpEntity(cdpSession, options) {
   // Enable Network Emulation
   if (options.emulateNetworkConditions) {
-    await client.send('Network.emulateNetworkConditions', {
+    await cdpSession.send('Network.emulateNetworkConditions', {
       offline: options.offline,
       latency: options.latency,
       downloadThroughput: megabitsToBytes(options.downloadThroughput),
@@ -61,10 +69,21 @@ async function createChromeTrace(resources, browserOptions) {
 
   // Enable CPU Emulation
   if (options.emulateCpuThrottling) {
-    await client.send('Emulation.setCPUThrottlingRate', { rate: options.cpuThrottlingRate })
+    await cdpSession.send('Emulation.setCPUThrottlingRate', { rate: options.cpuThrottlingRate })
   }
+}
 
-  // Generate trace files
+async function createChromeTrace(resources, browserOptions) {
+  const options = { ...defaultBrowserOptions, ...browserOptions }
+  const browser = await createBrowserEntity(options)
+  const context = await browser.createIncognitoBrowserContext()
+
+  const page = await context.newPage()
+  await setupPageEntity(page, options)
+
+  const cdpSession = await page.target().createCDPSession()
+  await setupCdpEntity(cdpSession, options)
+
   const resourcesWithTrace = []
   try {
     for (const item of resources) {
