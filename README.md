@@ -4,7 +4,7 @@ Estimo is a tool for measuring parse / compile / execution time of javascript.
 
 This tool can emulate CPU throttling, Network conditions, use Chrome Device emulation and more for measuring javascript performance.
 
-*Inspired by [Size Limit](https://github.com/ai/size-limit). Thanks [@ai](https://github.com/ai/) for support.*
+_Inspired by [Size Limit](https://github.com/ai/size-limit). Thanks [@ai](https://github.com/ai/) and [@aslushnikov](https://github.com/aslushnikov) for support._
 
 ## Why?
 
@@ -147,12 +147,11 @@ The Chrome Device Emulation allow you to generate a Performance timeline under s
 
 - **device** (default: `false`) - One of [Puppeteer Device Descriptor](https://github.com/GoogleChrome/puppeteer/blob/master/lib/DeviceDescriptors.js).
 
-
 **JS API**
 
 ```js
 const report = await estimo('/path/to/someLib.js', {
-  device: 'Galaxy S5'
+  device: 'Galaxy S5',
 })
 ```
 
@@ -169,7 +168,10 @@ When using CLI, for device names with spaces you should use symbols escaping.
 **JS API**
 
 ```js
-const report = await estimo(['/path/to/libs/someLib.js', 'https://unpkg.com/react@16/umd/react.development.js'])
+const report = await estimo([
+  '/path/to/libs/someLib.js',
+  'https://unpkg.com/react@16/umd/react.development.js',
+])
 ```
 
 **CLI**
@@ -204,7 +206,6 @@ We are measure system-cpu time. The number of seconds that the process has spent
 
 We not including time spent waiting for its turn on the CPU.
 
-
 ## Install
 
 ```js
@@ -224,7 +225,6 @@ It uses [puppeteer](https://github.com/GoogleChrome/puppeteer) to generate Chrom
 We will use your local **Chrome** if it suitable for using with Estimo.
 
 **Keep in mind** there result depends on your device and available resources.
-
 
 ## Who Uses Estimo
 
