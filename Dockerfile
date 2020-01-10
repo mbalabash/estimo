@@ -12,4 +12,4 @@ COPY . /app/
 
 RUN yarn install
 
-CMD ["yarn", "test"]
+CMD ["yarn", "test:launch"]
