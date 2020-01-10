@@ -9,10 +9,9 @@
     "eslint": "eslint --cache src",
     "test": "ava --exit",
     "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js",
-    "test:rti-origin": "node ./test/__mock__/origin-rti-test.js",
-    "docker:build": "docker build -t estimo .",
-    "docker:run": "docker run --rm --init -v $(pwd)/temp:/app/temp --cap-add SYS_ADMIN estimo",
-    "docker:run-seccomp-profile": "docker run --rm --init -v $(pwd)/temp:/app/temp --security-opt seccomp=./seccomp-chrome.json estimo"
+    "test:rti-origin": "ESTIMO_DEBUG=true node ./test/__mock__/origin-rti-test.js",
+    "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp --security-opt seccomp=seccomp-conf.json estimo",
+    "docker:build": "docker build -t estimo ."
   },
   "dependencies": {
     "nanoid": "^2.0.4",
