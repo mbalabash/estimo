@@ -6,6 +6,6 @@ console.log(__dirname)
 const localJsFile = path.join(__dirname, '19kb.js')
 
 ;(async () => {
-  const reports = await estimo(['https://www.google.com/', localJsFile])
+  const reports = await estimo([localJsFile])
   console.log(reports)
 })()
