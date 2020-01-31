@@ -9,25 +9,26 @@
     "eslint": "eslint --cache src",
     "test": "ava --exit",
     "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js",
-    "test:rti-origin": "ESTIMO_DEBUG=true node ./test/__mock__/origin-rti-test.js",
     "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp --security-opt seccomp=seccomp-conf.json estimo",
-    "docker:build": "docker build -t estimo ."
+    "docker:build": "docker build -t estimo .",
+    "clean:temp": "rimraf ./temp/*.{html,json}"
   },
   "dependencies": {
-    "nanoid": "^2.0.4",
-    "puppeteer-core": "^2.0.0",
+    "nanoid": "^2.1.11",
+    "puppeteer-core": "^2.1.0",
     "tracium": "^0.2.1",
-    "yargs": "^14.0.0"
+    "yargs": "^15.1.0"
   },
   "devDependencies": {
-    "ava": "^2.3.0",
-    "eslint": "^6.2.2",
+    "ava": "^3.1.0",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-prettier": "^6.1.0",
-    "eslint-plugin-import": "^2.17.3",
-    "husky": "^3.0.4",
-    "lint-staged": "^9.2.5",
-    "prettier": "^1.18.2"
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.0",
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.18.2",
+    "rimraf": "^3.0.1"
   },
   "engines": {
     "node": ">=10"

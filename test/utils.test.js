@@ -15,7 +15,7 @@ const {
   splitResourcesForEstimo,
 } = require('../src/utils')
 
-test('[resolvePathToTempDir]: should properly resolve path to file in temp directory', (t) => {
+test('[resolvePathToTempDir]: should properly resolve path to file in temp directory', t => {
   const fileName = 'someFile.txt'
   const customTempDir = '../test/__mock__/'
 
@@ -24,7 +24,7 @@ test('[resolvePathToTempDir]: should properly resolve path to file in temp direc
   t.is(resolvePathToTempDir(fileName, customTempDir), path.join(__dirname, customTempDir, fileName))
 })
 
-test('[readFile]: should properly read data from file', async (t) => {
+test('[readFile]: should properly read data from file', async t => {
   const customTempDir = '../test/__mock__/'
   const fileName = `${nanoid()}.txt`
   const fileContent = 'information'
@@ -45,7 +45,7 @@ test('[readFile]: should properly read data from file', async (t) => {
   t.is(isFileExist, false)
 })
 
-test('[writeFile]: should properly write file', async (t) => {
+test('[writeFile]: should properly write file', async t => {
   const customTempDir = '../test/__mock__/'
   const fileName = `${nanoid()}.txt`
   const fileContent = 'information'
@@ -63,7 +63,7 @@ test('[writeFile]: should properly write file', async (t) => {
   t.is(isFileExist, false)
 })
 
-test('[deleteFile]: should properly delete file', async (t) => {
+test('[deleteFile]: should properly delete file', async t => {
   const customTempDir = '../test/__mock__/'
   const fileName = `${nanoid()}.txt`
   const fileContent = 'information'
@@ -81,22 +81,22 @@ test('[deleteFile]: should properly delete file', async (t) => {
   t.is(isFileExist, false)
 })
 
-test('[getUrlToHtmlFile]: should properly generate url to local file', (t) => {
+test('[getUrlToHtmlFile]: should properly generate url to local file', t => {
   const fileName = 'index.html'
   t.is(
     getUrlToHtmlFile(resolvePathToTempDir(fileName)),
-    `file://${path.resolve(path.join(__dirname, '../temp/', fileName))}`,
+    `file://${path.resolve(path.join(__dirname, '../temp/', fileName))}`
   )
 })
 
-test('[megabitsToBytes]: should properly transform megabits to bytes', async (t) => {
+test('[megabitsToBytes]: should properly transform megabits to bytes', async t => {
   t.is(megabitsToBytes(0.75), 98304)
   t.is(megabitsToBytes(1.6), 209715.2)
   t.is(megabitsToBytes(13), 1703936)
   t.is(megabitsToBytes(0.33), 43253.76)
 })
 
-test('[getLibraryName]: should properly extract library name', async (t) => {
+test('[getLibraryName]: should properly extract library name', async t => {
   t.is(getLibraryName('http://qwe.asd/myLib.js'), 'myLib.js')
   t.is(getLibraryName('http://qwe.asd/myLib/some/dir/lib.js'), 'lib.js')
   t.is(getLibraryName('https://qwe.asd/myLib.js'), 'myLib.js')
@@ -106,7 +106,7 @@ test('[getLibraryName]: should properly extract library name', async (t) => {
   t.is(getLibraryName('../myLib.js'), 'myLib.js')
 })
 
-test('[isJsFile]: should properly detect js file names', async (t) => {
+test('[isJsFile]: should properly detect js file names', async t => {
   t.is(isJsFile('http://qwe.asd/myLib.js'), true)
   t.is(isJsFile('qwe/asd.css'), false)
   t.is(isJsFile('https://qwe.asd/myLib.js'), true)
@@ -116,7 +116,7 @@ test('[isJsFile]: should properly detect js file names', async (t) => {
   t.is(isJsFile('cvxvx/qw.html'), false)
 })
 
-test('[isUrl]: should properly detect web url\'s', async (t) => {
+test("[isUrl]: should properly detect web url's", async t => {
   t.is(isUrl('http://qwe.asd/myLib.js'), true)
   t.is(isUrl('qwe/asd/'), false)
   t.is(isUrl('https://qwe.asd/myLib.js'), true)
@@ -126,20 +126,28 @@ test('[isUrl]: should properly detect web url\'s', async (t) => {
   t.is(isUrl('https://qwe.asd/zxc.html'), true)
 })
 
-test('[splitResourcesForEstimo]: should properly split input to js files and non-js web url\'s', async (t) => {
+test("[splitResourcesForEstimo]: should properly split input to js files and non-js web url's", async t => {
   t.deepEqual(splitResourcesForEstimo(['http://qwe.asd/myLib.js', 'index.js']), {
     pages: [],
     libraries: ['http://qwe.asd/myLib.js', 'index.js'],
   })
   t.deepEqual(splitResourcesForEstimo([]), { pages: [], libraries: [] })
-  t.throws(() => splitResourcesForEstimo(['ftp://domain.to/', 'qwe/asd/']), `Estimo works only with resources which is path to js files OR url to pages (<String> OR <Array<String>>)`)
-  t.deepEqual(splitResourcesForEstimo([
-    'http://qwe.asd/qwe.css',
-    'https://qwe.asd/zxc.html',
-    'http://qwe.asd/myLib.js',
-    'index.js',
-  ]), {
-    pages: ['http://qwe.asd/qwe.css', 'https://qwe.asd/zxc.html'],
-    libraries: ['http://qwe.asd/myLib.js', 'index.js'],
-  })
+
+  const error = t.throws(() => splitResourcesForEstimo(['ftp://domain.to/', 'qwe/asd/']))
+  t.is(
+    error.message,
+    `Estimo works only with resources which is path to js files OR url to pages (<String> OR <Array<String>>)`
+  )
+  t.deepEqual(
+    splitResourcesForEstimo([
+      'http://qwe.asd/qwe.css',
+      'https://qwe.asd/zxc.html',
+      'http://qwe.asd/myLib.js',
+      'index.js',
+    ]),
+    {
+      pages: ['http://qwe.asd/qwe.css', 'https://qwe.asd/zxc.html'],
+      libraries: ['http://qwe.asd/myLib.js', 'index.js'],
+    }
+  )
 })

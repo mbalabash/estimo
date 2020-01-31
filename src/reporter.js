@@ -42,7 +42,7 @@ async function generatePrettyReport(resources) {
       garbageCollection: garbageTime,
       other: otherTime,
       total: formatTime(
-        htmlTime + styleTime + renderTime + compileTime + evaluationTime + garbageTime + otherTime,
+        htmlTime + styleTime + renderTime + compileTime + evaluationTime + garbageTime + otherTime
       ),
     })
   }
