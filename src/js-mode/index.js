@@ -8,14 +8,16 @@ async function estimoJsMode(libraries, browserOptions) {
     let resources = await prepareLibrariesForEstimation(libraries)
     resources = await createChromeTrace(resources, browserOptions)
     debugLog(
-      `\n[js-mode]: Next javascript resources has been prepared: ${JSON.stringify(resources)}\n`,
+      `\n[js-mode]: Next javascript resources has been prepared: ${JSON.stringify(resources)}\n`
     )
 
     const reports = await generatePrettyReport(resources)
     debugLog(`\n[js-mode]: Got reports for js files: ${JSON.stringify(reports)}\n`)
 
-    await removeAllFiles(resources.map(item => item.html))
-    // await removeAllFiles(resources.map(item => item.trace))
+    if (!process.env.ESTIMO_DEBUG) {
+      await removeAllFiles(resources.map(item => item.html))
+      await removeAllFiles(resources.map(item => item.trace))
+    }
 
     return reports
   } catch (error) {
