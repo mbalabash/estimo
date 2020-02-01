@@ -12,8 +12,10 @@ matrix:
       addons:
         chrome: stable
     - name: 'Without Chrome, Node 12'
+      dist: trusty
       node_js: '12'
     - name: 'Without Chrome, Node 10'
+      dist: trusty
       node_js: '10'
     - name: 'Without Chrome, Node 12, WindowsOS'
       env:
