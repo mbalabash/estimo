@@ -5,6 +5,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     && apt-get update \
     && apt-get install -y google-chrome-unstable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst ttf-freefont \
     --no-install-recommends \
+    && apt-get install -y linux-tools \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
