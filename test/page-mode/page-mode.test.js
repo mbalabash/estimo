@@ -11,10 +11,7 @@ test('estimoPageMode - should works properly', async t => {
 
   const reports = await estimoPageMode([page], { executablePath: chromeLocation })
 
-  t.is(
-    reports[0].name,
-    'file:///Users/mbalabash/Projects/opensource/estimo/test/__mock__/test.html'
-  )
+  t.is(reports[0].name, page)
   t.is(typeof reports[0].parseHTML === 'number' && reports[0].parseHTML >= 0, true)
   t.is(typeof reports[0].styleLayout === 'number' && reports[0].styleLayout >= 0, true)
   t.is(

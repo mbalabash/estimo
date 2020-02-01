@@ -56,10 +56,7 @@ test('estimo - should works properly with web pages', async t => {
 
   const reports = await estimo([page], { executablePath: chromeLocation })
 
-  t.is(
-    reports[0].name,
-    'file:///Users/mbalabash/Projects/opensource/estimo/test/__mock__/test.html'
-  )
+  t.is(reports[0].name, page)
   t.is(typeof reports[0].parseHTML === 'number' && reports[0].parseHTML >= 0, true)
   t.is(typeof reports[0].styleLayout === 'number' && reports[0].styleLayout >= 0, true)
   t.is(
@@ -104,10 +101,7 @@ test('estimo - should works properly with mixed resources', async t => {
   t.is(typeof reports[0].other === 'number' && reports[0].other >= 0, true)
   t.is(typeof reports[0].total === 'number' && reports[0].total > 0, true)
 
-  t.is(
-    reports[1].name,
-    'file:///Users/mbalabash/Projects/opensource/estimo/test/__mock__/test.html'
-  )
+  t.is(reports[1].name, page)
   t.is(typeof reports[1].parseHTML === 'number' && reports[1].parseHTML >= 0, true)
   t.is(typeof reports[1].styleLayout === 'number' && reports[1].styleLayout >= 0, true)
   t.is(
