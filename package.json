@@ -12,6 +12,7 @@
     "test:docker1": "docker run --rm --init -v $(pwd)/temp:/app/temp --security-opt seccomp=seccomp-conf.json estimo",
     "test:docker2": "docker run --rm --init -v $(pwd)/temp:/app/temp --cap-add SYS_ADMIN estimo",
     "test:docker3": "docker run --rm --init -v $(pwd)/temp:/app/temp --privileged estimo",
+    "docker:it": "docker run --rm --init --privileged -it estimo sh",
     "docker:build": "docker build -t estimo .",
     "clean:temp": "rimraf ./temp/*.{html,json}"
   },
