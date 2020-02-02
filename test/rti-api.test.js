@@ -26,7 +26,7 @@ test('[rti-api]: should contain "tidelta" and "ticount" in mock trace file', t =
   }
 })
 
-test('[rti-api]: should not contain "tidelta" and "ticount" in trace file if API does not support by the platform', async t => {
+test('[rti-api]: should throw when RTI API does not support by the platform', async t => {
   const chromeLocation = await findChrome()
   const page = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
 
