@@ -51,8 +51,8 @@
     }
   },
   "lint-staged": {
+    "*": "yarn clean:chrome-conf",
     "*.(js)": [
-      "yarn clean:chrome-conf",
       "yarn prettier",
       "yarn eslint",
       "git add"
