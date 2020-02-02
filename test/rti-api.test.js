@@ -3,7 +3,7 @@ const path = require('path')
 const { execSync } = require('child_process')
 const { findChrome } = require('../scripts/chromeDetection')
 const { createChromeTrace } = require('../src/create-chrome-trace')
-const { writeFile, getUrlToHtmlFile, removeAllFiles } = require('../src/utils')
+const { getUrlToHtmlFile, removeAllFiles } = require('../src/utils')
 
 if (process.platform !== 'win32') {
   test('[rti-api]: should contain "tidelta" and "ticount" in mock trace file', t => {
@@ -41,5 +41,5 @@ test('[rti-api]: should throw when RTI API does not support by the platform', as
 
   await removeAllFiles(resources.map(file => file.trace))
   await removeAllFiles(resources.map(file => file.html))
-  await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
+  // await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
