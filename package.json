@@ -47,10 +47,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn clean:chrome-conf"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
+    "*.(json)": [
+      "yarn clean:chrome-conf",
+      "git add"
+    ],
     "*.(js)": [
       "yarn prettier",
       "yarn eslint",
