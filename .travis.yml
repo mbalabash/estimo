@@ -15,6 +15,13 @@ matrix:
       node_js: '12'
     - name: 'Without Chrome, Node 10'
       node_js: '10'
+    - name: 'Chrome Stable, Node 12, WindowsOS'
+      addons:
+        chrome: stable
+      env:
+        - YARN_GPG=no
+      os: windows
+      node_js: '12'
     - name: 'Without Chrome, Node 12, WindowsOS'
       env:
         - YARN_GPG=no
