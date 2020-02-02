@@ -3,10 +3,10 @@ const path = require('path')
 const { homedir } = require('os')
 const puppeteer = require('puppeteer-core')
 const { execSync, execFileSync } = require('child_process')
-// const pptrCoreJson = require('puppeteer-core/package.json')
 const { writeFile } = require('../src/utils')
 
 const MIN_CHROME_VERSION = 77
+const LATEST_STABLE_CHROME_REVISION = '706915'
 const newLineRegex = /\r?\n/
 const chromeTempPath = path.join(__dirname, '..', 'temp', 'chrome')
 const chromeConfigPath = path.join(__dirname, '..', 'chrome.json')
@@ -184,12 +184,11 @@ async function downloadChromium() {
     host: downloadHost,
   })
 
-  const revision = '706915'
-  // const revision =
-  //   process.env.PUPPETEER_CHROMIUM_REVISION ||
-  //   process.env.npm_config_puppeteer_chromium_revision ||
-  //   process.env.npm_package_config_puppeteer_chromium_revision ||
-  //   pptrCoreJson.puppeteer.chromium_revision
+  const revision =
+    process.env.PUPPETEER_CHROMIUM_REVISION ||
+    process.env.npm_config_puppeteer_chromium_revision ||
+    process.env.npm_package_config_puppeteer_chromium_revision ||
+    LATEST_STABLE_CHROME_REVISION
   const revisionInfo = browserFetcher.revisionInfo(revision)
 
   // If already downloaded
