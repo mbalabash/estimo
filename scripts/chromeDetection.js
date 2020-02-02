@@ -243,7 +243,9 @@ async function findChrome() {
     if (await isSuitableVersion(executablePath)) {
       await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
       console.log(`Local Chrome location: ${executablePath}`)
-      console.log(`Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`)
+      if (!process.platform === 'win32') {
+        console.log(`Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`)
+      }
       return executablePath
     }
     console.log('Local Chrome version is not suitable')
@@ -260,11 +262,13 @@ async function findChrome() {
   const revisionInfo = await downloadChromium()
   await writeFile(chromeConfigPath, JSON.stringify({ executablePath: revisionInfo.executablePath }))
   console.log(`Downloaded Chrome location: ${revisionInfo.executablePath}`)
-  console.log(
-    `Downloaded Chrome version: ${execSync(
-      `"${revisionInfo.executablePath}" --version`
-    ).toString()}`
-  )
+  if (!process.platform === 'win32') {
+    console.log(
+      `Downloaded Chrome version: ${execSync(
+        `"${revisionInfo.executablePath}" --version`
+      ).toString()}`
+    )
+  }
   return revisionInfo.executablePath
 }
 
