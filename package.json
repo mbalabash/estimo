@@ -9,12 +9,11 @@
     "eslint": "eslint --cache src",
     "test": "ava --exit",
     "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js",
-    "test:docker1": "docker run --rm --init -v $(pwd)/temp:/app/temp --security-opt seccomp=seccomp-conf.json estimo",
-    "test:docker2": "docker run --rm --init -v $(pwd)/temp:/app/temp --cap-add SYS_ADMIN estimo",
-    "test:docker3": "docker run --rm --init -v $(pwd)/temp:/app/temp --privileged estimo",
+    "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp --security-opt seccomp=seccomp-conf.json estimo",
     "docker:it": "docker run --rm --init --privileged -it estimo sh",
     "docker:build": "docker build -t estimo .",
-    "clean:temp": "rimraf ./temp/*.{html,json}"
+    "clean:temp": "rimraf ./temp/*.{html,json}",
+    "clean:chrome-conf": "node ./scripts/cleanChromeConfig.js"
   },
   "dependencies": {
     "nanoid": "^2.1.11",
@@ -53,6 +52,8 @@
   },
   "lint-staged": {
     "*.(js)": [
+      "yarn clean:chrome-conf",
+      "yarn prettier",
       "yarn eslint",
       "git add"
     ]
