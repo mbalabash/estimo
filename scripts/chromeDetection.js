@@ -244,6 +244,7 @@ async function findChrome() {
     if (await isSuitableVersion(executablePath)) {
       await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
       console.log(`Local Chrome location: ${executablePath}`)
+      console.log(`Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`)
       return executablePath
     }
     console.log('Local Chrome version is not suitable')
