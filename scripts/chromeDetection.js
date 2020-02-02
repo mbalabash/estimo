@@ -259,7 +259,6 @@ async function findChrome() {
 
   const revisionInfo = await downloadChromium()
   await writeFile(chromeConfigPath, JSON.stringify({ executablePath: revisionInfo.executablePath }))
-  console.log(revisionInfo)
   console.log(`Downloaded Chrome location: ${revisionInfo.executablePath}`)
   console.log(
     `Downloaded Chrome version: ${execSync(
