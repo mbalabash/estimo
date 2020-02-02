@@ -24,6 +24,30 @@ if (process.platform !== 'win32') {
   })
 }
 
+if (process.platform === 'linux') {
+  test('[rti-api]: should contain "tidelta" and "ticount" if RTI API supported by the platform', async t => {
+    const chromeLocation = await findChrome()
+    const page = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
+
+    let resources = [{ name: page, url: page }]
+    resources = await createChromeTrace(resources, { executablePath: chromeLocation })
+    const pathToTraceFile = resources[0].trace
+
+    const tideltaGrepResult = execSync(`grep 'tidelta' ${pathToTraceFile}`).toString()
+    const ticountGrepResult = execSync(`grep 'ticount' ${pathToTraceFile}`).toString()
+
+    t.is(tideltaGrepResult.length > 0, true)
+    t.is(tideltaGrepResult.includes('"tidelta":'), true)
+
+    t.is(ticountGrepResult.length > 0, true)
+    t.is(ticountGrepResult.includes('"ticount":'), true)
+
+    await removeAllFiles(resources.map(file => file.trace))
+    await removeAllFiles(resources.map(file => file.html))
+    await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
+  })
+}
+
 test('[rti-api]: should throw when RTI API does not support by the platform', async t => {
   const chromeLocation = await findChrome()
   const page = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
