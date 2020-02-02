@@ -5,10 +5,10 @@ const { findChrome } = require('../scripts/chromeDetection')
 const { createChromeTrace } = require('../src/create-chrome-trace')
 const { writeFile, getUrlToHtmlFile, removeAllFiles } = require('../src/utils')
 
-test('[rti-api]: should contain "tidelta" and "ticount" in mock trace file', t => {
-  const pathToMockTraceFileWithRtiData = path.join(__dirname, '__mock__', 'rti-trace.json')
+if (process.platform !== 'win32') {
+  test('[rti-api]: should contain "tidelta" and "ticount" in mock trace file', t => {
+    const pathToMockTraceFileWithRtiData = path.join(__dirname, '__mock__', 'rti-trace.json')
 
-  if (process.platform !== 'win32') {
     const tideltaGrepResult = execSync(
       `grep 'tidelta' ${pathToMockTraceFileWithRtiData}`
     ).toString()
@@ -21,10 +21,8 @@ test('[rti-api]: should contain "tidelta" and "ticount" in mock trace file', t =
 
     t.is(ticountGrepResult.length > 0, true)
     t.is(ticountGrepResult.includes('"ticount":'), true)
-  } else {
-    t.is('API Not Supported', 'API Not Supported')
-  }
-})
+  })
+}
 
 test('[rti-api]: should throw when RTI API does not support by the platform', async t => {
   const chromeLocation = await findChrome()
