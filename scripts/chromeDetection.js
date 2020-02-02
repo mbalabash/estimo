@@ -196,7 +196,8 @@ async function downloadChromium() {
 
   try {
     console.log(`Downloading Chromium r${revision}...`)
-    const newRevisionInfo = await browserFetcher.download(revisionInfo.revision)
+    const newRevisionInfo = await browserFetcher.download('706915')
+    // const newRevisionInfo = await browserFetcher.download(revisionInfo.revision)
     console.log(`Chromium downloaded to ${newRevisionInfo.folderPath}`)
 
     let localRevisions = await browserFetcher.localRevisions()
