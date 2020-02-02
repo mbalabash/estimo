@@ -240,7 +240,6 @@ async function findChrome() {
   else if (process.platform === 'darwin') executablePath = darwin()
 
   if (typeof executablePath === 'string' && executablePath.length > 0) {
-    // check whether installed Chrome major version is >= 75
     if (await isSuitableVersion(executablePath)) {
       await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
       console.log(`Local Chrome location: ${executablePath}`)
