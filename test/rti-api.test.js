@@ -34,17 +34,14 @@ test('[rti-api]: should not contain "tidelta" and "ticount" in trace file if API
   resources = await createChromeTrace(resources, { executablePath: chromeLocation })
   const pathToTraceFile = resources[0].trace
 
-  try {
-    execSync(`grep 'tidelta' ${pathToTraceFile}`).toString()
-  } catch (err) {
-    t.is(err instanceof Error, true)
-    t.is(err.status, 1)
-    if (process.platform !== 'win32') {
-      t.is(err.message, `Command failed: grep 'tidelta' ${pathToTraceFile}`)
-    }
-  } finally {
-    await removeAllFiles(resources.map(file => file.trace))
-    await removeAllFiles(resources.map(file => file.html))
-    await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
+  const error = t.throws(() => execSync(`grep 'tidelta' ${pathToTraceFile}`).toString())
+  t.is(error instanceof Error, true)
+  t.is(error.status, 1)
+  if (process.platform !== 'win32') {
+    t.is(error.message, `Command failed: grep 'tidelta' ${pathToTraceFile}`)
   }
+
+  await removeAllFiles(resources.map(file => file.trace))
+  await removeAllFiles(resources.map(file => file.html))
+  await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
