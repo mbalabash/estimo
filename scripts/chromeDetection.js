@@ -3,7 +3,7 @@ const path = require('path')
 const { homedir } = require('os')
 const puppeteer = require('puppeteer-core')
 const { execSync, execFileSync } = require('child_process')
-const pptrCoreJson = require('puppeteer-core/package.json')
+// const pptrCoreJson = require('puppeteer-core/package.json')
 const { writeFile } = require('../src/utils')
 
 const MIN_CHROME_VERSION = 77
@@ -184,11 +184,12 @@ async function downloadChromium() {
     host: downloadHost,
   })
 
-  const revision =
-    process.env.PUPPETEER_CHROMIUM_REVISION ||
-    process.env.npm_config_puppeteer_chromium_revision ||
-    process.env.npm_package_config_puppeteer_chromium_revision ||
-    pptrCoreJson.puppeteer.chromium_revision
+  const revision = '706915'
+  // const revision =
+  //   process.env.PUPPETEER_CHROMIUM_REVISION ||
+  //   process.env.npm_config_puppeteer_chromium_revision ||
+  //   process.env.npm_package_config_puppeteer_chromium_revision ||
+  //   pptrCoreJson.puppeteer.chromium_revision
   const revisionInfo = browserFetcher.revisionInfo(revision)
 
   // If already downloaded
@@ -196,8 +197,7 @@ async function downloadChromium() {
 
   try {
     console.log(`Downloading Chromium r${revision}...`)
-    const newRevisionInfo = await browserFetcher.download('706915')
-    // const newRevisionInfo = await browserFetcher.download(revisionInfo.revision)
+    const newRevisionInfo = await browserFetcher.download(revisionInfo.revision)
     console.log(`Chromium downloaded to ${newRevisionInfo.folderPath}`)
 
     let localRevisions = await browserFetcher.localRevisions()
