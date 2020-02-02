@@ -252,14 +252,20 @@ async function findChrome() {
   if (isDownloadSkipped) {
     console.log(
       'Skipping Chromium download. "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" was set in either env variables, ' +
-      'npm config or project config.'
+        'npm config or project config.'
     )
     return undefined
   }
 
   const revisionInfo = await downloadChromium()
   await writeFile(chromeConfigPath, JSON.stringify({ executablePath: revisionInfo.executablePath }))
+  console.log(revisionInfo)
   console.log(`Downloaded Chrome location: ${revisionInfo.executablePath}`)
+  console.log(
+    `Downloaded Chrome version: ${execSync(
+      `"${revisionInfo.executablePath}" --version`
+    ).toString()}`
+  )
   return revisionInfo.executablePath
 }
 
