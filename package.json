@@ -7,7 +7,7 @@
     "install": "node ./scripts/findChrome.js",
     "prettier": "prettier --write -l 'src/**/*.{js,jsx}'",
     "eslint": "eslint --cache src",
-    "test": "ava --exit",
+    "test": "ava --timeout=2m --exit",
     "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js",
     "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp --security-opt seccomp=seccomp-conf.json estimo",
     "docker:it": "docker run --rm --init --privileged -it estimo sh",
