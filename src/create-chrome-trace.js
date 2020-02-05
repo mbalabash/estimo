@@ -9,12 +9,7 @@ const defaultBrowserOptions = {
   executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || chromeConfig.executablePath,
 }
 
-const chromeLaunchArgs = [
-  '--enable-thread-instruction-count',
-  '--no-sandbox',
-  '--disable-setuid-sandbox',
-  '--disable-dev-shm-usage',
-]
+const chromeLaunchArgs = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
 
 async function createBrowserEntity(options) {
   if (options.width && options.height) {
