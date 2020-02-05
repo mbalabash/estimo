@@ -9,7 +9,7 @@
     "eslint": "eslint --cache src",
     "test": "ava --timeout=2m --exit",
     "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js",
-    "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp --security-opt seccomp=seccomp-conf.json estimo",
+    "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp estimo",
     "docker:it": "docker run --rm --init --privileged -it estimo sh",
     "docker:build": "docker build -t estimo .",
     "clean:temp": "rimraf ./temp/*.{html,json}",
