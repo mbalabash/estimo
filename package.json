@@ -1,16 +1,15 @@
 {
   "name": "estimo",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Evaluates how long the browser will execute your javascript code.",
   "main": "index.js",
   "scripts": {
     "install": "node ./scripts/findChrome.js",
     "prettier": "prettier --write -l 'src/**/*.{js,jsx}'",
     "eslint": "eslint --cache src",
-    "test": "ava --timeout=2m --exit",
+    "test": "ava --timeout=3m --exit",
     "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js",
     "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp estimo",
-    "docker:it": "docker run --rm --init --privileged -it estimo sh",
     "docker:build": "docker build -t estimo .",
     "clean:temp": "rimraf ./temp/*.{html,json}",
     "clean:chrome-conf": "node ./scripts/cleanChromeConfig.js"

@@ -2,8 +2,25 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.2
+
+- Add temporary fix for Chrome 80 revision.
+
+- Upgrade `puppeteer-core` to **2.1.0**.
+
+- Enhance NODE_ENV `ESTIMO_DEBUG` output.
+
+- Don't remove temp files in `ESTIMO_DEBUG` mode.
+
+- Add Chrome revision info on npm install hook.
+
+- Style refactoring.
+
+- Update tests.
+
 ## 2.0.1
-- Use `PUPPETEER_EXECUTABLE_PATH` to find chrome execute path if variable available
+
+- Use `PUPPETEER_EXECUTABLE_PATH` to find chrome execute path if variable available.
 
 ## 2.0.0
 
