@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer-core')
 const { execSync, execFileSync } = require('child_process')
 const { writeFile } = require('../src/utils')
 
-const MIN_CHROME_VERSION = 77
+const MIN_CHROME_VERSION = 75
 const LATEST_STABLE_CHROME_VERSION = 79
 const LATEST_STABLE_CHROME_REVISION = '706915'
 
