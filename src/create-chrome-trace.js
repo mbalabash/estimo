@@ -93,6 +93,7 @@ async function createChromeTrace(resources, browserOptions) {
     return process.exit(1)
   } finally {
     await page.close()
+    await context.close()
     await browser.close()
   }
 
