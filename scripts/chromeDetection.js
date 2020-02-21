@@ -6,7 +6,9 @@ const { execSync, execFileSync } = require('child_process')
 const { writeFile } = require('../src/utils')
 
 const MIN_CHROME_VERSION = 77
+const LATEST_STABLE_CHROME_VERSION = 79
 const LATEST_STABLE_CHROME_REVISION = '706915'
+
 const newLineRegex = /\r?\n/
 const chromeTempPath = path.join(__dirname, '..', 'temp', 'chrome')
 const chromeConfigPath = path.join(__dirname, '..', 'chrome.json')
@@ -227,7 +229,7 @@ async function isSuitableVersion(executablePath) {
   const match = versionOutput.match(versionRe)
   if (match && match[2]) {
     const version = +match[2]
-    return version >= MIN_CHROME_VERSION
+    return version >= MIN_CHROME_VERSION && version <= LATEST_STABLE_CHROME_VERSION
   }
   return false
 }
