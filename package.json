@@ -1,6 +1,6 @@
 {
   "name": "estimo",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Evaluates how long the browser will execute your javascript code.",
   "main": "index.js",
   "scripts": {
@@ -16,20 +16,20 @@
   },
   "dependencies": {
     "nanoid": "^2.1.11",
-    "puppeteer-core": "^2.1.0",
+    "puppeteer-core": "^2.1.1",
     "tracium": "^0.2.1",
-    "yargs": "^15.1.0"
+    "yargs": "^15.3.0"
   },
   "devDependencies": {
-    "ava": "^3.1.0",
+    "ava": "^3.5.0",
     "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-import": "^2.20.0",
-    "husky": "^4.2.1",
-    "lint-staged": "^10.0.7",
+    "eslint-plugin-import": "^2.20.1",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
     "prettier": "^1.18.2",
-    "rimraf": "^3.0.1"
+    "rimraf": "^3.0.2"
   },
   "engines": {
     "node": ">=10"

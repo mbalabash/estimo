@@ -2,6 +2,10 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.3
+
+- Fix npm security issue.
+
 ## 2.0.2
 
 - Add temporary fix for Chrome 80 revision.
