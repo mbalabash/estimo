@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "newLine": "LF",
+    "noEmitHelpers": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "suppressExcessPropertyErrors": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "ES2017",
+    "inlineSourceMap": true,
+    "esModuleInterop": true,
+    "stripInternal": true,
+    "importsNotUsedAsValues": "remove",
+    "outDir": "lib",
+    "lib": [
+      "dom",
+      "ES5",
+      "ES2015",
+      "ES2016",
+      "ES2017",
+      "ES2018"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
+}

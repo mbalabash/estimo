@@ -2,34 +2,46 @@
   "name": "estimo",
   "version": "2.0.3",
   "description": "Evaluates how long the browser will execute your javascript code.",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
   "scripts": {
-    "install": "node ./scripts/findChrome.js",
-    "prettier": "prettier --write -l 'src/**/*.{js,jsx}'",
-    "eslint": "eslint --cache src",
-    "test": "ava --timeout=3m --exit",
+    "build": "rimraf lib && tsc -p tsconfig.json",
+    "install": "node ./scripts/find-chrome.js",
+    "prettier": "prettier --write -l 'src/**/*.{ts,tsx}' 'scripts/**/*.js'",
+    "eslint": "eslint -c ./.eslintrc.yml --cache src/**/*.ts scripts/*.js",
+    "test": "ava",
     "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js",
     "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp estimo",
     "docker:build": "docker build -t estimo .",
     "clean:temp": "rimraf ./temp/*.{html,json}",
-    "clean:chrome-conf": "node ./scripts/cleanChromeConfig.js"
+    "clean:chrome-conf": "node ./scripts/clean-chrome-config.js"
   },
   "dependencies": {
+    "debug": "^4.1.1",
     "nanoid": "^2.1.11",
     "puppeteer-core": "^2.1.1",
     "tracium": "^0.2.1",
+    "tslib": "^1.11.1",
     "yargs": "^15.3.0"
   },
   "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/nanoid": "^2.1.0",
+    "@types/puppeteer-core": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
     "ava": "^3.5.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
     "prettier": "^1.18.2",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.3"
   },
   "engines": {
     "node": ">=10"
@@ -40,9 +52,18 @@
   },
   "ava": {
     "concurrency": 1,
+    "timeout": "3m",
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "environmentVariables": {
+      "TS_NODE_PROJECT": "tsconfig.json"
+    },
     "files": [
-      "test/**/*.js",
-      "!test/__mock__/**"
+      "src/**/*.spec.ts"
     ]
   },
   "husky": {
@@ -52,13 +73,11 @@
   },
   "lint-staged": {
     "*.(json)": [
-      "yarn clean:chrome-conf",
-      "git add"
+      "yarn clean:chrome-conf"
     ],
-    "*.(js)": [
+    "*.(ts|js)": [
       "yarn prettier",
-      "yarn eslint",
-      "git add"
+      "yarn eslint"
     ]
   },
   "repository": {

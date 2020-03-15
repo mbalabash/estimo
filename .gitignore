@@ -25,3 +25,4 @@ temp/*.html
 temp/*.json
 temp/chrome/*
 !temp/chrome/.gitkeep
+lib

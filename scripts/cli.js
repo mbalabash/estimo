@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 const path = require('path')
-const { argv } = require('yargs')
+
+const yargs = require('yargs')
+
+const estimo = require('../lib/index')
+
+const { argv } = yargs
   .scriptName('estimo')
   .usage('Usage: $0 [options]')
   .showHelpOnFail(true)
@@ -52,9 +57,7 @@ const { argv } = require('yargs')
   .alias('v', 'version')
   .demandOption(['r'])
 
-const estimo = require('../index');
-
-(async () => {
+;(async () => {
   const { resources } = argv
   const options = {
     device: argv.device || false,
@@ -75,11 +78,18 @@ const estimo = require('../index');
   })
 
   const startTime = Date.now()
-  const report = await estimo(files, options)
+  let report
+  try {
+    report = await estimo(files, options)
+  } catch (e) {
+    console.error(e)
+    process.exit(1)
+  }
+
   const finishTime = Date.now()
 
-  console.log(report)
-  console.log(`Done in ${parseInt(finishTime - startTime, 10)} ms.`)
+  console.info(report)
+  console.info(`Done in ${parseInt(finishTime - startTime, 10)} ms.`)
 
   return report
 })()
