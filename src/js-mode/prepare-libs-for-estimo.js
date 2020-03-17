@@ -15,7 +15,7 @@ async function prepareLibrariesForEstimation(libraries) {
     }
 
     const htmlContent = createHtmlContent(lib)
-    const html = await generateHtmlFile(lib, htmlContent)
+    const html = await generateHtmlFile(htmlContent)
     const name = getLibraryName(lib)
     const url = getUrlToHtmlFile(html)
 

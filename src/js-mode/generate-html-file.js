@@ -17,14 +17,9 @@ function createHtmlContent(library) {
 </html>`
 }
 
-async function generateHtmlFile(library, htmlContent) {
+async function generateHtmlFile(htmlContent) {
   const fileName = resolvePathToTempDir(`${nanoid()}.html`)
-  try {
-    await writeFile(fileName, htmlContent)
-  } catch (error) {
-    console.error(error.stack)
-    return process.exit(1)
-  }
+  await writeFile(fileName, htmlContent)
   return fileName
 }
 

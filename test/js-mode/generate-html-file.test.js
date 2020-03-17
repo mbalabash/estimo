@@ -5,7 +5,7 @@ const { resolvePathToTempDir } = require('../../src/utils')
 const { removeAllFiles } = require('../../src/utils')
 const { generateHtmlFile, createHtmlContent } = require('../../src/js-mode/generate-html-file')
 
-test('should properly generate content for html file', (t) => {
+test('should properly generate content for html file', t => {
   const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
 
   t.is(
@@ -22,13 +22,13 @@ test('should properly generate content for html file', (t) => {
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <h1>Estimo</h1>
   </body>
-</html>`,
+</html>`
   )
 })
 
-test('should properly create html file for one library', async (t) => {
+test('should properly create html file for one library', async t => {
   const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
-  const htmlFile = await generateHtmlFile(lib1, createHtmlContent(lib1))
+  const htmlFile = await generateHtmlFile(createHtmlContent(lib1))
 
   t.is(fs.existsSync(htmlFile), true)
   t.is(htmlFile, resolvePathToTempDir(path.basename(htmlFile)))
@@ -36,12 +36,12 @@ test('should properly create html file for one library', async (t) => {
   await removeAllFiles([htmlFile])
 })
 
-test('should properly create html for few libraries', async (t) => {
+test('should properly create html for few libraries', async t => {
   const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
   const lib2 = 'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js'
 
-  const htmlFile1 = await generateHtmlFile(lib1, createHtmlContent(lib1))
-  const htmlFile2 = await generateHtmlFile(lib2, createHtmlContent(lib2))
+  const htmlFile1 = await generateHtmlFile(createHtmlContent(lib1))
+  const htmlFile2 = await generateHtmlFile(createHtmlContent(lib2))
 
   t.is(fs.existsSync(htmlFile1), true)
   t.is(htmlFile1, resolvePathToTempDir(path.basename(htmlFile1)))
@@ -51,4 +51,3 @@ test('should properly create html for few libraries', async (t) => {
 
   await removeAllFiles([htmlFile1, htmlFile2])
 })
-
