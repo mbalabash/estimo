@@ -27,10 +27,10 @@ function checkInputArgs(resources, browserOptions) {
 
 async function estimo(resources = [], browserOptions = {}) {
   checkInputArgs(resources, browserOptions)
+  let reports = []
 
   try {
     const { pages, libraries } = splitResourcesForEstimo(resources)
-    let reports = []
 
     debugLog(`\n[estimo]: Found next js files: ${libraries}\n`)
     debugLog(`\n[estimo]: Found next web pages: ${pages}\n`)
@@ -44,12 +44,11 @@ async function estimo(resources = [], browserOptions = {}) {
     }
 
     debugLog(`\n[estimo]: Result reports: ${JSON.stringify(reports)}\n`)
-
-    return reports
   } catch (error) {
-    console.error(error.stack)
-    return process.exit(1)
+    console.error(error)
   }
+
+  return reports
 }
 
 module.exports = estimo
