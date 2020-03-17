@@ -2,6 +2,14 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.4
+
+- Fix estimo types.
+
+- Remove `process.exit` for plugable use cases.
+
+- Get `MIN_CHROME_VERSION` from environment or use predefined version.
+
 ## 2.0.3
 
 - Fix npm security issue.
