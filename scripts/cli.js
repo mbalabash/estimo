@@ -52,9 +52,11 @@ const { argv } = require('yargs')
   .alias('v', 'version')
   .demandOption(['r'])
 
-const estimo = require('../index');
+const { isUrl } = require('../src/utils')
+const estimo = require('../index')
 
-(async () => {
+// eslint-disable-next-line import/newline-after-import
+;(async () => {
   const { resources } = argv
   const options = {
     device: argv.device || false,
@@ -67,19 +69,27 @@ const estimo = require('../index');
     uploadThroughput: argv.upload || 0,
     connectionType: argv.connection || 'none',
   }
+
   const files = resources.map(lib => {
-    if (/^http/.test(lib)) {
+    if (isUrl(lib)) {
       return lib
     }
     return path.resolve(lib)
   })
 
-  const startTime = Date.now()
-  const report = await estimo(files, options)
-  const finishTime = Date.now()
+  let report = null
 
-  console.log(report)
-  console.log(`Done in ${parseInt(finishTime - startTime, 10)} ms.`)
+  try {
+    const startTime = Date.now()
+    report = await estimo(files, options)
+    const finishTime = Date.now()
+
+    console.log(report)
+    console.log(`Done in ${parseInt(finishTime - startTime, 10)} ms.`)
+  } catch (error) {
+    console.error(error)
+    process.exit(1)
+  }
 
   return report
 })()
