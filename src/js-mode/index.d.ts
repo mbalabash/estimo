@@ -1,4 +1,4 @@
-import { BrowserOptions } from '../@types/browserOptions'
-import { Report } from '../@types/report'
+import { BrowserOptions } from '../_types/browserOptions'
+import { Report } from '../_types/report'
 
 export declare function estimoJsMode(libraries: string[], browserOptions: BrowserOptions): Report[]
