@@ -28,7 +28,9 @@ async function createBrowserEntity(options) {
   return browser
 }
 
-async function setupPageEntity(page, options) {
+async function createPageEntity(context, options) {
+  const page = await context.newPage()
+
   if (options.userAgent) {
     await page.setUserAgent(options.userAgent)
   }
@@ -48,6 +50,8 @@ async function setupPageEntity(page, options) {
   page.on('error', msg => {
     throw msg
   })
+
+  return page
 }
 
 async function setupCdpEntity(cdpSession, options) {
@@ -72,25 +76,24 @@ async function createChromeTrace(resources, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
   const browser = await createBrowserEntity(options)
   const context = await browser.createIncognitoBrowserContext()
-
-  const page = await context.newPage()
-  await setupPageEntity(page, options)
-
+  const page = await createPageEntity(context, options)
   const cdpSession = await page.target().createCDPSession()
-  await setupCdpEntity(cdpSession, options)
 
+  await setupCdpEntity(cdpSession, options)
   const resourcesWithTrace = []
+
   try {
     for (const item of resources) {
       const traceFile = resolvePathToTempDir(`${nanoid()}.json`)
+
       await page.tracing.start({ path: traceFile })
       await page.goto(item.url, { timeout: options.timeout })
       await page.tracing.stop()
+
       resourcesWithTrace.push({ ...item, trace: traceFile })
     }
   } catch (error) {
     console.error(error)
-    return process.exit(1)
   } finally {
     await page.close()
     await context.close()

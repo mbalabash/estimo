@@ -12,20 +12,23 @@ function resolvePathToTempDir(fileName, tempDir = '../temp/') {
 
 function debugLog(msg) {
   if (process.env.ESTIMO_DEBUG) {
-    console.log(msg)
+    console.info(msg)
   }
 }
 
 async function readFile(filePath) {
+  let content
+
   try {
     if (!fs.existsSync(filePath)) {
       throw new Error(`${filePath} - file not exist!`)
     }
-    return await read(filePath, 'utf8')
+    content = await read(filePath, 'utf8')
   } catch (error) {
     console.error(error.stack)
-    return process.exit(1)
   }
+
+  return content
 }
 
 async function writeFile(filePath, content) {
@@ -33,8 +36,7 @@ async function writeFile(filePath, content) {
     await write(filePath, content)
     debugLog(`\n[estimo]: The file has been written: ${filePath}\n`)
   } catch (error) {
-    console.error(error.stack)
-    process.exit(1)
+    console.error(error)
   }
 }
 
@@ -44,7 +46,6 @@ async function deleteFile(filePath) {
     debugLog(`\n[estimo]: The file has been removed: ${filePath}\n`)
   } catch (error) {
     console.error(error)
-    process.exit(1)
   }
 }
 
