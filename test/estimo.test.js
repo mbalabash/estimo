@@ -1,6 +1,6 @@
 const test = require('ava')
 const path = require('path')
-const estimo = require('../src/lib')
+const estimo = require('../src')
 const { writeFile, getUrlToHtmlFile } = require('../src/utils')
 const { findChrome } = require('../scripts/chromeDetection')
 
