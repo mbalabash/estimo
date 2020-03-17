@@ -5,7 +5,15 @@ const puppeteer = require('puppeteer-core')
 const { execSync, execFileSync } = require('child_process')
 const { writeFile } = require('../src/utils')
 
-const MIN_CHROME_VERSION = 75
+const MIN_CHROME_VERSION = parseInt(
+  process.env.MIN_CHROME_VERSION ||
+    process.env.NPM_CONFIG_MIN_CHROME_VERSION ||
+    process.env.npm_config_min_chrome_version ||
+    process.env.NPM_PACKAGE_CONFIG_MIN_CHROME_VERSION ||
+    process.env.npm_package_config_min_chrome_version ||
+    '75',
+  10
+)
 const LATEST_STABLE_CHROME_VERSION = 79
 const LATEST_STABLE_CHROME_REVISION = '706915'
 
@@ -197,9 +205,9 @@ async function downloadChromium() {
   if (revisionInfo.local) return revisionInfo
 
   try {
-    console.log(`Downloading Chromium r${revision}...`)
+    console.info(`Downloading Chromium r${revision}...`)
     const newRevisionInfo = await browserFetcher.download(revisionInfo.revision)
-    console.log(`Chromium downloaded to ${newRevisionInfo.folderPath}`)
+    console.info(`Chromium downloaded to ${newRevisionInfo.folderPath}`)
 
     let localRevisions = await browserFetcher.localRevisions()
     localRevisions = localRevisions.filter(r => r !== revisionInfo.revision)
@@ -244,17 +252,19 @@ async function findChrome() {
   if (typeof executablePath === 'string' && executablePath.length > 0) {
     if (await isSuitableVersion(executablePath)) {
       await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
-      console.log(`Local Chrome location: ${executablePath}`)
+      console.info(`Local Chrome location: ${executablePath}`)
       if (process.platform !== 'win32') {
-        console.log(`Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`)
+        console.info(
+          `Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`
+        )
       }
       return executablePath
     }
-    console.log('Local Chrome version is not suitable')
+    console.info('Local Chrome version is not suitable')
   }
 
   if (isDownloadSkipped) {
-    console.log(
+    console.info(
       'Skipping Chromium download. "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" was set in either env variables, ' +
         'npm config or project config.'
     )
@@ -263,9 +273,9 @@ async function findChrome() {
 
   const revisionInfo = await downloadChromium()
   await writeFile(chromeConfigPath, JSON.stringify({ executablePath: revisionInfo.executablePath }))
-  console.log(`Downloaded Chrome location: ${revisionInfo.executablePath}`)
+  console.info(`Downloaded Chrome location: ${revisionInfo.executablePath}`)
   if (process.platform !== 'win32') {
-    console.log(
+    console.info(
       `Downloaded Chrome version: ${execSync(
         `"${revisionInfo.executablePath}" --version`
       ).toString()}`
