@@ -137,6 +137,10 @@ async function removeAllFiles(files) {
   }
 }
 
+function existsAsync(filePath) {
+  return fs.promises.stat(filePath).catch(() => false)
+}
+
 module.exports = {
   splitResourcesForEstimo,
   resolvePathToTempDir,
@@ -145,6 +149,7 @@ module.exports = {
   checkEstimoArgs,
   getLibraryName,
   removeAllFiles,
+  existsAsync,
   deleteFile,
   writeFile,
   isJsFile,

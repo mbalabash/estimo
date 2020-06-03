@@ -1,11 +1,5 @@
-const { existsSync } = require('fs')
-const { getLibraryName, getUrlToHtmlFile, debugLog, isUrl } = require('../utils')
+const { getLibraryName, getUrlToHtmlFile, debugLog, isUrl, existsAsync } = require('../utils')
 const { createHtmlContent, generateHtmlFile } = require('./generate-html-file')
-
-// TODO: Test existsAsync
-// function existsAsync(filePath) {
-//   return fs.promises.stat(filePath).catch(() => false)
-// }
 
 async function prepareLibrariesForEstimation(libraries) {
   const resources = []
@@ -14,7 +8,8 @@ async function prepareLibrariesForEstimation(libraries) {
     debugLog(`\n[js-mode]: ------------------------------------------`)
     debugLog(`[js-mode]: Preparing file: ${lib}`)
 
-    if (!isUrl(lib) && !existsSync(lib)) {
+    const isFileExist = await existsAsync(lib)
+    if (!isUrl(lib) && !isFileExist) {
       debugLog(`[js-mode]: Local file: ${lib} - not exist!`)
       throw new Error(`${lib} - file not exist!`)
     }
