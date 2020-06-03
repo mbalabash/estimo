@@ -1,10 +1,10 @@
 const test = require('ava')
 const path = require('path')
-const estimo = require('../src')
+const estimo = require('../src/lib')
 const { writeFile, getUrlToHtmlFile } = require('../src/utils')
 const { findChrome } = require('../scripts/chromeDetection')
 
-test('estimo - should works properly with js files', async t => {
+test('estimo - should works properly with js files', async (t) => {
   const chromeLocation = await findChrome()
 
   const lib1 = path.join(__dirname, '__mock__', '19kb.js')
@@ -49,7 +49,7 @@ test('estimo - should works properly with js files', async t => {
   await writeFile(path.join(__dirname, '../..', 'chrome.json'), '{ "executablePath": "" }')
 })
 
-test('estimo - should works properly with web pages', async t => {
+test('estimo - should works properly with web pages', async (t) => {
   const chromeLocation = await findChrome()
 
   const page = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
@@ -76,7 +76,7 @@ test('estimo - should works properly with web pages', async t => {
   await writeFile(path.join(__dirname, '../..', 'chrome.json'), '{ "executablePath": "" }')
 })
 
-test('estimo - should works properly with mixed resources', async t => {
+test('estimo - should works properly with mixed resources', async (t) => {
   const chromeLocation = await findChrome()
 
   const page = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
