@@ -5,15 +5,22 @@
   "main": "index.js",
   "scripts": {
     "install": "node ./scripts/findChrome.js",
-    "prettier": "prettier --write -l 'src/**/*.{js,jsx}'",
+    "prettier": "prettier --write -l '(src|tests)/**/*.js'",
     "eslint": "eslint --cache src",
-    "test": "ava --timeout=3m --exit",
-    "test:launch": "ESTIMO_DEBUG=true node ./test/__mock__/test-launch.js",
-    "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp estimo",
-    "docker:build": "docker build -t estimo .",
+    "test": "ava --timeout=4m --exit",
     "clean:temp": "rimraf ./temp/*.{html,json}",
-    "clean:chrome-conf": "node ./scripts/cleanChromeConfig.js"
+    "clean:chrome-config": "node ./scripts/cleanChromeConfig.js",
+    "docker:build": "docker build -t estimo .",
+    "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp estimo",
+    "test:launch": "ESTIMO_DEBUG=true node ./tests/__mock__/test-launch.js"
   },
+  "bin": {
+    "estimo": "./scripts/cli.js"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "preferGlobal": true,
   "dependencies": {
     "nanoid": "^3.1.9",
     "puppeteer-core": "^3.3.0",
@@ -21,6 +28,8 @@
     "yargs": "^15.3.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "ava": "^3.8.2",
     "eslint": "^7.1.0",
     "eslint-config-airbnb": "^18.1.0",
@@ -31,28 +40,22 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2"
   },
-  "engines": {
-    "node": ">=10"
-  },
-  "preferGlobal": true,
-  "bin": {
-    "estimo": "./scripts/cli.js"
-  },
   "ava": {
     "concurrency": 1,
     "files": [
-      "test/**/*.js",
-      "!test/__mock__/**"
+      "tests/**/*.js",
+      "!tests/__mock__/**"
     ]
   },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "*.(json)": [
-      "yarn clean:chrome-conf",
+      "yarn clean:chrome-config",
       "git add"
     ],
     "*.(js)": [
