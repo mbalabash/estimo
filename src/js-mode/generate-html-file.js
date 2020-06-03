@@ -1,4 +1,4 @@
-const nanoid = require('nanoid')
+const { nanoid } = require('nanoid')
 const { writeFile, resolvePathToTempDir } = require('../utils')
 
 function createHtmlContent(library) {
