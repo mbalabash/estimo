@@ -1,5 +1,5 @@
+const { nanoid } = require('nanoid')
 const puppeteer = require('puppeteer-core')
-const nanoid = require('nanoid')
 const { megabitsToBytes, resolvePathToTempDir } = require('./utils')
 const chromeConfig = require('../chrome.json')
 
@@ -47,7 +47,8 @@ async function createPageEntity(context, options) {
       throw new Error(`${options.device} - unknown Device option!`)
     }
   }
-  page.on('error', msg => {
+
+  page.on('error', (msg) => {
     throw msg
   })
 
@@ -74,15 +75,20 @@ async function setupCdpEntity(cdpSession, options) {
 
 async function createChromeTrace(resources, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
-  const browser = await createBrowserEntity(options)
-  const context = await browser.createIncognitoBrowserContext()
-  const page = await createPageEntity(context, options)
-  const cdpSession = await page.target().createCDPSession()
-
-  await setupCdpEntity(cdpSession, options)
   const resourcesWithTrace = []
+  let browser = null
+  let context = null
+  let page = null
+  let cdpSession = null
 
   try {
+    browser = await createBrowserEntity(options)
+    context = await browser.createIncognitoBrowserContext()
+    page = await createPageEntity(context, options)
+    cdpSession = await page.target().createCDPSession()
+
+    await setupCdpEntity(cdpSession, options)
+
     for (const item of resources) {
       const traceFile = resolvePathToTempDir(`${nanoid()}.json`)
 
@@ -90,7 +96,7 @@ async function createChromeTrace(resources, browserOptions) {
       await page.goto(item.url, { timeout: options.timeout })
       await page.tracing.stop()
 
-      resourcesWithTrace.push({ ...item, trace: traceFile })
+      resourcesWithTrace.push({ ...item, tracePath: traceFile })
     }
   } catch (error) {
     console.error(error)

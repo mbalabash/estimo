@@ -2,6 +2,11 @@ const { existsSync } = require('fs')
 const { getLibraryName, getUrlToHtmlFile, debugLog, isUrl } = require('../utils')
 const { createHtmlContent, generateHtmlFile } = require('./generate-html-file')
 
+// TODO: Test existsAsync
+// function existsAsync(filePath) {
+//   return fs.promises.stat(filePath).catch(() => false)
+// }
+
 async function prepareLibrariesForEstimation(libraries) {
   const resources = []
 
@@ -26,7 +31,7 @@ async function prepareLibrariesForEstimation(libraries) {
     debugLog(`[js-mode]: Html content: ${htmlContent}`)
     debugLog(`[js-mode]: ------------------------------------------\n`)
 
-    resources.push({ name, url, html })
+    resources.push({ name, url, htmlPath: html })
   }
 
   return resources

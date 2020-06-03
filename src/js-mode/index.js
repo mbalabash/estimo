@@ -1,7 +1,7 @@
 const { prepareLibrariesForEstimation } = require('./prepare-libs-for-estimo')
 const { createChromeTrace } = require('../create-chrome-trace')
-const { generatePrettyReport } = require('../reporter')
 const { removeAllFiles, debugLog } = require('../utils')
+const { generatePrettyReport } = require('../reporter')
 
 async function estimoJsMode(libraries, browserOptions) {
   let resources = await prepareLibrariesForEstimation(libraries)
@@ -14,8 +14,8 @@ async function estimoJsMode(libraries, browserOptions) {
   debugLog(`\n[js-mode]: Got reports for js files: ${JSON.stringify(reports)}\n`)
 
   if (!process.env.ESTIMO_DEBUG) {
-    await removeAllFiles(resources.map(item => item.html))
-    await removeAllFiles(resources.map(item => item.trace))
+    await removeAllFiles(resources.map((item) => item.htmlPath))
+    await removeAllFiles(resources.map((item) => item.tracePath))
   }
 
   return reports
