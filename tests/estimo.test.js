@@ -46,5 +46,5 @@ test('estimo - should works properly with mixed resources', async (t) => {
   t.is(typeof reports[1].other === 'number' && reports[1].other >= 0, true)
   t.is(typeof reports[1].total === 'number' && reports[1].total > 0, true)
 
-  await writeFile(path.join(__dirname, '../..', 'chrome.json'), '{ "executablePath": "" }')
+  await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
