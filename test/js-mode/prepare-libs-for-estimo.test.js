@@ -14,22 +14,22 @@ test('should properly prepare resources for Estimo', async (t) => {
   t.is(resources[0].url.includes('file://'), true)
   t.is(resources[0].url.includes('temp'), true)
   t.is(resources[0].url.includes('.html'), true)
-  t.is(resources[0].html.includes('temp'), true)
-  t.is(resources[0].html.includes('.html'), true)
+  t.is(resources[0].htmlPath.includes('temp'), true)
+  t.is(resources[0].htmlPath.includes('.html'), true)
 
   t.is(resources[1].name, '13kb.js')
   t.is(resources[1].url.includes('file://'), true)
   t.is(resources[1].url.includes('temp'), true)
   t.is(resources[1].url.includes('.html'), true)
-  t.is(resources[1].html.includes('temp'), true)
-  t.is(resources[1].html.includes('.html'), true)
+  t.is(resources[1].htmlPath.includes('temp'), true)
+  t.is(resources[1].htmlPath.includes('.html'), true)
 
   t.is(resources[2].name, 'react.development.js')
   t.is(resources[2].url.includes('file://'), true)
   t.is(resources[2].url.includes('temp'), true)
   t.is(resources[2].url.includes('.html'), true)
-  t.is(resources[2].html.includes('temp'), true)
-  t.is(resources[2].html.includes('.html'), true)
+  t.is(resources[2].htmlPath.includes('temp'), true)
+  t.is(resources[2].htmlPath.includes('.html'), true)
 })
 
 test('should throw an error for not existed local js files', async (t) => {
