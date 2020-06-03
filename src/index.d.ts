@@ -1,4 +1,4 @@
-import { BrowserOptions } from './_types/browserOptions'
-import { Report } from './_types/report'
+import { BrowserOptions } from './@types/browserOptions'
+import { Report } from './@types/report'
 
 export declare function estimo(resources: string[], browserOptions: BrowserOptions): Report[]

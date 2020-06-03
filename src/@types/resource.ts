@@ -1,6 +1,6 @@
 export interface Resource {
   name: string
-  trace: string
-  html?: string
+  tracePath: string
+  htmlPath?: string
   url?: string
 }
