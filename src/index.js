@@ -10,7 +10,7 @@ function checkInputArgs(resources, browserOptions) {
     )
   }
   if (Array.isArray(resources)) {
-    resources.forEach(item => {
+    resources.forEach((item) => {
       if (typeof item !== 'string') {
         throw new Error(
           'All resources should be represented as a <String> path to the resource (js file or web page).'

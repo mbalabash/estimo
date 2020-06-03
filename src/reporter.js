@@ -22,7 +22,9 @@ async function generatePrettyReport(resources) {
 
   for (const item of resources) {
     debugLog(`\n[report]: Processing resource: ${JSON.stringify(item)}\n`)
-    const tasks = await generateTasksReport(item.trace)
+
+    const tasks = await generateTasksReport(item.tracePath)
+
     const htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
     const styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))
     const renderTime = getEventsTime(tasks.filter(({ kind }) => kind === 'paintCompositeRender'))
