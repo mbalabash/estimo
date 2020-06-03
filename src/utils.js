@@ -16,6 +16,51 @@ function debugLog(msg) {
   }
 }
 
+function getUrlToHtmlFile(file) {
+  return `file://${path.resolve(file)}`
+}
+
+function megabitsToBytes(megabits) {
+  return (megabits * 1024 * 1024) / 8
+}
+
+function getLibraryName(lib) {
+  if (/^https?/.test(lib)) {
+    return lib.substring(lib.lastIndexOf('/') + 1)
+  }
+  return path.basename(lib)
+}
+
+function isJsFile(p) {
+  const JS_FILES = /\.m?js$/i
+  return JS_FILES.test(path.extname(path.basename(p)))
+}
+
+function isUrl(p) {
+  const WEB_URLS = /^(https?|file):/
+  return WEB_URLS.test(p)
+}
+
+function splitResourcesForEstimo(resources) {
+  const items = Array.isArray(resources) ? resources : [resources]
+  const libraries = []
+  const pages = []
+
+  items.forEach((item) => {
+    if (isJsFile(item)) {
+      libraries.push(item)
+    } else if (isUrl(item) && !isJsFile(item)) {
+      pages.push(item)
+    } else {
+      throw new Error(
+        'Estimo works only with resources which are (paths to js files) OR (urls to web pages) (<String> OR <Array<String>>)'
+      )
+    }
+  })
+
+  return { libraries, pages }
+}
+
 async function readFile(filePath) {
   let content
 
@@ -25,7 +70,7 @@ async function readFile(filePath) {
     }
     content = await read(filePath, 'utf8')
   } catch (error) {
-    console.error(error.stack)
+    console.error(error)
   }
 
   return content
@@ -49,57 +94,16 @@ async function deleteFile(filePath) {
   }
 }
 
-function getUrlToHtmlFile(file) {
-  return `file://${path.resolve(file)}`
-}
-
-function megabitsToBytes(megabits) {
-  return (megabits * 1024 * 1024) / 8
-}
-
 async function removeAllFiles(files) {
-  for (const file of files) {
-    if (file) {
-      await deleteFile(file)
+  try {
+    for (const file of files) {
+      if (typeof file === 'string') {
+        await deleteFile(file)
+      }
     }
+  } catch (error) {
+    console.error(error)
   }
-}
-
-function getLibraryName(lib) {
-  if (/^http/.test(lib)) {
-    return lib.substring(lib.lastIndexOf('/') + 1)
-  }
-  return path.basename(lib)
-}
-
-function isJsFile(p) {
-  const JS_FILES = /\.m?js$/i
-  return JS_FILES.test(path.extname(path.basename(p)))
-}
-
-function isUrl(p) {
-  const WEB_URLS = /^(https?|file):/
-  return WEB_URLS.test(p)
-}
-
-function splitResourcesForEstimo(resources) {
-  const items = Array.isArray(resources) ? resources : [resources]
-  const pages = []
-  const libraries = []
-
-  items.forEach(item => {
-    if (isJsFile(item)) {
-      libraries.push(item)
-    } else if (isUrl(item) && !isJsFile(item)) {
-      pages.push(item)
-    } else {
-      throw new Error(
-        `Estimo works only with resources which is path to js files OR url to pages (<String> OR <Array<String>>)`
-      )
-    }
-  })
-
-  return { libraries, pages }
 }
 
 module.exports = {
