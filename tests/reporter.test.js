@@ -1,13 +1,13 @@
 const test = require('ava')
 const { formatTime, getEventsTime } = require('../src/reporter')
 
-test('[formatTime]: should properly format time', t => {
+test('[formatTime]: should properly format time', (t) => {
   t.is(formatTime(11.2223123131231), 11.22)
   t.is(formatTime('11.226'), 11.23)
   t.is(formatTime(11), 11.0)
 })
 
-test('[getEventsTime]: should properly calculate time which spent by some group of tasks', t => {
+test('[getEventsTime]: should properly calculate time which spent by some group of tasks', (t) => {
   const events1 = [{ selfTime: 11.11 }, { selfTime: 2.43 }, { selfTime: 7.16 }]
   const events2 = [{ selfTime: 80.0 }]
   const events3 = [

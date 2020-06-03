@@ -52,7 +52,7 @@ function splitResourcesForEstimo(resources) {
     } else if (isUrl(item) && !isJsFile(item)) {
       pages.push(item)
     } else {
-      throw new Error(
+      throw new TypeError(
         'Estimo works only with resources which are (paths to js files) OR (urls to web pages) (<String> OR <Array<String>>)'
       )
     }
@@ -63,21 +63,30 @@ function splitResourcesForEstimo(resources) {
 
 function checkEstimoArgs(resources, browserOptions) {
   if (typeof resources !== 'string' && !Array.isArray(resources)) {
-    throw new Error(
+    throw new TypeError(
       'The first argument should be String or Array<String> which contains a path to the resource (js file or web page).'
     )
   }
   if (Array.isArray(resources)) {
+    if (resources.length === 0) {
+      throw new TypeError(
+        'All resources should be represented as a <String> path to the resource (js file or web page).'
+      )
+    }
     resources.forEach((item) => {
       if (typeof item !== 'string') {
-        throw new Error(
+        throw new TypeError(
           'All resources should be represented as a <String> path to the resource (js file or web page).'
         )
       }
     })
   }
-  if (typeof browserOptions !== 'object' || browserOptions.constructor !== Object) {
-    throw new Error(
+  if (
+    typeof browserOptions !== 'object' ||
+    browserOptions === null ||
+    (typeof browserOptions === 'object' && browserOptions.constructor !== Object)
+  ) {
+    throw new TypeError(
       'The second argument should be an Object which contains browser options (see https://github.com/mbalabash/estimo#additional-use-cases).'
     )
   }

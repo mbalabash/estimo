@@ -1,17 +1,16 @@
 const test = require('ava')
 const path = require('path')
-const { estimoPageMode } = require('../../src/page-mode')
+const { writeFile } = require('../../src/utils')
+const { estimoJsMode } = require('../../src/js-mode')
 const { findChrome } = require('../../scripts/chromeDetection')
-const { writeFile, getUrlToHtmlFile } = require('../../src/utils')
 
-test('estimoPageMode - should works properly', async t => {
+test('estimoJsMode - should works properly', async (t) => {
   const chromeLocation = await findChrome()
 
-  const page = getUrlToHtmlFile(path.join(__dirname, '..', '__mock__', 'test.html'))
+  const lib1 = path.join(__dirname, '..', '__mock__', '19kb.js')
+  const reports = await estimoJsMode([lib1], { executablePath: chromeLocation })
 
-  const reports = await estimoPageMode([page], { executablePath: chromeLocation })
-
-  t.is(reports[0].name, page)
+  t.is(reports[0].name, '19kb.js')
   t.is(typeof reports[0].parseHTML === 'number' && reports[0].parseHTML >= 0, true)
   t.is(typeof reports[0].styleLayout === 'number' && reports[0].styleLayout >= 0, true)
   t.is(

@@ -1,11 +1,11 @@
 const fs = require('fs')
 const test = require('ava')
 const path = require('path')
-const { resolvePathToTempDir } = require('../../src/utils')
 const { removeAllFiles } = require('../../src/utils')
+const { resolvePathToTempDir } = require('../../src/utils')
 const { generateHtmlFile, createHtmlContent } = require('../../src/js-mode/generate-html-file')
 
-test('should properly generate content for html file', t => {
+test('should properly generate content for html file', (t) => {
   const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
 
   t.is(
@@ -26,7 +26,7 @@ test('should properly generate content for html file', t => {
   )
 })
 
-test('should properly create html file for one library', async t => {
+test('should properly create html file for one library', async (t) => {
   const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
   const htmlFile = await generateHtmlFile(createHtmlContent(lib1))
 
@@ -36,7 +36,7 @@ test('should properly create html file for one library', async t => {
   await removeAllFiles([htmlFile])
 })
 
-test('should properly create html for few libraries', async t => {
+test('should properly create html for few libraries', async (t) => {
   const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
   const lib2 = 'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js'
 

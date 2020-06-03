@@ -10990,7 +10990,7 @@
         "data": {
           "requestId": "9503.2",
           "frame": "3BF949D7167585A91C911D01C387557E",
-          "url": "file:///home/user/estimo/test/__mock__/19kb.js",
+          "url": "file:///home/user/estimo/tests/__mock__/19kb.js",
           "requestMethod": "GET",
           "priority": "High"
         }
@@ -11385,7 +11385,7 @@
       "name": "v8.compile",
       "tts": 35295,
       "ticount": 45498228,
-      "args": { "fileName": "file:///home/user/estimo/test/__mock__/19kb.js" }
+      "args": { "fileName": "file:///home/user/estimo/tests/__mock__/19kb.js" }
     },
     {
       "pid": 9503,
@@ -11398,7 +11398,7 @@
       "ticount": 47171081,
       "args": {
         "data": {
-          "url": "file:///home/user/estimo/test/__mock__/19kb.js",
+          "url": "file:///home/user/estimo/tests/__mock__/19kb.js",
           "lineNumber": 1,
           "columnNumber": 1,
           "streamed": false,
@@ -11420,7 +11420,7 @@
       "ticount": 45495292,
       "args": {
         "data": {
-          "url": "file:///home/user/estimo/test/__mock__/19kb.js",
+          "url": "file:///home/user/estimo/tests/__mock__/19kb.js",
           "lineNumber": 1,
           "columnNumber": 1,
           "frame": "3BF949D7167585A91C911D01C387557E"

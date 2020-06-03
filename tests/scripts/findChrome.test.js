@@ -3,7 +3,7 @@ const path = require('path')
 const { readFile, writeFile } = require('../../src/utils')
 const { findChrome } = require('../../scripts/chromeDetection')
 
-test('should set location setting for downloaded or local chrome', async t => {
+test('should set location setting for downloaded or local chrome', async (t) => {
   const pathToChrome = await findChrome()
   const configData = JSON.parse(await readFile(path.join(__dirname, '../..', 'chrome.json')))
 

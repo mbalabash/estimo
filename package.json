@@ -14,13 +14,9 @@
     "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp estimo",
     "test:launch": "ESTIMO_DEBUG=true node ./tests/__mock__/test-launch.js"
   },
-  "bin": {
-    "estimo": "./scripts/cli.js"
-  },
   "engines": {
     "node": ">=10"
   },
-  "preferGlobal": true,
   "dependencies": {
     "nanoid": "^3.1.9",
     "puppeteer-core": "^3.3.0",
@@ -40,13 +36,10 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2"
   },
-  "ava": {
-    "concurrency": 1,
-    "files": [
-      "tests/**/*.js",
-      "!tests/__mock__/**"
-    ]
+  "bin": {
+    "estimo": "./scripts/cli.js"
   },
+  "preferGlobal": true,
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
@@ -62,6 +55,13 @@
       "yarn prettier",
       "yarn eslint",
       "git add"
+    ]
+  },
+  "ava": {
+    "concurrency": 1,
+    "files": [
+      "tests/**/*.js",
+      "!tests/__mock__/**"
     ]
   },
   "repository": {

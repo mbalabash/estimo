@@ -1,16 +1,16 @@
 const test = require('ava')
 const path = require('path')
-const { findChrome } = require('../../scripts/chromeDetection')
-const { estimoJsMode } = require('../../src/js-mode')
-const { writeFile } = require('../../src/utils')
+const estimo = require('../src/lib')
+const { writeFile, getUrlToHtmlFile } = require('../src/utils')
+const { findChrome } = require('../scripts/chromeDetection')
 
-test('estimoJsMode - should works properly', async t => {
+test('estimo - should works properly with mixed resources', async (t) => {
   const chromeLocation = await findChrome()
 
-  const lib1 = path.join(__dirname, '..', '__mock__', '19kb.js')
-  const lib2 = path.join(__dirname, '..', '__mock__', '13kb.js')
+  const page = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
+  const lib = path.join(__dirname, '__mock__', '19kb.js')
 
-  const reports = await estimoJsMode([lib1, lib2], { executablePath: chromeLocation })
+  const reports = await estimo([lib, page], { executablePath: chromeLocation })
 
   t.is(reports[0].name, '19kb.js')
   t.is(typeof reports[0].parseHTML === 'number' && reports[0].parseHTML >= 0, true)
@@ -29,7 +29,7 @@ test('estimoJsMode - should works properly', async t => {
   t.is(typeof reports[0].other === 'number' && reports[0].other >= 0, true)
   t.is(typeof reports[0].total === 'number' && reports[0].total > 0, true)
 
-  t.is(reports[1].name, '13kb.js')
+  t.is(reports[1].name, page)
   t.is(typeof reports[1].parseHTML === 'number' && reports[1].parseHTML >= 0, true)
   t.is(typeof reports[1].styleLayout === 'number' && reports[1].styleLayout >= 0, true)
   t.is(
