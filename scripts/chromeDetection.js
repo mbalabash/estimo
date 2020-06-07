@@ -195,17 +195,12 @@ async function downloadChromium() {
     host: downloadHost,
   })
 
-  const revision = '752820'
-  // const revision = '753228'
-  // const revision = '754047'
-  // const revision = '754370'
-  // const revision = '754727'
-  // const revision = '755142'
-  // const revision = '755528'
-  // const revision = '756066'
-  // const revision = '756035'
+  const revision = '756035'
 
-  // CHROME 81 --
+  // TODO: REVISIONS FOR BAN:
+  // CHROME 80:
+  // CHROME 81:
+  // CHROME 83:
 
   // const revision =
   //   process.env.PUPPETEER_CHROMIUM_REVISION ||
