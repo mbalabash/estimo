@@ -195,8 +195,8 @@ async function downloadChromium() {
     host: downloadHost,
   })
 
-  const revision = '737173'
-  // const revision = '737027'
+  const revision = '737027'
+  // const revision = '737173' --
 
   // const revision =
   //   process.env.PUPPETEER_CHROMIUM_REVISION ||
