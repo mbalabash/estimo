@@ -195,14 +195,11 @@ async function downloadChromium() {
     host: downloadHost,
   })
 
-  const revision = '706915'
-  // const revision = '756035'
-
-  // const revision =
-  //   process.env.PUPPETEER_CHROMIUM_REVISION ||
-  //   process.env.npm_config_puppeteer_chromium_revision ||
-  //   process.env.npm_package_config_puppeteer_chromium_revision ||
-  //   puppeteerCorePackageJson.puppeteer.chromium_revision
+  const revision =
+    process.env.PUPPETEER_CHROMIUM_REVISION ||
+    process.env.npm_config_puppeteer_chromium_revision ||
+    process.env.npm_package_config_puppeteer_chromium_revision ||
+    puppeteerCorePackageJson.puppeteer.chromium_revision
 
   const revisionInfo = browserFetcher.revisionInfo(revision)
 
@@ -256,19 +253,19 @@ async function findChrome() {
   else if (process.platform === 'win32') executablePath = win32()
   else if (process.platform === 'darwin') executablePath = darwin()
 
-  // if (typeof executablePath === 'string' && executablePath.length > 0) {
-  //   if (await isSuitableVersion(executablePath)) {
-  //     await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
-  //     console.info(`Local Chrome location: ${executablePath}`)
-  //     if (process.platform !== 'win32') {
-  //       console.info(
-  //         `Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`
-  //       )
-  //     }
-  //     return executablePath
-  //   }
-  //   console.info('Local Chrome version is not suitable')
-  // }
+  if (typeof executablePath === 'string' && executablePath.length > 0) {
+    if (await isSuitableVersion(executablePath)) {
+      await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
+      console.info(`Local Chrome location: ${executablePath}`)
+      if (process.platform !== 'win32') {
+        console.info(
+          `Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`
+        )
+      }
+      return executablePath
+    }
+    console.info('Local Chrome version is not suitable')
+  }
 
   if (isDownloadSkipped) {
     console.info(
