@@ -1,8 +1,10 @@
+/* eslint-disable */
 const fs = require('fs')
 const path = require('path')
 const { homedir } = require('os')
 const puppeteer = require('puppeteer-core')
 const { execSync, execFileSync } = require('child_process')
+const puppeteerCorePackageJson = require('puppeteer-core/package.json')
 const { writeFile } = require('../src/utils')
 
 const MIN_CHROME_VERSION = parseInt(
@@ -14,8 +16,6 @@ const MIN_CHROME_VERSION = parseInt(
     '75',
   10
 )
-const LATEST_STABLE_CHROME_VERSION = 79
-const LATEST_STABLE_CHROME_REVISION = '706915'
 
 const newLineRegex = /\r?\n/
 const chromeTempPath = path.join(__dirname, '..', 'temp', 'chrome')
@@ -25,6 +25,7 @@ const downloadHost =
   process.env.PUPPETEER_DOWNLOAD_HOST ||
   process.env.npm_config_puppeteer_download_host ||
   process.env.npm_package_config_puppeteer_download_host
+
 const isDownloadSkipped =
   process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD ||
   process.env.NPM_CONFIG_PUPPETEER_SKIP_CHROMIUM_DOWNLOAD ||
@@ -62,8 +63,8 @@ function darwin(canary) {
   const paths = result
     .toString()
     .split(newLineRegex)
-    .filter(a => a)
-    .map(a => a.trim())
+    .filter((a) => a)
+    .map((a) => a.trim())
 
   paths.unshift(
     canary ? '/Applications/Google Chrome Canary.app' : '/Applications/Google Chrome.app'
@@ -94,7 +95,7 @@ function win32(canary) {
   ].filter(Boolean)
 
   let result
-  prefixes.forEach(prefix => {
+  prefixes.forEach((prefix) => {
     const chromePath = path.join(prefix, suffix)
     if (canAccess(chromePath)) result = chromePath
   })
@@ -105,14 +106,14 @@ function win32(canary) {
 function sort(installations, priorities) {
   const defaultPriority = 10
   return installations
-    .map(inst => {
+    .map((inst) => {
       for (const pair of priorities) {
         if (pair.regex.test(inst)) return { path: inst, weight: pair.weight }
       }
       return { path: inst, weight: defaultPriority }
     })
     .sort((a, b) => b.weight - a.weight)
-    .map(pair => pair.path)
+    .map((pair) => pair.path)
 }
 
 function findChromeExecutables(folder) {
@@ -132,9 +133,9 @@ function findChromeExecutables(folder) {
     execPaths = execPaths
       .toString()
       .split(newLineRegex)
-      .map(execPath => execPath.replace(argumentsRegex, '$1'))
+      .map((execPath) => execPath.replace(argumentsRegex, '$1'))
 
-    execPaths.forEach(execPath => canAccess(execPath) && installations.push(execPath))
+    execPaths.forEach((execPath) => canAccess(execPath) && installations.push(execPath))
   }
 
   return installations
@@ -149,13 +150,13 @@ function linux() {
     '/usr/share/applications/',
   ]
 
-  desktopInstallationFolders.forEach(folder => {
+  desktopInstallationFolders.forEach((folder) => {
     installations = installations.concat(findChromeExecutables(folder))
   })
 
   // Look for google-chrome(-stable) & chromium(-browser) executables by using the which command
   const executables = ['google-chrome-stable', 'google-chrome', 'chromium-browser', 'chromium']
-  executables.forEach(executable => {
+  executables.forEach((executable) => {
     try {
       const chromePath = execFileSync('which', [executable], { stdio: 'pipe' })
         .toString()
@@ -194,11 +195,13 @@ async function downloadChromium() {
     host: downloadHost,
   })
 
-  const revision =
-    process.env.PUPPETEER_CHROMIUM_REVISION ||
-    process.env.npm_config_puppeteer_chromium_revision ||
-    process.env.npm_package_config_puppeteer_chromium_revision ||
-    LATEST_STABLE_CHROME_REVISION
+  const revision = '722274'
+  // const revision =
+  //   process.env.PUPPETEER_CHROMIUM_REVISION ||
+  //   process.env.npm_config_puppeteer_chromium_revision ||
+  //   process.env.npm_package_config_puppeteer_chromium_revision ||
+  //   puppeteerCorePackageJson.puppeteer.chromium_revision
+
   const revisionInfo = browserFetcher.revisionInfo(revision)
 
   // If already downloaded
@@ -210,10 +213,10 @@ async function downloadChromium() {
     console.info(`Chromium downloaded to ${newRevisionInfo.folderPath}`)
 
     let localRevisions = await browserFetcher.localRevisions()
-    localRevisions = localRevisions.filter(r => r !== revisionInfo.revision)
+    localRevisions = localRevisions.filter((r) => r !== revisionInfo.revision)
 
     // Remove previous revisions
-    const cleanupOldVersions = localRevisions.map(r => browserFetcher.remove(r))
+    const cleanupOldVersions = localRevisions.map((r) => browserFetcher.remove(r))
     await Promise.all(cleanupOldVersions)
 
     return newRevisionInfo
@@ -226,19 +229,21 @@ async function downloadChromium() {
 
 async function isSuitableVersion(executablePath) {
   let versionOutput
-  // in case installed Chrome is not runnable
+
   try {
+    // In case installed Chrome is not runnable
     versionOutput = execSync(`"${executablePath}" --version`).toString()
   } catch (e) {
     return false
   }
-  const versionRe = /(Google Chrome|Chromium) ([0-9]{2}).*/
 
+  const versionRe = /(Google Chrome|Chromium) ([0-9]{2}).*/
   const match = versionOutput.match(versionRe)
   if (match && match[2]) {
     const version = +match[2]
-    return version >= MIN_CHROME_VERSION && version <= LATEST_STABLE_CHROME_VERSION
+    return version >= MIN_CHROME_VERSION
   }
+
   return false
 }
 
@@ -249,19 +254,19 @@ async function findChrome() {
   else if (process.platform === 'win32') executablePath = win32()
   else if (process.platform === 'darwin') executablePath = darwin()
 
-  if (typeof executablePath === 'string' && executablePath.length > 0) {
-    if (await isSuitableVersion(executablePath)) {
-      await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
-      console.info(`Local Chrome location: ${executablePath}`)
-      if (process.platform !== 'win32') {
-        console.info(
-          `Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`
-        )
-      }
-      return executablePath
-    }
-    console.info('Local Chrome version is not suitable')
-  }
+  // if (typeof executablePath === 'string' && executablePath.length > 0) {
+  //   if (await isSuitableVersion(executablePath)) {
+  //     await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
+  //     console.info(`Local Chrome location: ${executablePath}`)
+  //     if (process.platform !== 'win32') {
+  //       console.info(
+  //         `Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`
+  //       )
+  //     }
+  //     return executablePath
+  //   }
+  //   console.info('Local Chrome version is not suitable')
+  // }
 
   if (isDownloadSkipped) {
     console.info(
@@ -273,6 +278,7 @@ async function findChrome() {
 
   const revisionInfo = await downloadChromium()
   await writeFile(chromeConfigPath, JSON.stringify({ executablePath: revisionInfo.executablePath }))
+
   console.info(`Downloaded Chrome location: ${revisionInfo.executablePath}`)
   if (process.platform !== 'win32') {
     console.info(
@@ -281,6 +287,7 @@ async function findChrome() {
       ).toString()}`
     )
   }
+
   return revisionInfo.executablePath
 }
 
