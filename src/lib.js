@@ -9,8 +9,8 @@ async function estimo(resources = [], browserOptions = {}) {
   try {
     const { pages, libraries } = splitResourcesForEstimo(resources)
 
-    debugLog(`\n[estimo]: Found next js files: ${libraries}\n`)
-    debugLog(`\n[estimo]: Found next web pages: ${pages}\n`)
+    debugLog(`\n[estimo]: Has found Js files: ${libraries}\n`)
+    debugLog(`\n[estimo]: Has found Web pages: ${pages}\n`)
 
     if (libraries.length > 0) {
       reports = reports.concat(await estimoJsMode(libraries, browserOptions))

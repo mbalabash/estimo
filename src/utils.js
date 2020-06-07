@@ -53,7 +53,7 @@ function splitResourcesForEstimo(resources) {
       pages.push(item)
     } else {
       throw new TypeError(
-        'Estimo works only with resources which are (paths to js files) OR (urls to web pages) (<String> OR <Array<String>>)'
+        'Estimo works only with resources which are (paths to Js files) OR (urls to Web pages) (<String> OR <Array<String>>)'
       )
     }
   })
@@ -64,19 +64,19 @@ function splitResourcesForEstimo(resources) {
 function checkEstimoArgs(resources, browserOptions) {
   if (typeof resources !== 'string' && !Array.isArray(resources)) {
     throw new TypeError(
-      'The first argument should be String or Array<String> which contains a path to the resource (js file or web page).'
+      'The first argument should be String or Array<String> which contains a path to the resource (Js file or Web page).'
     )
   }
   if (Array.isArray(resources)) {
     if (resources.length === 0) {
       throw new TypeError(
-        'All resources should be represented as a <String> path to the resource (js file or web page).'
+        'All resources should be represented as a <String> path to the resource (Js file or Web page).'
       )
     }
     resources.forEach((item) => {
       if (typeof item !== 'string') {
         throw new TypeError(
-          'All resources should be represented as a <String> path to the resource (js file or web page).'
+          'All resources should be represented as a <String> path to the resource (Js file or Web page).'
         )
       }
     })
@@ -97,7 +97,7 @@ async function readFile(filePath) {
 
   try {
     if (!fs.existsSync(filePath)) {
-      throw new Error(`${filePath} - file not exist!`)
+      throw new Error(`${filePath} - file isn't exist!`)
     }
     content = await read(filePath, 'utf8')
   } catch (error) {
@@ -110,7 +110,7 @@ async function readFile(filePath) {
 async function writeFile(filePath, content) {
   try {
     await write(filePath, content)
-    debugLog(`\n[estimo]: The file has been written: ${filePath}\n`)
+    debugLog(`\n[estimo]: The file has written: ${filePath}\n`)
   } catch (error) {
     console.error(error)
   }
@@ -119,7 +119,7 @@ async function writeFile(filePath, content) {
 async function deleteFile(filePath) {
   try {
     await unlink(filePath)
-    debugLog(`\n[estimo]: The file has been removed: ${filePath}\n`)
+    debugLog(`\n[estimo]: The file has removed: ${filePath}\n`)
   } catch (error) {
     console.error(error)
   }

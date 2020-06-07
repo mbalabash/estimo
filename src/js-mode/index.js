@@ -6,12 +6,10 @@ const { generatePrettyReport } = require('../reporter')
 async function estimoJsMode(libraries, browserOptions) {
   let resources = await prepareLibrariesForEstimation(libraries)
   resources = await createChromeTrace(resources, browserOptions)
-  debugLog(
-    `\n[js-mode]: Next javascript resources has been prepared: ${JSON.stringify(resources)}\n`
-  )
+  debugLog(`\n[js-mode]: Js files have prepared for estimation: ${JSON.stringify(resources)}\n`)
 
   const reports = await generatePrettyReport(resources)
-  debugLog(`\n[js-mode]: Got reports for js files: ${JSON.stringify(reports)}\n`)
+  debugLog(`\n[js-mode]: Have got reports: ${JSON.stringify(reports)}\n`)
 
   await removeAllFiles(resources.map((item) => item.htmlPath))
   await removeAllFiles(resources.map((item) => item.tracePath))

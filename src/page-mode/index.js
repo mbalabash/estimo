@@ -5,10 +5,10 @@ const { removeAllFiles, debugLog } = require('../utils')
 async function estimoPageMode(pages, browserOptions) {
   let resources = pages.map((page) => ({ name: page, url: page }))
   resources = await createChromeTrace(resources, browserOptions)
-  debugLog(`\n[page-mode]: Next url's resources has been prepared: ${JSON.stringify(resources)}\n`)
+  debugLog(`\n[page-mode]: Web pages have prepared for estimation: ${JSON.stringify(resources)}\n`)
 
   const reports = await generatePrettyReport(resources)
-  debugLog(`\n[page-mode]: Got reports for web pages: ${JSON.stringify(reports)}\n`)
+  debugLog(`\n[page-mode]: Have got reports: ${JSON.stringify(reports)}\n`)
 
   await removeAllFiles(resources.map((file) => file.tracePath))
 
