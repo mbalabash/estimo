@@ -126,6 +126,10 @@ async function deleteFile(filePath) {
 }
 
 async function removeAllFiles(files) {
+  if (process.env.ESTIMO_DEBUG) {
+    return
+  }
+
   try {
     for (const file of files) {
       if (typeof file === 'string') {

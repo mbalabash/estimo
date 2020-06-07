@@ -10,9 +10,7 @@ async function estimoPageMode(pages, browserOptions) {
   const reports = await generatePrettyReport(resources)
   debugLog(`\n[page-mode]: Got reports for web pages: ${JSON.stringify(reports)}\n`)
 
-  if (!process.env.ESTIMO_DEBUG) {
-    await removeAllFiles(resources.map((file) => file.tracePath))
-  }
+  await removeAllFiles(resources.map((file) => file.tracePath))
 
   return reports
 }

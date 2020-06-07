@@ -13,10 +13,8 @@ async function estimoJsMode(libraries, browserOptions) {
   const reports = await generatePrettyReport(resources)
   debugLog(`\n[js-mode]: Got reports for js files: ${JSON.stringify(reports)}\n`)
 
-  if (!process.env.ESTIMO_DEBUG) {
-    await removeAllFiles(resources.map((item) => item.htmlPath))
-    await removeAllFiles(resources.map((item) => item.tracePath))
-  }
+  await removeAllFiles(resources.map((item) => item.htmlPath))
+  await removeAllFiles(resources.map((item) => item.tracePath))
 
   return reports
 }
