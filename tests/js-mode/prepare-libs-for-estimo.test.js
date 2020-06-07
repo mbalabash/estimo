@@ -1,5 +1,6 @@
 const test = require('ava')
 const path = require('path')
+const { removeAllFiles } = require('../../src/utils')
 const { prepareLibrariesForEstimation } = require('../../src/js-mode/prepare-libs-for-estimo')
 
 test('should properly prepare resources for Estimo', async (t) => {
@@ -30,6 +31,9 @@ test('should properly prepare resources for Estimo', async (t) => {
   t.is(resources[2].url.includes('.html'), true)
   t.is(resources[2].htmlPath.includes('temp'), true)
   t.is(resources[2].htmlPath.includes('.html'), true)
+
+  await removeAllFiles(resources.map((item) => item.htmlPath))
+  await removeAllFiles(resources.map((item) => item.tracePath))
 })
 
 test('should throw an error for not existed local js files', async (t) => {
