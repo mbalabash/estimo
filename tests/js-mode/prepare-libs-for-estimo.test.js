@@ -38,5 +38,5 @@ test('should properly prepare resources for Estimo', async (t) => {
 
 test('should throw an error for not existed local js files', async (t) => {
   const error = await t.throwsAsync(prepareLibrariesForEstimation(['some/not/existed/file.js']))
-  t.is(error.message, `some/not/existed/file.js - file not exist!`)
+  t.is(error.message, `some/not/existed/file.js - file isn't exist!`)
 })

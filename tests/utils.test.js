@@ -101,35 +101,35 @@ test("[splitResourcesForEstimo]: should properly split input to js files and non
   const error = t.throws(() => splitResourcesForEstimo(['ftp://domain.to/', 'qwe/asd/']))
   t.is(
     error.message,
-    'Estimo works only with resources which are (paths to js files) OR (urls to web pages) (<String> OR <Array<String>>)'
+    'Estimo works only with resources which are (paths to Js files) OR (urls to Web pages) (<String> OR <Array<String>>)'
   )
 })
 
 test('[checkEstimoArgs]: should properly handle input args', async (t) => {
   t.is(
     t.throws(() => checkEstimoArgs(123)).message,
-    'The first argument should be String or Array<String> which contains a path to the resource (js file or web page).'
+    'The first argument should be String or Array<String> which contains a path to the resource (Js file or Web page).'
   )
   t.is(
     t.throws(() => checkEstimoArgs(undefined)).message,
-    'The first argument should be String or Array<String> which contains a path to the resource (js file or web page).'
+    'The first argument should be String or Array<String> which contains a path to the resource (Js file or Web page).'
   )
   t.is(
     t.throws(() => checkEstimoArgs(null)).message,
-    'The first argument should be String or Array<String> which contains a path to the resource (js file or web page).'
+    'The first argument should be String or Array<String> which contains a path to the resource (Js file or Web page).'
   )
   t.is(
     t.throws(() => checkEstimoArgs({})).message,
-    'The first argument should be String or Array<String> which contains a path to the resource (js file or web page).'
+    'The first argument should be String or Array<String> which contains a path to the resource (Js file or Web page).'
   )
 
   t.is(
     t.throws(() => checkEstimoArgs([])).message,
-    'All resources should be represented as a <String> path to the resource (js file or web page).'
+    'All resources should be represented as a <String> path to the resource (Js file or Web page).'
   )
   t.is(
     t.throws(() => checkEstimoArgs(['lib', 'vc', 123])).message,
-    'All resources should be represented as a <String> path to the resource (js file or web page).'
+    'All resources should be represented as a <String> path to the resource (Js file or Web page).'
   )
 
   t.is(
