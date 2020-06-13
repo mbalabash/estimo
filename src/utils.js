@@ -10,12 +10,6 @@ function resolvePathToTempDir(fileName, tempDir = '../temp/') {
   return path.join(__dirname, tempDir, fileName)
 }
 
-function debugLog(msg) {
-  if (process.env.ESTIMO_DEBUG) {
-    console.info(msg)
-  }
-}
-
 function getUrlToHtmlFile(file) {
   return `file://${path.resolve(file)}`
 }
@@ -110,7 +104,6 @@ async function readFile(filePath) {
 async function writeFile(filePath, content) {
   try {
     await write(filePath, content)
-    debugLog(`\n[estimo]: The file has written: ${filePath}\n`)
   } catch (error) {
     console.error(error)
   }
@@ -119,7 +112,6 @@ async function writeFile(filePath, content) {
 async function deleteFile(filePath) {
   try {
     await unlink(filePath)
-    debugLog(`\n[estimo]: The file has removed: ${filePath}\n`)
   } catch (error) {
     console.error(error)
   }
@@ -158,6 +150,5 @@ module.exports = {
   writeFile,
   isJsFile,
   readFile,
-  debugLog,
   isUrl,
 }
