@@ -2,10 +2,18 @@ const tracium = require('tracium')
 const { readFile } = require('./utils')
 
 async function generateTasksReport(pathToTraceFile) {
-  const content = JSON.parse(await readFile(pathToTraceFile))
-  return tracium.computeMainThreadTasks(content, {
-    flatten: true,
-  })
+  let tasks = []
+
+  try {
+    const content = JSON.parse(await readFile(pathToTraceFile))
+    tasks = tracium.computeMainThreadTasks(content, {
+      flatten: true,
+    })
+  } catch (error) {
+    console.error(error)
+  }
+
+  return tasks
 }
 
 function formatTime(time) {
@@ -20,31 +28,35 @@ function getEventsTime(events) {
 async function generatePrettyReport(resources) {
   const report = []
 
-  for (const item of resources) {
-    const tasks = await generateTasksReport(item.tracePath)
+  try {
+    for (const item of resources) {
+      const tasks = await generateTasksReport(item.tracePath)
 
-    const htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
-    const styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))
-    const renderTime = getEventsTime(tasks.filter(({ kind }) => kind === 'paintCompositeRender'))
-    const compileTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptParseCompile'))
-    const evaluationTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptEvaluation'))
-    const garbageTime = getEventsTime(tasks.filter(({ kind }) => kind === 'garbageCollection'))
-    const otherTime = getEventsTime(tasks.filter(({ kind }) => kind === 'other'))
+      const htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
+      const styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))
+      const renderTime = getEventsTime(tasks.filter(({ kind }) => kind === 'paintCompositeRender'))
+      const compileTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptParseCompile'))
+      const evaluationTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptEvaluation'))
+      const garbageTime = getEventsTime(tasks.filter(({ kind }) => kind === 'garbageCollection'))
+      const otherTime = getEventsTime(tasks.filter(({ kind }) => kind === 'other'))
 
-    report.push({
-      name: item.name,
-      parseHTML: htmlTime,
-      styleLayout: styleTime,
-      paintCompositeRender: renderTime,
-      scriptParseCompile: compileTime,
-      scriptEvaluation: evaluationTime,
-      javaScript: formatTime(compileTime + evaluationTime),
-      garbageCollection: garbageTime,
-      other: otherTime,
-      total: formatTime(
-        htmlTime + styleTime + renderTime + compileTime + evaluationTime + garbageTime + otherTime
-      ),
-    })
+      report.push({
+        name: item.name,
+        parseHTML: htmlTime,
+        styleLayout: styleTime,
+        paintCompositeRender: renderTime,
+        scriptParseCompile: compileTime,
+        scriptEvaluation: evaluationTime,
+        javaScript: formatTime(compileTime + evaluationTime),
+        garbageCollection: garbageTime,
+        other: otherTime,
+        total: formatTime(
+          htmlTime + styleTime + renderTime + compileTime + evaluationTime + garbageTime + otherTime
+        ),
+      })
+    }
+  } catch (error) {
+    console.error(error)
   }
 
   return report
