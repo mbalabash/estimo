@@ -76,10 +76,10 @@ async function setupCdpEntity(cdpSession, options) {
 async function createChromeTrace(resources, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
   const resourcesWithTrace = []
-  let browser = null
-  let context = null
-  let page = null
-  let cdpSession = null
+  let browser
+  let context
+  let page
+  let cdpSession
 
   try {
     browser = await createBrowserEntity(options)
