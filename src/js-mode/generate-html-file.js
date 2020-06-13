@@ -18,8 +18,15 @@ function createHtmlContent(library) {
 }
 
 async function generateHtmlFile(htmlContent) {
-  const fileName = resolvePathToTempDir(`${nanoid()}.html`)
-  await writeFile(fileName, htmlContent)
+  let fileName
+
+  try {
+    fileName = resolvePathToTempDir(`${nanoid()}.html`)
+    await writeFile(fileName, htmlContent)
+  } catch (error) {
+    console.error(error)
+  }
+
   return fileName
 }
 
