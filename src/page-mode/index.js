@@ -1,21 +1,39 @@
 const { createChromeTrace } = require('../create-chrome-trace')
 const { generatePrettyReport } = require('../reporter')
-const { removeAllFiles } = require('../utils')
+const { median, removeAllFiles } = require('../utils')
 
 async function estimoPageMode(pages, browserOptions) {
-  let reports = []
+  const runs = browserOptions.runs || 1
+  const result = []
 
   try {
     let resources = pages.map((page) => ({ name: page, url: page }))
-    resources = await createChromeTrace(resources, browserOptions)
-    reports = await generatePrettyReport(resources)
+    let reports = []
 
-    await removeAllFiles(resources.map((file) => file.tracePath))
+    for (let i = 0; i < runs; i += 1) {
+      resources = await createChromeTrace(resources, browserOptions)
+      reports = reports.concat(await generatePrettyReport(resources))
+      await removeAllFiles(resources.map((item) => item.tracePath))
+    }
+
+    const sortedReports = {}
+    reports.forEach((report) => {
+      if (!sortedReports[report.name]) {
+        sortedReports[report.name] = []
+        sortedReports[report.name].push(report)
+      } else {
+        sortedReports[report.name].push(report)
+      }
+    })
+
+    Object.values(sortedReports).forEach((resourceReports) => {
+      result.push(median(resourceReports, (report) => report.total))
+    })
   } catch (error) {
     console.error(error)
   }
 
-  return reports
+  return result
 }
 
 module.exports = { estimoPageMode }
