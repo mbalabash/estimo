@@ -26,7 +26,7 @@ function getEventsTime(events) {
 }
 
 async function generatePrettyReport(resources) {
-  const report = []
+  const reports = []
 
   try {
     for (const item of resources) {
@@ -40,7 +40,7 @@ async function generatePrettyReport(resources) {
       const garbageTime = getEventsTime(tasks.filter(({ kind }) => kind === 'garbageCollection'))
       const otherTime = getEventsTime(tasks.filter(({ kind }) => kind === 'other'))
 
-      report.push({
+      reports.push({
         name: item.name,
         parseHTML: htmlTime,
         styleLayout: styleTime,
@@ -59,7 +59,7 @@ async function generatePrettyReport(resources) {
     console.error(error)
   }
 
-  return report
+  return reports
 }
 
 module.exports = { generatePrettyReport, formatTime, getEventsTime }
