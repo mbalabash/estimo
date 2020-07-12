@@ -86,6 +86,21 @@ function checkEstimoArgs(resources, browserOptions) {
   }
 }
 
+const defaultMedianAccessor = (element) => element
+function median(array, accessor = defaultMedianAccessor) {
+  const sortedArray = array.sort((a, b) => accessor(a) - accessor(b))
+  const { length } = sortedArray
+  const mid = parseInt(length / 2, 10)
+
+  if (length % 2) {
+    return sortedArray[mid]
+  }
+  const low = mid - 1
+  const hight = mid
+
+  return (accessor(sortedArray[low]) + accessor(sortedArray[hight])) / 2
+}
+
 async function readFile(filePath) {
   let content
 
@@ -150,5 +165,6 @@ module.exports = {
   writeFile,
   isJsFile,
   readFile,
+  median,
   isUrl,
 }
