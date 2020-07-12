@@ -17,4 +17,6 @@ export interface BrowserOptions {
   headless?: boolean
   timeout?: number
   executablePath?: string
+
+  runs?: number
 }
