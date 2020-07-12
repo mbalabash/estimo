@@ -17,6 +17,13 @@ const MIN_CHROME_VERSION = parseInt(
   10
 )
 
+// TODO: REMOVE THIS after migrating on tracehouse
+// TODO: REFS: https://github.com/aslushnikov/tracium/issues/2
+// TODO: REFS: https://github.com/GoogleChrome/lighthouse/issues/9519
+
+const LATEST_STABLE_CHROME_VERSION = 79
+const LATEST_STABLE_CHROME_REVISION = '706915'
+
 const newLineRegex = /\r?\n/
 const chromeTempPath = path.join(__dirname, '..', 'temp', 'chrome')
 const chromeConfigPath = path.join(__dirname, '..', 'chrome.json')
@@ -199,7 +206,8 @@ async function downloadChromium() {
     process.env.PUPPETEER_CHROMIUM_REVISION ||
     process.env.npm_config_puppeteer_chromium_revision ||
     process.env.npm_package_config_puppeteer_chromium_revision ||
-    puppeteerCorePackageJson.puppeteer.chromium_revision
+    LATEST_STABLE_CHROME_REVISION
+  // puppeteerCorePackageJson.puppeteer.chromium_revision
 
   const revisionInfo = browserFetcher.revisionInfo(revision)
 
@@ -240,7 +248,8 @@ async function isSuitableVersion(executablePath) {
   const match = versionOutput.match(versionRe)
   if (match && match[2]) {
     const version = +match[2]
-    return version >= MIN_CHROME_VERSION
+    return version >= MIN_CHROME_VERSION && version <= LATEST_STABLE_CHROME_VERSION
+    // return version >= MIN_CHROME_VERSION
   }
 
   return false
