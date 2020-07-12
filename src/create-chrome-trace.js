@@ -84,24 +84,25 @@ async function createChromeTrace(resources, browserOptions) {
   try {
     browser = await createBrowserEntity(options)
     context = await browser.createIncognitoBrowserContext()
-    page = await createPageEntity(context, options)
-    cdpSession = await page.target().createCDPSession()
-
-    await setupCdpEntity(cdpSession, options)
 
     for (const item of resources) {
+      page = await createPageEntity(context, options)
+      cdpSession = await page.target().createCDPSession()
+      await setupCdpEntity(cdpSession, options)
+
       const traceFile = resolvePathToTempDir(`${nanoid()}.json`)
 
       await page.tracing.start({ path: traceFile })
       await page.goto(item.url, { timeout: options.timeout })
       await page.tracing.stop()
+      await cdpSession.detach()
+      await page.close()
 
       resourcesWithTrace.push({ ...item, tracePath: traceFile })
     }
   } catch (error) {
     console.error(error)
   } finally {
-    await page.close()
     await context.close()
     await browser.close()
   }
