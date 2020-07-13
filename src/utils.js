@@ -87,7 +87,8 @@ function checkEstimoArgs(resources, browserOptions) {
 }
 
 const defaultMedianAccessor = (element) => element
-function median(array, accessor = defaultMedianAccessor) {
+const defaultMedianExecutor = (a, b) => (a + b) / 2
+function median(array, accessor = defaultMedianAccessor, executor = defaultMedianExecutor) {
   const sortedArray = array.sort((a, b) => accessor(a) - accessor(b))
   const { length } = sortedArray
   const mid = parseInt(length / 2, 10)
@@ -98,7 +99,28 @@ function median(array, accessor = defaultMedianAccessor) {
   const low = mid - 1
   const hight = mid
 
-  return (accessor(sortedArray[low]) + accessor(sortedArray[hight])) / 2
+  return executor(sortedArray[low], sortedArray[hight])
+}
+
+function estimoMedianExecutor(reportA, reportB) {
+  if (reportA.name !== reportB.name) {
+    throw new Error('Both the first report name and the second report name should be the same!')
+  }
+
+  const calc = (a, b) => +((a + b) / 2).toFixed(2)
+
+  return {
+    name: reportA.name,
+    parseHTML: calc(reportA.parseHTML, reportB.parseHTML),
+    styleLayout: calc(reportA.styleLayout, reportB.styleLayout),
+    paintCompositeRender: calc(reportA.paintCompositeRender, reportB.paintCompositeRender),
+    scriptParseCompile: calc(reportA.scriptParseCompile, reportB.scriptParseCompile),
+    scriptEvaluation: calc(reportA.scriptEvaluation, reportB.scriptEvaluation),
+    javaScript: calc(reportA.javaScript, reportB.javaScript),
+    garbageCollection: calc(reportA.garbageCollection, reportB.garbageCollection),
+    other: calc(reportA.other, reportB.other),
+    total: calc(reportA.total, reportB.total),
+  }
 }
 
 async function readFile(filePath) {
@@ -154,6 +176,7 @@ function existsAsync(filePath) {
 
 module.exports = {
   splitResourcesForEstimo,
+  estimoMedianExecutor,
   resolvePathToTempDir,
   getUrlToHtmlFile,
   megabitsToBytes,
