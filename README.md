@@ -29,7 +29,7 @@ const path = require('path')
 const estimo = require('estimo')
 
 ;(async () => {
-  const report = await estimo(path.join(__dirname, '..', 'libs', 'someLib.js'))
+  const report = await estimo(path.join(__dirname, 'examples', 'example.js'))
   console.log(report)
 })()
 ```
@@ -37,7 +37,7 @@ const estimo = require('estimo')
 **CLI**
 
 ```sh
-estimo -r ./libs/someLib.js
+estimo -r ./examples/example.js
 ```
 
 **Output**
@@ -81,6 +81,32 @@ estimo -r ./libs/someLib.js
 
 - **total** - Total time.
 
+## Time
+
+**All metrics are in milliseconds**.
+
+We measure system-cpu time. The number of seconds that the process has spent on the CPU.
+
+We not including time spent waiting for its turn on the CPU.
+
+## Multiple Runs
+
+All results measured in time. It means that results could be unstable depends on available on your device resources.
+
+You can use `runs` option to run estimo N times and get median value as a result.
+
+**JS API**
+
+```js
+const report = await estimo(['/path/to/examples/example.js'], { runs: 10 })
+```
+
+**CLI**
+
+```sh
+estimo -r /path/to/examples/example.js --runs 10
+```
+
 ## Additional Use Cases
 
 ### CPU Throttling Rate
@@ -94,7 +120,7 @@ The CPU Throttling Rate Emulation allow you to generate a Performance timeline u
 **JS API**:
 
 ```js
-await estimo('/path/to/someLib.js', {
+await estimo('/path/to/example.js', {
   emulateCpuThrottling: true,
   cpuThrottlingRate: 4,
 })
@@ -103,7 +129,7 @@ await estimo('/path/to/someLib.js', {
 **CLI**:
 
 ```sh
-estimo -r ./libs/someLib.js --cpu --cpuRate 4
+estimo -r ./examples/example.js --cpu --cpuRate 4
 ```
 
 ### Network Emulation
@@ -125,7 +151,7 @@ The Network Emulation allow you to generate a Performance timeline under specifi
 **JS API**:
 
 ```js
-await estimo('/path/to/someLib.js', {
+await estimo('/path/to/example.js', {
   emulateNetworkConditions: true,
   offline: false,
   latency: 150,
@@ -138,7 +164,7 @@ await estimo('/path/to/someLib.js', {
 **CLI**:
 
 ```sh
-estimo -r ./libs/someLib.js --net --latency 150 --download 1.6 --upload 0.75 --connection cellular3g
+estimo -r ./examples/example.js --net --latency 150 --download 1.6 --upload 0.75 --connection cellular3g
 ```
 
 ### Chrome Device Emulation
@@ -150,7 +176,7 @@ The Chrome Device Emulation allow you to generate a Performance timeline under s
 **JS API**
 
 ```js
-const report = await estimo('/path/to/someLib.js', {
+const report = await estimo('/path/to/example.js', {
   device: 'Galaxy S5',
 })
 ```
@@ -158,7 +184,7 @@ const report = await estimo('/path/to/someLib.js', {
 **CLI**
 
 ```sh
-estimo -r ./libs/someLib.js -d Galaxy\ S5
+estimo -r ./examples/examples.js -d Galaxy\ S5
 ```
 
 When using CLI, for device names with spaces you should use symbols escaping.
@@ -169,7 +195,7 @@ When using CLI, for device names with spaces you should use symbols escaping.
 
 ```js
 const report = await estimo([
-  '/path/to/libs/someLib.js',
+  '/path/to/libs/example.js',
   'https://unpkg.com/react@16/umd/react.development.js',
 ])
 ```
@@ -177,7 +203,7 @@ const report = await estimo([
 **CLI**
 
 ```sh
-estimo -r /path/to/libs/someLib.js https://unpkg.com/react@16/umd/react.development.js
+estimo -r /path/to/example.js https://unpkg.com/react@16/umd/react.development.js
 ```
 
 ### Pages
@@ -197,14 +223,6 @@ const report = await estimo('https://www.google.com/')
 ```sh
 estimo -r https://www.google.com/
 ```
-
-## Time
-
-**All metrics in milliseconds**.
-
-We are measure system-cpu time. The number of seconds that the process has spent on the CPU.
-
-We not including time spent waiting for its turn on the CPU.
 
 ## Install
 
