@@ -2,6 +2,24 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.1.0
+
+**Added**:
+
+- `runs` - option which you can use to run estimo N times and get median as a result
+
+**Changed**:
+
+- Fixed broken types
+
+- Updated dependencies
+
+- Removed debug logging
+
+- Removed useless tests
+
+- Fixed unhandled exceptions
+
 ## 2.0.4
 
 - Fix estimo types.
