@@ -1,4 +1,4 @@
-## Estimo ![Travis CI Status](https://travis-ci.org/mbalabash/estimo.svg?branch=master) [![CircleCI](https://circleci.com/gh/mbalabash/estimo/tree/master.svg?style=svg)](https://circleci.com/gh/mbalabash/estimo/tree/master)
+## Estimo
 
 Estimo is a tool for measuring parse / compile / execution time of javascript.
 
@@ -12,13 +12,7 @@ _Inspired by [Size Limit](https://github.com/ai/size-limit). Thanks [@ai](https:
 
 ![3.5 seconds to process 170 KB of JS and 0.1 second for 170 KB of JPEG. @Addy Osmani](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization/images/1_PRVzNizF9jQ_QADF5lQHpA.png)
 
-3.5 seconds to process 170 KB of JS and 0.1 second for 170 KB of JPEG.
-
-- [JavaScript Start-up Optimization](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization/)
-
-- [The Cost Of JavaScript In 2018](https://medium.com/@addyosmani/the-cost-of-javascript-in-2018-7d8950fbb5d4)
-
-- [The Cost Of JavaScript In 2019](https://v8.dev/blog/cost-of-javascript-2019)
+**3.5 seconds** to process 170 KB of JS and **0.1 second** for 170 KB of JPEG.
 
 ## Usage
 
@@ -42,20 +36,20 @@ estimo -r ./examples/example.js
 
 **Output**
 
-```
+```js
 [
   {
-    name: string
-    parseHTML: number
-    styleLayout: number
-    paintCompositeRender: number
-    scriptParseCompile: number
-    scriptEvaluation: number
-    javaScript: number
-    garbageCollection: number
-    other: number
-    total: number
-  }
+    name: 'example.js',
+    parseHTML: 1.01,
+    styleLayout: 34.08,
+    paintCompositeRender: 1.4,
+    scriptParseCompile: 1.04,
+    scriptEvaluation: 8.11,
+    javaScript: 9.15,
+    garbageCollection: 0,
+    other: 8.2,
+    total: 53.84,
+  },
 ]
 ```
 
@@ -251,3 +245,5 @@ We will use your local **Chrome** if it suitable for using with Estimo.
 ## Contributing
 
 Feel free to ask or open an issue.
+
+![Travis CI Status](https://travis-ci.org/mbalabash/estimo.svg?branch=master) [![CircleCI](https://circleci.com/gh/mbalabash/estimo/tree/master.svg?style=svg)](https://circleci.com/gh/mbalabash/estimo/tree/master)
