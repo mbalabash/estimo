@@ -10,4 +10,3 @@ const localJsFile = path.join(__dirname, '19kb.js')
   const reports = await estimo([localJsFile, 'https://github.githubassets.com/assets/compat-bootstrap-6e7ff7ac.js'], {runs: 13})
   console.log(reports)
 })()
-// ESTIMO_DEBUG=true 
