@@ -1,6 +1,6 @@
+const { median, removeAllFiles, estimoMedianExecutor } = require('../utils')
 const { createChromeTrace } = require('../create-chrome-trace')
 const { generatePrettyReport } = require('../reporter')
-const { median, removeAllFiles } = require('../utils')
 
 async function estimoPageMode(pages, browserOptions) {
   const runs = browserOptions.runs || 1
@@ -27,7 +27,7 @@ async function estimoPageMode(pages, browserOptions) {
     })
 
     Object.values(sortedReports).forEach((resourceReports) => {
-      result.push(median(resourceReports, (report) => report.total))
+      result.push(median(resourceReports, (report) => report.total, estimoMedianExecutor))
     })
   } catch (error) {
     console.error(error)

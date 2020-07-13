@@ -1,6 +1,6 @@
 const { prepareLibrariesForEstimation } = require('./prepare-libs-for-estimo')
+const { median, removeAllFiles, estimoMedianExecutor } = require('../utils')
 const { createChromeTrace } = require('../create-chrome-trace')
-const { median, removeAllFiles } = require('../utils')
 const { generatePrettyReport } = require('../reporter')
 
 async function estimoJsMode(libraries, browserOptions) {
@@ -30,7 +30,7 @@ async function estimoJsMode(libraries, browserOptions) {
     })
 
     Object.values(sortedReports).forEach((resourceReports) => {
-      result.push(median(resourceReports, (report) => report.total))
+      result.push(median(resourceReports, (report) => report.total, estimoMedianExecutor))
     })
   } catch (error) {
     console.error(error)
