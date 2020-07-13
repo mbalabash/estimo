@@ -15,6 +15,10 @@ const { argv } = require('yargs')
     describe: 'Enable Device Emulation',
     type: 'string',
   })
+  .option('runs', {
+    describe: 'How many times estimo will run',
+    type: 'number',
+  })
   .option('cpu', {
     describe: 'Enable CPU Throttling',
     type: 'boolean',
@@ -61,6 +65,7 @@ const estimo = require('../index')
   const options = {
     device: argv.device || false,
     emulateCpuThrottling: argv.cpu || false,
+    runs: argv.runs || 1,
     cpuThrottlingRate: argv.cpuRate || 1,
     emulateNetworkConditions: argv.net || false,
     offline: argv.offline || false,
@@ -70,7 +75,7 @@ const estimo = require('../index')
     connectionType: argv.connection || 'none',
   }
 
-  const files = resources.map(lib => {
+  const files = resources.map((lib) => {
     if (isUrl(lib)) {
       return lib
     }
