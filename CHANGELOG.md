@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 **Added**:
 
-- `runs` - option which you can use to run estimo N times and get median as a result
+- `runs` - option which you can use to run estimo N times and get median value as a result
 
 **Changed**:
 
