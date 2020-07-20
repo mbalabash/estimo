@@ -2,6 +2,12 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.1.2
+
+**Changed**:
+
+- Updated project dependencies
+
 ## 2.1.1
 
 **Changed**:
