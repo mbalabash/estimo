@@ -7,6 +7,7 @@ const {
   megabitsToBytes,
   checkEstimoArgs,
   getLibraryName,
+  createDiff,
   isJsFile,
   isUrl,
 } = require('../src/utils')
@@ -33,6 +34,14 @@ test('[megabitsToBytes]: should properly transform megabits to bytes', async (t)
   t.is(megabitsToBytes(1.6), 209715.2)
   t.is(megabitsToBytes(13), 1703936)
   t.is(megabitsToBytes(0.33), 43253.76)
+})
+
+test('[createDiff]: should properly create diff', async (t) => {
+  t.is(createDiff(100894, 110894), '-9.92% 🔽')
+  t.is(createDiff(0.20210999999999999, 0.10210999999999999), '+49.48% 🔺')
+  t.is(createDiff(2.5658984375, 2.1658984375), '+15.59% 🔺')
+  t.is(createDiff(2.7680084375000003, 2.2680084375000003), '+18.07% 🔺')
+  t.is(createDiff(1000, 100), '+90% 🔺')
 })
 
 test('[getLibraryName]: should properly extract library name', async (t) => {
