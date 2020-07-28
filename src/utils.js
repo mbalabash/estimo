@@ -88,14 +88,13 @@ function checkEstimoArgs(resources, browserOptions) {
 
 function createDiff(current, base) {
   if (current === 0 && base === 0) {
-    return 'n/a'
+    return 'N/A'
   }
   if (current === 0 && base !== 0) {
     return '-100%'
   }
 
-  const value =
-    current < base ? ((current - base) / base) * 100 : ((current - base) / current) * 100
+  const value = ((current - base) / current) * 100
   const formatted = (Math.sign(value) * Math.ceil(Math.abs(value) * 100)) / 100
 
   if (value > 0) {

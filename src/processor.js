@@ -92,8 +92,6 @@ async function processor(sources, browserOptions, mode) {
         sortedReports[report.name].push(report)
       }
     })
-    console.log('\n\nreports:', JSON.stringify(reports))
-    console.log('\n\nsortedReports:', JSON.stringify(sortedReports))
     result = await reportsProcessor(sortedReports, browserOptions)
   } catch (error) {
     console.error(error)
