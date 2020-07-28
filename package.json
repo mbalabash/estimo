@@ -18,15 +18,15 @@
     "node": ">=10"
   },
   "dependencies": {
-    "nanoid": "^3.1.10",
-    "puppeteer-core": "^5.2.0",
+    "nanoid": "^3.1.11",
+    "puppeteer-core": "^5.2.1",
     "tracium": "^0.2.1",
     "yargs": "^15.4.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
-    "ava": "^3.10.1",
+    "ava": "^3.11.0",
     "eslint": "^7.5.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
