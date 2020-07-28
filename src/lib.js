@@ -1,6 +1,5 @@
 const { splitResourcesForEstimo, checkEstimoArgs } = require('./utils')
-const { estimoPageMode } = require('./page-mode')
-const { estimoJsMode } = require('./js-mode')
+const { processor } = require('./processor')
 
 async function estimo(resources = [], browserOptions = {}) {
   checkEstimoArgs(resources, browserOptions)
@@ -10,11 +9,11 @@ async function estimo(resources = [], browserOptions = {}) {
     const { pages, libraries } = splitResourcesForEstimo(resources)
 
     if (libraries.length > 0) {
-      reports = reports.concat(await estimoJsMode(libraries, browserOptions))
+      reports = reports.concat(await processor(libraries, browserOptions, 'js-mode'))
     }
 
     if (pages.length > 0) {
-      reports = reports.concat(await estimoPageMode(pages, browserOptions))
+      reports = reports.concat(await processor(pages, browserOptions, 'page-mode'))
     }
   } catch (error) {
     console.error(error)
