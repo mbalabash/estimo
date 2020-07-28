@@ -86,6 +86,27 @@ function checkEstimoArgs(resources, browserOptions) {
   }
 }
 
+function createDiff(current, base) {
+  if (current === 0 && base === 0) {
+    return 'n/a'
+  }
+  if (current === 0 && base !== 0) {
+    return '-100%'
+  }
+
+  const value =
+    current < base ? ((current - base) / base) * 100 : ((current - base) / current) * 100
+  const formatted = (Math.sign(value) * Math.ceil(Math.abs(value) * 100)) / 100
+
+  if (value > 0) {
+    return `+${formatted}% 🔺`
+  }
+  if (value === 0) {
+    return `${formatted}%`
+  }
+  return `${formatted}% 🔽`
+}
+
 const defaultMedianAccessor = (element) => element
 const defaultMedianExecutor = (a, b) => (a + b) / 2
 function median(array, accessor = defaultMedianAccessor, executor = defaultMedianExecutor) {
@@ -185,6 +206,7 @@ module.exports = {
   removeAllFiles,
   existsAsync,
   deleteFile,
+  createDiff,
   writeFile,
   isJsFile,
   readFile,

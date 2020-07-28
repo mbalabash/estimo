@@ -9,4 +9,16 @@ export interface Report {
   garbageCollection: number
   other: number
   total: number
+
+  diff?: {
+    parseHTML: string
+    styleLayout: string
+    paintCompositeRender: string
+    scriptParseCompile: string
+    scriptEvaluation: string
+    javaScript: string
+    garbageCollection: string
+    other: string
+    total: string
+  }
 }
