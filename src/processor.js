@@ -5,7 +5,7 @@ const { generatePrettyReport } = require('./reporter')
 
 async function reportsProcessor(reports, browserOptions) {
   const runs = browserOptions.runs || 1
-  const diffMode = browserOptions.diffMode || false
+  const diffMode = browserOptions.diff || false
   const result = []
 
   try {
@@ -101,4 +101,3 @@ async function processor(sources, browserOptions, mode) {
 }
 
 module.exports = { processor }
-// ESTIMO_DEBUG=true

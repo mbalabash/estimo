@@ -19,5 +19,5 @@ export interface BrowserOptions {
   executablePath?: string
 
   runs?: number
-  diffMode?: boolean
+  diff?: boolean
 }
