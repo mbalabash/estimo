@@ -101,6 +101,66 @@ const report = await estimo(['/path/to/examples/example.js'], { runs: 10 })
 estimo -r /path/to/examples/example.js --runs 10
 ```
 
+## Diff Mode
+
+You can compare metrics of an origin file with others its versions to understand consequences on performance.
+
+We take the first file as a baseline. All rest files will be compared with the baseline.
+
+**JS API**
+
+```js
+const report = await estimo(['lib-1.0.5.js', 'lib-1.1.0.js'], { diff: true })
+```
+
+**CLI**
+
+```sh
+estimo -r lib-1.0.5.js lib-1.1.0.js --diff
+```
+
+**Output**
+
+```js
+[
+  {
+    name: 'lib-1.0.5.js',
+    parseHTML: 1.48,
+    styleLayout: 44.61,
+    paintCompositeRender: 2.19,
+    scriptParseCompile: 1.21,
+    scriptEvaluation: 9.63,
+    javaScript: 10.84,
+    garbageCollection: 0,
+    other: 9.95,
+    total: 69.06,
+  },
+  {
+    name: 'lib-1.1.0.js',
+    parseHTML: 2.97,
+    styleLayout: 61.02,
+    paintCompositeRender: 2.11,
+    scriptParseCompile: 2.11,
+    scriptEvaluation: 19.28,
+    javaScript: 21.39,
+    garbageCollection: 0,
+    other: 15.49,
+    total: 102.98,
+    diff: {
+      parseHTML: '2.97 (+50.17% 🔺)',
+      styleLayout: '61.02 (+26.9% 🔺)',
+      paintCompositeRender: '2.11 (-3.8% 🔽)',
+      scriptParseCompile: '2.11 (+42.66% 🔺)',
+      scriptEvaluation: '19.28 (+50.06% 🔺)',
+      javaScript: '21.39 (+49.33% 🔺)',
+      garbageCollection: '0 (N/A)',
+      other: '15.49 (+35.77% 🔺)',
+      total: '102.98 (+32.94% 🔺)',
+    },
+  },
+]
+```
+
 ## Additional Use Cases
 
 ### CPU Throttling Rate
@@ -244,6 +304,4 @@ We will use your local **Chrome** if it suitable for using with Estimo.
 
 ## Contributing
 
-Feel free to ask or open an issue.
-
-![Travis CI Status](https://travis-ci.org/mbalabash/estimo.svg?branch=master) [![CircleCI](https://circleci.com/gh/mbalabash/estimo/tree/master.svg?style=svg)](https://circleci.com/gh/mbalabash/estimo/tree/master)
+Pull requests, feature ideas and bug reports are very welcome. We highly appreciate any feedback.
