@@ -2,6 +2,14 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.2.0
+
+**Added**:
+
+- `diff` - option which enable [`Diff Mode`](https://github.com/mbalabash/estimo#diff-mode). 
+
+It will be useful for you if you want to understand how performance metrics are changed between a few versions of js libraries.
+
 ## 2.1.2
 
 **Changed**:
