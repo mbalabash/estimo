@@ -19,6 +19,10 @@ const { argv } = require('yargs')
     describe: 'How many times estimo will run',
     type: 'number',
   })
+  .option('diff', {
+    describe: 'Compare metrics of an origin file with others its versions',
+    type: 'boolean',
+  })
   .option('cpu', {
     describe: 'Enable CPU Throttling',
     type: 'boolean',
@@ -66,6 +70,7 @@ const estimo = require('../index')
     device: argv.device || false,
     emulateCpuThrottling: argv.cpu || false,
     runs: argv.runs || 1,
+    diff: argv.diff || false,
     cpuThrottlingRate: argv.cpuRate || 1,
     emulateNetworkConditions: argv.net || false,
     offline: argv.offline || false,
