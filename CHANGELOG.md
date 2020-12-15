@@ -2,6 +2,12 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.2.2
+
+**Changed**:
+
+- Fix npm security issue.
+
 ## 2.2.1
 
 **Changed**:
