@@ -12,6 +12,10 @@ const defaultBrowserOptions = {
 const chromeLaunchArgs = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
 
 async function createBrowserEntity(options) {
+  if (options.executablePath.length === 0) {
+    throw new Error(`Chromium revision is not downloaded. Run "npm install" or "yarn install"`)
+  }
+
   if (options.width && options.height) {
     chromeLaunchArgs.push(`--window-size=${options.width},${options.height}`)
   }
