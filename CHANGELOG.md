@@ -2,6 +2,14 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.2.3
+
+**Changed**:
+
+- Now, it'll show an error when couldn't find Chrome executable path.
+
+- Upgraded project dependencies.
+
 ## 2.2.2
 
 **Changed**:
@@ -18,7 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 **Added**:
 
-- `diff` - option which enable [`Diff Mode`](https://github.com/mbalabash/estimo#diff-mode). 
+- `diff` - option which enable [`Diff Mode`](https://github.com/mbalabash/estimo#diff-mode).
 
 It will be useful for you if you want to understand how performance metrics are changed between a few versions of js libraries.
 
