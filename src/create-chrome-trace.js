@@ -28,8 +28,8 @@ async function createBrowserEntity(options) {
   if (process.env.ESTIMO_DEBUG) {
     browserConfig.dumpio = true
   }
-  const browser = await puppeteer.launch(browserConfig)
-  return browser
+
+  return await puppeteer.launch(browserConfig)
 }
 
 async function createPageEntity(context, options) {
@@ -60,20 +60,24 @@ async function createPageEntity(context, options) {
 }
 
 async function setupCdpEntity(cdpSession, options) {
-  // Enable Network Emulation
-  if (options.emulateNetworkConditions) {
-    await cdpSession.send('Network.emulateNetworkConditions', {
-      offline: options.offline,
-      latency: options.latency,
-      downloadThroughput: megabitsToBytes(options.downloadThroughput),
-      uploadThroughput: megabitsToBytes(options.uploadThroughput),
-      connectionType: options.connectionType,
-    })
-  }
+  try {
+    // Enable Network Emulation
+    if (options.emulateNetworkConditions) {
+      await cdpSession.send('Network.emulateNetworkConditions', {
+        offline: options.offline,
+        latency: options.latency,
+        downloadThroughput: megabitsToBytes(options.downloadThroughput),
+        uploadThroughput: megabitsToBytes(options.uploadThroughput),
+        connectionType: options.connectionType,
+      })
+    }
 
-  // Enable CPU Emulation
-  if (options.emulateCpuThrottling) {
-    await cdpSession.send('Emulation.setCPUThrottlingRate', { rate: options.cpuThrottlingRate })
+    // Enable CPU Emulation
+    if (options.emulateCpuThrottling) {
+      await cdpSession.send('Emulation.setCPUThrottlingRate', { rate: options.cpuThrottlingRate })
+    }
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -107,8 +111,12 @@ async function createChromeTrace(resources, browserOptions) {
   } catch (error) {
     console.error(error)
   } finally {
-    await context.close()
-    await browser.close()
+    if (context) {
+      await context.close()
+    }
+    if (browser) {
+      await browser.close()
+    }
   }
 
   return resourcesWithTrace
