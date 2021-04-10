@@ -262,6 +262,9 @@ async function findChrome() {
   else if (process.platform === 'win32') executablePath = win32()
   else if (process.platform === 'darwin') executablePath = darwin()
 
+  if (!executablePath && process.env.CHROMIUM_EXECUTABLE_PATH)
+    executablePath = process.env.CHROMIUM_EXECUTABLE_PATH
+
   if (typeof executablePath === 'string' && executablePath.length > 0) {
     if (await isSuitableVersion(executablePath)) {
       await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
