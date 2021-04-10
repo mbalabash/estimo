@@ -1,6 +1,14 @@
 # Change Log
 
-This project adheres to [Semantic Versioning](http://semver.org/).
+## 2.2.4
+
+**Changed**:
+
+- Resolve M1 error with BrowserFetcher (when install estimo).
+
+- Handle `CHROMIUM_EXECUTABLE_PATH` env variable as a source of information to Chromium binary.
+
+- Upgraded project dependencies.
 
 ## 2.2.3
 
@@ -34,31 +42,31 @@ It will be useful for you if you want to understand how performance metrics are 
 
 **Changed**:
 
-- Updated project dependencies
+- Updated project dependencies.
 
 ## 2.1.1
 
 **Changed**:
 
-- Updated project docs
+- Updated project docs.
 
 ## 2.1.0
 
 **Added**:
 
-- `runs` - option which you can use to run estimo N times and get median value as a result
+- `runs` - option which you can use to run estimo N times and get median value as a result.
 
 **Changed**:
 
-- Fixed broken types
+- Fixed broken types.
 
-- Updated dependencies
+- Updated dependencies.
 
-- Removed debug logging
+- Removed debug logging.
 
-- Removed useless tests
+- Removed useless tests.
 
-- Fixed unhandled exceptions
+- Fixed unhandled exceptions.
 
 ## 2.0.4
 
