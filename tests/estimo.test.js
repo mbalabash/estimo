@@ -98,7 +98,7 @@ test('estimo - should works properly with custom RUNS option', async (t) => {
   t.is(typeof reports2[0].other === 'number' && reports2[0].other >= 0, true)
   t.is(typeof reports2[0].total === 'number' && reports2[0].total > 0, true)
 
-  await writeFile(path.join(__dirname, '../..', 'chrome.json'), '{ "executablePath": "" }')
+  await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
 
 test('estimo - should works properly in DIFF MODE', async (t) => {
@@ -181,5 +181,5 @@ test('estimo - should works properly in DIFF MODE', async (t) => {
   t.is(typeof reports[1].diff.other === 'string' && reports[1].diff.other.length > 0, true)
   t.is(typeof reports[1].diff.total === 'string' && reports[1].diff.total.length > 0, true)
 
-  await writeFile(path.join(__dirname, '../..', 'chrome.json'), '{ "executablePath": "" }')
+  await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
 })
