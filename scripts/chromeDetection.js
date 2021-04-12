@@ -1,7 +1,7 @@
 /* eslint-disable */
 const fs = require('fs')
 const path = require('path')
-const { homedir } = require('os')
+const { homedir, arch } = require('os')
 const puppeteer = require('puppeteer-core')
 const { execSync, execFileSync } = require('child_process')
 const puppeteerCorePackageJson = require('puppeteer-core/package.json')
@@ -197,6 +197,13 @@ function linux() {
 }
 
 async function downloadChromium() {
+  // TODO: remove after https://github.com/puppeteer/puppeteer/issues/6641
+  if (arch() === 'arm64') {
+    throw new Error(
+      `Puppeteer BrowserFetcher temporary doesn't work properly with Apple Silicon M1 and probably may cause some errors on arm64. See: https://github.com/puppeteer/puppeteer/issues/6641`
+    )
+  }
+
   const browserFetcher = puppeteer.createBrowserFetcher({
     path: chromeTempPath,
     host: downloadHost,
@@ -258,48 +265,59 @@ async function isSuitableVersion(executablePath) {
 async function findChrome() {
   let executablePath
 
-  if (process.platform === 'linux') executablePath = linux()
-  else if (process.platform === 'win32') executablePath = win32()
-  else if (process.platform === 'darwin') executablePath = darwin()
+  try {
+    if (process.platform === 'linux') executablePath = linux()
+    else if (process.platform === 'win32') executablePath = win32()
+    else if (process.platform === 'darwin') executablePath = darwin()
 
-  if (!executablePath && process.env.CHROMIUM_EXECUTABLE_PATH)
-    executablePath = process.env.CHROMIUM_EXECUTABLE_PATH
+    if (!executablePath && process.env.CHROMIUM_EXECUTABLE_PATH)
+      executablePath = process.env.CHROMIUM_EXECUTABLE_PATH
 
-  if (typeof executablePath === 'string' && executablePath.length > 0) {
-    if (await isSuitableVersion(executablePath)) {
-      await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
-      console.info(`Local Chrome location: ${executablePath}`)
-      if (process.platform !== 'win32') {
-        console.info(
-          `Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`
-        )
+    if (typeof executablePath === 'string' && executablePath.length > 0) {
+      if (await isSuitableVersion(executablePath)) {
+        await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
+        console.info(`Local Chrome location: ${executablePath}`)
+        if (process.platform !== 'win32') {
+          console.info(
+            `Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`
+          )
+        }
+        return executablePath
       }
-      return executablePath
+      console.info('Local Chrome version is not suitable')
     }
-    console.info('Local Chrome version is not suitable')
-  }
 
-  if (isDownloadSkipped) {
-    console.info(
-      'Skipping Chromium download. "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" was set in either env variables, ' +
-        'npm config or project config.'
+    if (isDownloadSkipped) {
+      console.info(
+        'Skipping Chromium download. "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" was set in either env variables, ' +
+          'npm config or project config.'
+      )
+      return undefined
+    }
+
+    const revisionInfo = await downloadChromium()
+    await writeFile(
+      chromeConfigPath,
+      JSON.stringify({ executablePath: revisionInfo.executablePath })
     )
-    return undefined
+
+    console.info(`Downloaded Chrome location: ${revisionInfo.executablePath}`)
+    if (process.platform !== 'win32') {
+      console.info(
+        `Downloaded Chrome version: ${execSync(
+          `"${revisionInfo.executablePath}" --version`
+        ).toString()}`
+      )
+    }
+
+    return revisionInfo.executablePath
+  } catch (error) {
+    console.info()
+    console.error(error)
+    console.info()
   }
 
-  const revisionInfo = await downloadChromium()
-  await writeFile(chromeConfigPath, JSON.stringify({ executablePath: revisionInfo.executablePath }))
-
-  console.info(`Downloaded Chrome location: ${revisionInfo.executablePath}`)
-  if (process.platform !== 'win32') {
-    console.info(
-      `Downloaded Chrome version: ${execSync(
-        `"${revisionInfo.executablePath}" --version`
-      ).toString()}`
-    )
-  }
-
-  return revisionInfo.executablePath
+  return executablePath
 }
 
 module.exports = { findChrome }
