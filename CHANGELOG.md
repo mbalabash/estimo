@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.2.5
+
+**Changed**:
+
+- Added temporary error until puppeteer will fully support M1 Mac ([#6641](https://github.com/puppeteer/puppeteer/issues/6641)). 
+
+- Prevented install-script from failure if some error appeared.
+
 ## 2.2.4
 
 **Changed**:
