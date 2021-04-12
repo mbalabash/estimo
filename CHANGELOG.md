@@ -4,8 +4,6 @@
 
 **Changed**:
 
-- Resolve M1 error with BrowserFetcher (when install estimo).
-
 - Handle `CHROMIUM_EXECUTABLE_PATH` env variable as a source of information to Chromium binary.
 
 - Upgraded project dependencies.
