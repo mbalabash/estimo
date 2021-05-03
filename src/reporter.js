@@ -6,9 +6,7 @@ async function generateTasksReport(pathToTraceFile) {
 
   try {
     const tracelog = JSON.parse(await readFile(pathToTraceFile))
-    tasks = tracium.computeMainThreadTasks(tracelog, {
-      flatten: true,
-    })
+    tasks = tracium.computeMainThreadTasks(tracelog, { flatten: true })
   } catch (error) {
     console.error(error)
   }
