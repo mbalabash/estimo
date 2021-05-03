@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.2.7
+
+**Changed**:
+
+- Migrated on forked version of trace parcer with patches to avoid errors with navigationStart event. Which is increase stability with newest chromium releases (thanks @sitespeed.io).
+
+- Removed `LATEST_STABLE_CHROME_VERSION` and fixed `chromeDetection` script to work with newest chromium releases.
+
 ## 2.2.6
 
 **Changed**:
