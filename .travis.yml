@@ -15,7 +15,7 @@ matrix:
       node_js: '12'
     - name: 'Without Chrome, Node 14'
       node_js: '14'
-    - name: 'Without Chrome, Node 14, WindowsOS'
+    - name: 'Without Chrome, Node 12, WindowsOS'
       env:
         - YARN_GPG=no
       os: windows
