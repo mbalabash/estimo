@@ -5,6 +5,7 @@ const { homedir, arch } = require('os')
 const puppeteer = require('puppeteer-core')
 const { execSync, execFileSync } = require('child_process')
 const { writeFile } = require('../src/utils')
+const { PUPPETEER_REVISIONS } = require('puppeteer-core/lib/cjs/puppeteer/revisions')
 
 const MIN_CHROME_VERSION = parseInt(
   process.env.MIN_CHROME_VERSION ||
@@ -15,12 +16,6 @@ const MIN_CHROME_VERSION = parseInt(
     '75',
   10
 )
-
-// TODO: REMOVE THIS after migrating on tracehouse
-const LATEST_STABLE_CHROME_VERSION = 79
-const LATEST_STABLE_CHROME_REVISION = '706915'
-// TODO: REFS: https://github.com/aslushnikov/tracium/issues/2
-// TODO: REFS: https://github.com/GoogleChrome/lighthouse/issues/9519
 
 const newLineRegex = /\r?\n/
 const chromeTempPath = path.join(__dirname, '..', 'temp', 'chrome')
@@ -210,8 +205,8 @@ async function downloadChromium() {
   const revision =
     process.env.PUPPETEER_CHROMIUM_REVISION ||
     process.env.npm_config_puppeteer_chromium_revision ||
-    process.env.npm_package_config_puppeteer_chromium_revision
-  // LATEST_STABLE_CHROME_REVISION
+    process.env.npm_package_config_puppeteer_chromium_revision ||
+    PUPPETEER_REVISIONS.chromium
 
   const revisionInfo = browserFetcher.revisionInfo(revision)
 
@@ -220,8 +215,18 @@ async function downloadChromium() {
 
   try {
     console.info(`Downloading Chromium r${revision}...`)
+
     const newRevisionInfo = await browserFetcher.download(revisionInfo.revision)
+
     console.info(`Chromium downloaded to ${newRevisionInfo.folderPath}`)
+    console.info(`Downloaded Chrome executable path: ${revisionInfo.executablePath}`)
+    if (process.platform !== 'win32') {
+      console.info(
+        `Downloaded Chrome version: ${execSync(
+          `"${revisionInfo.executablePath}" --version`
+        ).toString()}`
+      )
+    }
 
     let localRevisions = await browserFetcher.localRevisions()
     localRevisions = localRevisions.filter((r) => r !== revisionInfo.revision)
@@ -252,7 +257,6 @@ async function isSuitableVersion(executablePath) {
   const match = versionOutput.match(versionRe)
   if (match && match[2]) {
     const version = +match[2]
-    // return version >= MIN_CHROME_VERSION && version <= LATEST_STABLE_CHROME_VERSION
     return version >= MIN_CHROME_VERSION
   }
 
@@ -263,22 +267,24 @@ async function findChrome() {
   let executablePath
 
   try {
-    if (process.platform === 'linux') executablePath = linux()
-    else if (process.platform === 'win32') executablePath = win32()
-    else if (process.platform === 'darwin') executablePath = darwin()
-
-    if (!executablePath && process.env.CHROMIUM_EXECUTABLE_PATH)
-      executablePath = process.env.CHROMIUM_EXECUTABLE_PATH
+    if (process.env.CHROMIUM_EXECUTABLE_PATH) executablePath = process.env.CHROMIUM_EXECUTABLE_PATH
+    else if (!executablePath && process.env.PUPPETEER_EXECUTABLE_PATH)
+      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH
+    else if (!executablePath && process.platform === 'linux') executablePath = linux()
+    else if (!executablePath && process.platform === 'win32') executablePath = win32()
+    else if (!executablePath && process.platform === 'darwin') executablePath = darwin()
 
     if (typeof executablePath === 'string' && executablePath.length > 0) {
       if (await isSuitableVersion(executablePath)) {
         await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
+
         console.info(`Local Chrome location: ${executablePath}`)
         if (process.platform !== 'win32') {
           console.info(
             `Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`
           )
         }
+
         return executablePath
       }
       console.info('Local Chrome version is not suitable')
@@ -297,15 +303,6 @@ async function findChrome() {
       chromeConfigPath,
       JSON.stringify({ executablePath: revisionInfo.executablePath })
     )
-
-    console.info(`Downloaded Chrome location: ${revisionInfo.executablePath}`)
-    if (process.platform !== 'win32') {
-      console.info(
-        `Downloaded Chrome version: ${execSync(
-          `"${revisionInfo.executablePath}" --version`
-        ).toString()}`
-      )
-    }
 
     return revisionInfo.executablePath
   } catch (error) {
