@@ -1,7 +1,7 @@
 /* eslint-disable */
 const fs = require('fs')
 const path = require('path')
-const { homedir, arch } = require('os')
+const { homedir } = require('os')
 const puppeteer = require('puppeteer-core')
 const { execSync, execFileSync } = require('child_process')
 const puppeteerCorePackageJson = require('puppeteer-core/package.json')
@@ -197,13 +197,6 @@ function linux() {
 }
 
 async function downloadChromium() {
-  // TODO: remove after https://github.com/puppeteer/puppeteer/issues/6641
-  if (arch() === 'arm64') {
-    throw new Error(
-      `Puppeteer BrowserFetcher temporary doesn't work properly with Apple Silicon M1 and probably may cause some errors on arm64. See: https://github.com/puppeteer/puppeteer/issues/6641`
-    )
-  }
-
   const browserFetcher = puppeteer.createBrowserFetcher({
     path: chromeTempPath,
     host: downloadHost,
