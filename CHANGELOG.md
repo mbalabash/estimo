@@ -1,10 +1,18 @@
 # Change Log
 
+## 2.2.6
+
+**Changed**:
+
+- Upgraded `puppeteer-core` to v9.1.0 which fixes BrowserFetcher error on Mac M1.
+
+- Removed temporary error when running on Mac M1.
+
 ## 2.2.5
 
 **Changed**:
 
-- Added temporary error until puppeteer will fully support M1 Mac ([#6641](https://github.com/puppeteer/puppeteer/issues/6641)). 
+- Added temporary error until puppeteer will fully support M1 Mac ([#6641](https://github.com/puppeteer/puppeteer/issues/6641)).
 
 - Prevented install-script from failure if some error appeared.
 
