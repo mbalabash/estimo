@@ -1,7 +1,7 @@
 {
   "name": "estimo",
-  "version": "2.2.6",
-  "description": "Evaluates how long the browser will execute your javascript code.",
+  "version": "2.2.7",
+  "description": "Evaluates how long the browser will execute your javascript code",
   "main": "index.js",
   "scripts": {
     "install": "node ./scripts/findChrome.js",
