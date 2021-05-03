@@ -1,4 +1,3 @@
-// const tracium = require('tracium')
 const tracium = require('@sitespeed.io/tracium')
 const { readFile } = require('./utils')
 
@@ -7,9 +6,6 @@ async function generateTasksReport(pathToTraceFile) {
 
   try {
     const tracelog = JSON.parse(await readFile(pathToTraceFile))
-    // tasks = tracium.computeMainThreadTasks(tracelog, {
-    //   flatten: true,
-    // })
     tasks = tracium.computeMainThreadTasks(tracelog, {
       flatten: true,
     })
