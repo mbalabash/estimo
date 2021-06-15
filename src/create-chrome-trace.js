@@ -111,10 +111,14 @@ async function createChromeTrace(resources, browserOptions) {
   } catch (error) {
     console.error(error)
   } finally {
-    if (context) {
-      await context.close()
-    }
     if (browser) {
+      const pages = await browser.pages()
+      await Promise.all(pages.map((item) => item.close()))
+
+      if (context) {
+        await context.close()
+      }
+
       await browser.close()
     }
   }
