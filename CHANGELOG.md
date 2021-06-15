@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.2.8
+
+**Changed**:
+
+- Increased stability on slow CI's.
+
+- Dropped support for Node.js 10.
+
+- Fixed npm security issues.
+
 ## 2.2.7
 
 **Changed**:
