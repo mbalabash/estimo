@@ -189,6 +189,44 @@ function linux() {
   return sort(uniq(installations.filter(Boolean)), priorities)[0]
 }
 
+function chromeVersion(executablePath) {
+  let chromeVersionOfExecutable = ''
+
+  if (process.platform !== 'win32') {
+    chromeVersionOfExecutable = execSync(`"${executablePath}" --version`).toString()
+  } else {
+    const executablePathForNode = executablePath.replace(/\\/g, '\\\\')
+    const wmiResult = execSync(`wmic datafile where name="${executablePathForNode}" GET Manufacturer,FileName,Version /format:csv`, { stdio: ['pipe', 'pipe', 'ignore'] })
+    wmiResultAsStringArray = wmiResult.toString().replace(/^\r\r\n/, '').replace(/\r\r\n$/, '').split("\r\r\n")
+    if (wmiResultAsStringArray.length === 2) {
+      const columnNames = wmiResultAsStringArray[0].split(',')
+      const values = wmiResultAsStringArray[1].split(',')
+      let manufacturer = ''
+      let version = ''
+      columnNames.forEach((columnName, index) => {
+        switch (columnName) {
+          case 'Manufacturer':
+            manufacturerInFile = values[index]
+            if (manufacturerInFile.includes('Chromium')) {
+              manufacturer = 'Chromium'
+            } else {
+              manufacturer = 'Google Chrome'
+            }
+            break;
+          case 'Version':
+            version = values[index]
+            break;
+        }
+      })
+      chromeVersionOfExecutable = `${manufacturer} ${version}`
+    } else {
+      throw new Error(`no version information found in '${executablePath}'`)
+    }
+  }
+
+  return chromeVersionOfExecutable
+}
+
 async function downloadChromium() {
   const browserFetcher = puppeteer.createBrowserFetcher({
     path: chromeTempPath,
@@ -213,13 +251,9 @@ async function downloadChromium() {
 
     console.info(`Chromium downloaded to ${newRevisionInfo.folderPath}`)
     console.info(`Downloaded Chrome executable path: ${revisionInfo.executablePath}`)
-    if (process.platform !== 'win32') {
-      console.info(
-        `Downloaded Chrome version: ${execSync(
-          `"${revisionInfo.executablePath}" --version`
-        ).toString()}`
-      )
-    }
+    console.info(
+      `Downloaded Chrome version: ${chromeVersion(revisionInfo.executablePath)}`
+    )
 
     let localRevisions = await browserFetcher.localRevisions()
     localRevisions = localRevisions.filter((r) => r !== revisionInfo.revision)
@@ -241,7 +275,7 @@ async function isSuitableVersion(executablePath) {
 
   try {
     // In case installed Chrome is not runnable
-    versionOutput = execSync(`"${executablePath}" --version`).toString()
+    versionOutput = chromeVersion(executablePath)
   } catch (e) {
     return false
   }
@@ -272,11 +306,9 @@ async function findChrome() {
         await writeFile(chromeConfigPath, JSON.stringify({ executablePath }))
 
         console.info(`Local Chrome location: ${executablePath}`)
-        if (process.platform !== 'win32') {
-          console.info(
-            `Local Chrome version: ${execSync(`"${executablePath}" --version`).toString()}`
-          )
-        }
+        console.info(
+          `Local Chrome version: ${chromeVersion(executablePath)}`
+        )
 
         return executablePath
       }
