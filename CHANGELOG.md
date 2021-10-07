@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.2.9
+
+**Changed**:
+
+- Fixed issue when chrome detection script fails on win10 (thanks to [@BePo65](https://github.com/BePo65))
+
+- Fixed npm security issues.
+
 ## 2.2.8
 
 **Changed**:
