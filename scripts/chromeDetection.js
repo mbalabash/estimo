@@ -197,7 +197,7 @@ function chromeVersion(executablePath) {
   } else {
     const executablePathForNode = executablePath.replace(/\\/g, '\\\\')
     const wmiResult = execSync(`wmic datafile where name="${executablePathForNode}" GET Manufacturer,FileName,Version /format:csv`, { stdio: ['pipe', 'pipe', 'ignore'] })
-    wmiResultAsStringArray = wmiResult.toString().replace(/^\r\r\n/, '').replace(/\r\r\n$/, '').split("\r\r\n")
+    const wmiResultAsStringArray = wmiResult.toString().replace(/^\r\r\n/, '').replace(/\r\r\n$/, '').split("\r\r\n")
     if (wmiResultAsStringArray.length === 2) {
       const columnNames = wmiResultAsStringArray[0].split(',')
       const values = wmiResultAsStringArray[1].split(',')
