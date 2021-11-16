@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.3.0
+
+**Changed**:
+
+- Replaced yargs with commander which lead to removing 15 dependencies and reducing package size on 146kB.
+
+- Fixed bug with network emulation.
+
+- Simplified wording in documentation.
+
 ## 2.2.9
 
 **Changed**:

@@ -1,6 +1,6 @@
 {
   "name": "estimo",
-  "version": "2.2.9",
+  "version": "2.3.0",
   "description": "Evaluates how long the browser will execute your javascript code",
   "main": "index.js",
   "scripts": {
@@ -78,8 +78,7 @@
     "puppeteer",
     "devtools",
     "size-limit",
-    "performance",
-    "js"
+    "performance"
   ],
   "author": "mbalabash <maksim.balabash@gmail.com>",
   "license": "MIT"
