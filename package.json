@@ -9,10 +9,7 @@
     "eslint": "eslint --cache src",
     "test": "ava --timeout=4m --exit",
     "clean:temp": "rimraf ./temp/*.{html,json}",
-    "clean:chrome-config": "node ./scripts/cleanChromeConfig.js",
-    "docker:build": "docker build -t estimo .",
-    "test:docker": "docker run --rm --init -v $(pwd)/temp:/app/temp estimo",
-    "test:launch": "ESTIMO_DEBUG=true node ./tests/__mock__/test-launch.js"
+    "clean:chrome-config": "node ./scripts/cleanChromeConfig.js"
   },
   "engines": {
     "node": ">=12"
