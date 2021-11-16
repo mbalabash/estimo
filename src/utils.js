@@ -14,10 +14,6 @@ function getUrlToHtmlFile(file) {
   return `file://${path.resolve(file)}`
 }
 
-function megabitsToBytes(megabits) {
-  return (megabits * 1024 * 1024) / 8
-}
-
 function getLibraryName(lib) {
   if (/^https?/.test(lib)) {
     return lib.substring(lib.lastIndexOf('/') + 1)
@@ -199,7 +195,6 @@ module.exports = {
   estimoMedianExecutor,
   resolvePathToTempDir,
   getUrlToHtmlFile,
-  megabitsToBytes,
   checkEstimoArgs,
   getLibraryName,
   removeAllFiles,

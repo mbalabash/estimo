@@ -98,7 +98,7 @@ const report = await estimo(['/path/to/examples/example.js'], { runs: 10 })
 **CLI**
 
 ```sh
-estimo -r /path/to/examples/example.js --runs 10
+estimo -r /path/to/examples/example.js -runs 10
 ```
 
 ## Diff Mode
@@ -116,7 +116,7 @@ const report = await estimo(['lib-1.0.5.js', 'lib-1.1.0.js'], { diff: true })
 **CLI**
 
 ```sh
-estimo -r lib-1.0.5.js lib-1.1.0.js --diff
+estimo -r lib-1.0.5.js lib-1.1.0.js -diff
 ```
 
 **Output**
@@ -165,93 +165,84 @@ estimo -r lib-1.0.5.js lib-1.1.0.js --diff
 
 ### CPU Throttling Rate
 
-The CPU Throttling Rate Emulation allow you to generate a Performance timeline under specified CPU conditions. To turn on CPU emulation, you must pass the **emulateCpuThrottling** flag along with additional configuration options.
-
-- **emulateCpuThrottling** (default: `false`) - This flag allows the other CPU Throttling Rate options to be respected. They will be completely ignored unless this flag is set.
+The CPU Throttling Rate Emulation allows you to simulate CPU performance.
 
 - **cpuThrottlingRate** (default: `1`) - Sets the CPU throttling rate. The number represents the slowdown factor (e.g., 2 is a "2x" slowdown).
 
 **JS API**:
 
 ```js
-await estimo('/path/to/example.js', {
-  emulateCpuThrottling: true,
-  cpuThrottlingRate: 4,
-})
+await estimo('/path/to/example.js', { cpuThrottlingRate: 4 })
 ```
 
 **CLI**:
 
 ```sh
-estimo -r ./examples/example.js --cpu --cpuRate 4
+estimo -r ./examples/example.js -cpu 4
 ```
 
 ### Network Emulation
 
-The Network Emulation allow you to generate a Performance timeline under specified network conditions. To turn on network emulation, you must pass the **emulateNetworkConditions** flag along with additional configuration options.
+The Network Emulation allows you to simulate a specified network conditions.
 
-- **emulateNetworkConditions** (default: `false`) - This flag allows the other Network Emulation options to be respected. They will be completely ignored unless this flag is set.
-
-- **offline** (default: `false`) - Passing the `offline` flag to the generate command emulate a network disconnect.
-
-- **latency** (default: `0`) - Artificial, minimum latency between request sent and response header received expressed in milliseconds (ms).
-
-- **downloadThroughput** (default: `0`) - The maximum download speed in megabits per second. `0` disables throttling.
-
-- **uploadThroughput** (default: `0`) - The maximum upload speed in megabits per second. `0` disables throttling.
-
-- **connectionType** (default: `none`) - A label of the supposed underlying network connection type that the browser is using. Supported values are documented under Chrome Headless ConnectType documentation. Variants: `none`, `cellular2g`, `cellular3g`, `cellular4g`, `bluetooth`, `ethernet`, `wifi`, `wimax`, `other`.
+- **emulateNetworkConditions** (default: `undefined`) - One of [puppeteer network conditions descriptor](https://pptr.dev/#?product=Puppeteer&version=v11.0.0&show=api-puppeteernetworkconditions).
 
 **JS API**:
 
 ```js
-await estimo('/path/to/example.js', {
-  emulateNetworkConditions: true,
-  offline: false,
-  latency: 150,
-  downloadThroughput: 1.6,
-  uploadThroughput: 0.75,
-  connectionType: 'cellular3g',
-})
+await estimo('/path/to/example.js', { emulateNetworkConditions: 'Slow 3G' })
 ```
 
 **CLI**:
 
 ```sh
-estimo -r ./examples/example.js --net --latency 150 --download 1.6 --upload 0.75 --connection cellular3g
+estimo -r ./examples/example.js -net Slow\ 3G
 ```
 
 ### Chrome Device Emulation
 
-The Chrome Device Emulation allow you to generate a Performance timeline under specified device conditions.
+The Chrome Device Emulation allow you to simulate a specified device conditions.
 
-- **device** (default: `false`) - One of [Puppeteer Device Descriptor](https://github.com/GoogleChrome/puppeteer/blob/master/lib/DeviceDescriptors.js).
+- **device** (default: `undefined`) - One of [puppeteer devices descriptor](https://pptr.dev/#?product=Puppeteer&version=v11.0.0&show=api-puppeteerdevices).
 
 **JS API**
 
 ```js
-const report = await estimo('/path/to/example.js', {
-  device: 'Galaxy S5',
-})
+const report = await estimo('/path/to/example.js', { device: 'Galaxy S5' })
 ```
 
 **CLI**
 
 ```sh
-estimo -r ./examples/examples.js -d Galaxy\ S5
+estimo -r ./examples/examples.js -device Galaxy\ S5
 ```
 
 When using CLI, for device names with spaces you should use symbols escaping.
+
+### Changing default timeout
+
+You can specify how long estimo should wait for page to load.
+
+- **timeout** (default: `20000`) - Sets timeout in ms.
+
+**JS API**:
+
+```js
+await estimo('/path/to/example.js', { timeout: 90000 })
+```
+
+**CLI**:
+
+```sh
+estimo -r ./examples/example.js -timeout 90000
+```
 
 ### Multiple Resources
 
 **JS API**
 
 ```js
-const report = await estimo([
-  '/path/to/libs/example.js',
-  'https://unpkg.com/react@16/umd/react.development.js',
-])
+const report = await estimo(['/path/to/libs/example.js', '/path/to/another/example/lib.js'])
 ```
 
 **CLI**

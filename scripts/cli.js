@@ -1,97 +1,43 @@
 #!/usr/bin/env node
-const path = require('path')
-const { argv } = require('yargs')
-  .scriptName('estimo')
-  .usage('Usage: $0 [options]')
-  .showHelpOnFail(true)
-  .option('r', {
-    alias: 'resources',
-    describe: 'JavaScript files or Web pages',
-    type: 'array',
-    demand: true,
-  })
-  .option('d', {
-    alias: 'device',
-    describe: 'Enable Device Emulation',
-    type: 'string',
-  })
-  .option('runs', {
-    describe: 'How many times estimo will run',
-    type: 'number',
-  })
-  .option('diff', {
-    describe: 'Compare metrics of an origin file with others its versions',
-    type: 'boolean',
-  })
-  .option('cpu', {
-    describe: 'Enable CPU Throttling',
-    type: 'boolean',
-  })
-  .option('cpuRate', {
-    describe: 'Slowdown factor (e.g., 2 is a "2x" slowdown)',
-    type: 'number',
-  })
-  .option('net', {
-    describe: 'Enable Network Emulation',
-    type: 'boolean',
-  })
-  .option('offline', {
-    describe: 'Emulate a network disconnect',
-    type: 'boolean',
-  })
-  .option('latency', {
-    describe: 'Min latency between req and res in milliseconds',
-    type: 'number',
-  })
-  .option('download', {
-    describe: 'Max download speed in megabits per second',
-    type: 'number',
-  })
-  .option('upload', {
-    describe: 'Max upload speed in megabits per second',
-    type: 'number',
-  })
-  .option('connection', {
-    describe: 'Network connection type',
-    type: 'string',
-  })
-  .help('h')
-  .alias('h', 'help')
-  .alias('v', 'version')
-  .demandOption(['r'])
-
+const { resolve } = require('path')
+const { Command } = require('commander')
 const { isUrl } = require('../src/utils')
 const estimo = require('../index')
 
-// eslint-disable-next-line import/newline-after-import
+const program = new Command()
+
+program
+  .requiredOption('-r, --resources <string...>', 'javascript files and/or web pages')
+  .option('-device <string>', 'puppeteer device descriptor to enable device emulation')
+  .option('-cpu <number>', 'slowdown factor to enable cpu throttling')
+  .option(
+    '-net <string>',
+    'puppeteer network conditions descriptor to enable network emulation'
+  )
+  .option('-runs <number>', 'sets how many times estimo will run')
+  .option('-timeout <number>', 'sets how long estimo will wait for page load (ms)')
+  .option('-diff', 'compare metrics of a first resource against others')
+  .version(require('../package.json').version)
+
+program.parse(process.argv)
+
+const options = program.opts()
+const settings = {
+  device: options.Device || false,
+  diff: options.Diff || false,
+  runs: options.Runs ? parseInt(options.Runs, 10) : 1,
+  cpuThrottlingRate: options.Cpu ? parseInt(options.Cpu, 10) : 1,
+  emulateNetworkConditions: options.Net,
+  timeout: options.Timeout || 20000,
+}
+
 ;(async () => {
-  const { resources } = argv
-  const options = {
-    device: argv.device || false,
-    emulateCpuThrottling: argv.cpu || false,
-    runs: argv.runs || 1,
-    diff: argv.diff || false,
-    cpuThrottlingRate: argv.cpuRate || 1,
-    emulateNetworkConditions: argv.net || false,
-    offline: argv.offline || false,
-    latency: argv.latency || 0,
-    downloadThroughput: argv.download || 0,
-    uploadThroughput: argv.upload || 0,
-    connectionType: argv.connection || 'none',
-  }
-
-  const files = resources.map((lib) => {
-    if (isUrl(lib)) {
-      return lib
-    }
-    return path.resolve(lib)
-  })
-
+  const resources = options.resources.map((lib) => (isUrl(lib) ? lib : resolve(lib)))
   let report = null
 
   try {
     const startTime = Date.now()
-    report = await estimo(files, options)
+    report = await estimo(resources, settings)
     const finishTime = Date.now()
 
     console.log(report)

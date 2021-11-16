@@ -4,7 +4,6 @@ const {
   splitResourcesForEstimo,
   resolvePathToTempDir,
   getUrlToHtmlFile,
-  megabitsToBytes,
   checkEstimoArgs,
   getLibraryName,
   createDiff,
@@ -27,13 +26,6 @@ test('[getUrlToHtmlFile]: should properly generate url to local file', (t) => {
     getUrlToHtmlFile(resolvePathToTempDir(fileName)),
     `file://${path.join(__dirname, '../temp/', fileName)}`
   )
-})
-
-test('[megabitsToBytes]: should properly transform megabits to bytes', async (t) => {
-  t.is(megabitsToBytes(0.75), 98304)
-  t.is(megabitsToBytes(1.6), 209715.2)
-  t.is(megabitsToBytes(13), 1703936)
-  t.is(megabitsToBytes(0.33), 43253.76)
 })
 
 test('[createDiff]: should properly create diff', async (t) => {

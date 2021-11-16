@@ -19,20 +19,20 @@
   },
   "dependencies": {
     "@sitespeed.io/tracium": "^0.3.3",
-    "nanoid": "^3.1.29",
-    "puppeteer-core": "^10.4.0",
-    "yargs": "^17.2.1"
+    "commander": "^8.3.0",
+    "nanoid": "^3.1.30",
+    "puppeteer-core": "^11.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^13.2.0",
-    "@commitlint/config-conventional": "^13.2.0",
+    "@commitlint/cli": "^14.1.0",
+    "@commitlint/config-conventional": "^14.1.0",
     "ava": "^3.15.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.24.2",
-    "husky": "^7.0.2",
-    "lint-staged": "^11.2.0",
+    "eslint-plugin-import": "^2.25.3",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.0.2",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2"
   },
