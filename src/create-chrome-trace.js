@@ -1,6 +1,6 @@
 const { nanoid } = require('nanoid')
 const puppeteer = require('puppeteer-core')
-const { megabitsToBytes, resolvePathToTempDir } = require('./utils')
+const { resolvePathToTempDir } = require('./utils')
 const chromeConfig = require('../chrome.json')
 
 const defaultBrowserOptions = {
@@ -35,6 +35,14 @@ async function createBrowserEntity(options) {
 async function createPageEntity(context, options) {
   const page = await context.newPage()
 
+  if (options.emulateNetworkConditions) {
+    await page.emulateNetworkConditions(
+      puppeteer.networkConditions[options.emulateNetworkConditions]
+    )
+  }
+  if (options.cpuThrottlingRate) {
+    await page.emulateCPUThrottling(options.cpuThrottlingRate)
+  }
   if (options.userAgent) {
     await page.setUserAgent(options.userAgent)
   }
@@ -59,35 +67,12 @@ async function createPageEntity(context, options) {
   return page
 }
 
-async function setupCdpEntity(cdpSession, options) {
-  try {
-    // Enable Network Emulation
-    if (options.emulateNetworkConditions) {
-      await cdpSession.send('Network.emulateNetworkConditions', {
-        offline: options.offline,
-        latency: options.latency,
-        downloadThroughput: megabitsToBytes(options.downloadThroughput),
-        uploadThroughput: megabitsToBytes(options.uploadThroughput),
-        connectionType: options.connectionType,
-      })
-    }
-
-    // Enable CPU Emulation
-    if (options.emulateCpuThrottling) {
-      await cdpSession.send('Emulation.setCPUThrottlingRate', { rate: options.cpuThrottlingRate })
-    }
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 async function createChromeTrace(resources, browserOptions) {
   const options = { ...defaultBrowserOptions, ...browserOptions }
   const resourcesWithTrace = []
   let browser
   let context
   let page
-  let cdpSession
 
   try {
     browser = await createBrowserEntity(options)
@@ -95,15 +80,12 @@ async function createChromeTrace(resources, browserOptions) {
 
     for (const item of resources) {
       page = await createPageEntity(context, options)
-      cdpSession = await page.target().createCDPSession()
-      await setupCdpEntity(cdpSession, options)
 
       const traceFile = resolvePathToTempDir(`${nanoid()}.json`)
 
       await page.tracing.start({ path: traceFile })
       await page.goto(item.url, { timeout: options.timeout })
       await page.tracing.stop()
-      await cdpSession.detach()
       await page.close()
 
       resourcesWithTrace.push({ ...item, tracePath: traceFile })
