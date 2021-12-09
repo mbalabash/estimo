@@ -4,16 +4,19 @@
   "description": "Evaluates how long the browser will execute your javascript code",
   "main": "index.js",
   "types": "./index.d.ts",
-  "scripts": {
-    "install": "node ./scripts/find-chrome-binary.js",
-    "prettier": "prettier --write -l '(src|tests|scripts)/**/*.js'",
-    "eslint": "eslint --cache ./**/*.js",
-    "test": "ava --timeout=4m --exit",
-    "clean:temp": "rimraf ./temp/*.{html,json}",
-    "clean:chrome-config": "node ./scripts/clean-chrome-config.js"
-  },
   "engines": {
     "node": ">=12"
+  },
+  "license": "MIT",
+  "author": "mbalabash <maksim.balabash@gmail.com>",
+  "scripts": {
+    "install": "node ./scripts/find-chrome-binary.js",
+    "unit": "ava --timeout=4m --exit",
+    "test": "eslint . && check-dts && yarn unit",
+    "clean": "rimraf ./temp/*.{html,json} && node ./scripts/clean-chrome-config.js"
+  },
+  "bin": {
+    "estimo": "./scripts/cli.js"
   },
   "dependencies": {
     "@sitespeed.io/tracium": "^0.3.3",
@@ -23,43 +26,42 @@
     "puppeteer-core": "^12.0.1"
   },
   "devDependencies": {
+    "@logux/eslint-config": "^46.1.0",
     "ava": "^3.15.0",
+    "check-dts": "^0.6.5",
     "eslint": "^8.4.1",
-    "eslint-config-airbnb": "^19.0.2",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.3",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.1.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prefer-let": "^3.0.1",
+    "eslint-plugin-promise": "^5.2.0",
     "prettier": "^2.5.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "typescript": "^4.5.2"
   },
-  "bin": {
-    "estimo": "./scripts/cli.js"
-  },
-  "preferGlobal": true,
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
+  "eslintConfig": {
+    "extends": "@logux/eslint-config",
+    "rules": {
+      "no-console": "off"
     }
   },
-  "lint-staged": {
-    "*.(json)": [
-      "yarn clean:chrome-config",
-      "git add"
-    ],
-    "*.(js)": [
-      "yarn prettier",
-      "yarn eslint",
-      "git add"
-    ]
-  },
+  "eslintIgnore": [
+    "tests/__mock__/*.js",
+    "README.md"
+  ],
   "ava": {
     "concurrency": 1,
     "files": [
       "tests/**/*.js",
       "!tests/__mock__/**"
     ]
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "quoteProps": "as-needed",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
   },
   "repository": {
     "type": "git",
@@ -69,6 +71,7 @@
   "bugs": {
     "url": "https://github.com/mbalabash/estimo/issues"
   },
+  "preferGlobal": true,
   "keywords": [
     "chrome",
     "tracium",
@@ -76,7 +79,5 @@
     "devtools",
     "size-limit",
     "performance"
-  ],
-  "author": "mbalabash <maksim.balabash@gmail.com>",
-  "license": "MIT"
+  ]
 }

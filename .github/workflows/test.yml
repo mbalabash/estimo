@@ -1,0 +1,26 @@
+name: Test
+on:
+  push:
+jobs:
+  full:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: [12, 14, 16]
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    name: OS ${{ matrix.os }} Node.js ${{ matrix.node }}
+    steps:
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@latest     
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Install Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run unit tests
+        run: yarn unit
+        env:
+          FORCE_COLOR: 2
