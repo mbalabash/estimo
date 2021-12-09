@@ -1,4 +1,5 @@
 const { nanoid } = require('nanoid')
+
 const {
   writeFile,
   resolvePathToTempDir,
@@ -38,19 +39,19 @@ async function generateHtmlFile(htmlContent) {
 }
 
 async function prepareLibrariesForEstimation(libraries) {
-  const resources = []
+  let resources = []
 
-  for (const lib of libraries) {
-    const isFileExist = await existsAsync(lib)
+  for (let lib of libraries) {
+    let isFileExist = await existsAsync(lib)
     if (!isUrl(lib) && !isFileExist) {
       throw new Error(`${lib} - file isn't exist!`)
     }
 
-    const htmlContent = createHtmlContent(lib)
-    const html = await generateHtmlFile(htmlContent)
+    let htmlContent = createHtmlContent(lib)
+    let html = await generateHtmlFile(htmlContent)
 
-    const name = getLibraryName(lib)
-    const url = getUrlToHtmlFile(html)
+    let name = getLibraryName(lib)
+    let url = getUrlToHtmlFile(html)
     resources.push({ name, url, htmlPath: html })
   }
 

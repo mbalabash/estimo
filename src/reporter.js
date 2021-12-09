@@ -1,11 +1,12 @@
 const tracium = require('@sitespeed.io/tracium')
+
 const { readFile } = require('./utils')
 
 async function generateTasksReport(pathToTraceFile) {
   let tasks = []
 
   try {
-    const tracelog = JSON.parse(await readFile(pathToTraceFile))
+    let tracelog = JSON.parse(await readFile(pathToTraceFile))
     tasks = tracium.computeMainThreadTasks(tracelog, { flatten: true })
   } catch (error) {
     console.error(error)
@@ -19,24 +20,24 @@ function formatTime(time) {
 }
 
 function getEventsTime(events) {
-  const time = events.reduce((acc, cur) => acc + cur.selfTime, 0)
+  let time = events.reduce((acc, cur) => acc + cur.selfTime, 0)
   return formatTime(Math.round(time * 100) / 100)
 }
 
 async function generatePrettyReport(resources) {
-  const reports = []
+  let reports = []
 
   try {
-    for (const item of resources) {
-      const tasks = await generateTasksReport(item.tracePath)
+    for (let item of resources) {
+      let tasks = await generateTasksReport(item.tracePath)
 
-      const htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
-      const styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))
-      const renderTime = getEventsTime(tasks.filter(({ kind }) => kind === 'paintCompositeRender'))
-      const compileTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptParseCompile'))
-      const evaluationTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptEvaluation'))
-      const garbageTime = getEventsTime(tasks.filter(({ kind }) => kind === 'garbageCollection'))
-      const otherTime = getEventsTime(tasks.filter(({ kind }) => kind === 'other'))
+      let htmlTime = getEventsTime(tasks.filter(({ kind }) => kind === 'parseHTML'))
+      let styleTime = getEventsTime(tasks.filter(({ kind }) => kind === 'styleLayout'))
+      let renderTime = getEventsTime(tasks.filter(({ kind }) => kind === 'paintCompositeRender'))
+      let compileTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptParseCompile'))
+      let evaluationTime = getEventsTime(tasks.filter(({ kind }) => kind === 'scriptEvaluation'))
+      let garbageTime = getEventsTime(tasks.filter(({ kind }) => kind === 'garbageCollection'))
+      let otherTime = getEventsTime(tasks.filter(({ kind }) => kind === 'other'))
 
       reports.push({
         name: item.name,

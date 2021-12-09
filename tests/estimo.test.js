@@ -1,17 +1,18 @@
 const test = require('ava')
 const path = require('path')
+
 const estimo = require('../src/lib')
 const { getUrlToHtmlFile } = require('../src/utils')
 const { findChromeBinary } = require('../scripts/find-chrome-binary')
 const { cleanChromeConfig } = require('../scripts/clean-chrome-config')
 
 test('estimo - should works properly with mixed resources', async (t) => {
-  const chromeInfo = await findChromeBinary()
+  let chromeInfo = await findChromeBinary()
 
-  const page = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
-  const lib = path.join(__dirname, '__mock__', '19kb.js')
+  let page = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
+  let lib = path.join(__dirname, '__mock__', '19kb.js')
 
-  const reports = await estimo([lib, page], { executablePath: chromeInfo.executablePath })
+  let reports = await estimo([lib, page], { executablePath: chromeInfo.executablePath })
 
   t.is(reports[0].name, '19kb.js')
   t.is(typeof reports[0].parseHTML === 'number' && reports[0].parseHTML >= 0, true)
@@ -51,13 +52,13 @@ test('estimo - should works properly with mixed resources', async (t) => {
 })
 
 test('estimo - should works properly with custom RUNS option', async (t) => {
-  const chromeInfo = await findChromeBinary()
+  let chromeInfo = await findChromeBinary()
 
-  const lib1 = path.join(__dirname, '__mock__', '19kb.js')
-  const page1 = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
+  let lib1 = path.join(__dirname, '__mock__', '19kb.js')
+  let page1 = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
 
-  const reports1 = await estimo([lib1], { executablePath: chromeInfo.executablePath, runs: 3 })
-  const reports2 = await estimo([page1], { executablePath: chromeInfo.executablePath, runs: 2 })
+  let reports1 = await estimo([lib1], { executablePath: chromeInfo.executablePath, runs: 3 })
+  let reports2 = await estimo([page1], { executablePath: chromeInfo.executablePath, runs: 2 })
 
   t.is(reports1.length, 1)
   t.is(typeof reports1[0].parseHTML === 'number' && reports1[0].parseHTML >= 0, true)
@@ -103,12 +104,12 @@ test('estimo - should works properly with custom RUNS option', async (t) => {
 })
 
 test('estimo - should works properly in DIFF MODE', async (t) => {
-  const chromeInfo = await findChromeBinary()
+  let chromeInfo = await findChromeBinary()
 
-  const lib1 = path.join(__dirname, '__mock__', '19kb.js')
-  const lib2 = path.join(__dirname, '__mock__', '7kb.js')
+  let lib1 = path.join(__dirname, '__mock__', '19kb.js')
+  let lib2 = path.join(__dirname, '__mock__', '7kb.js')
 
-  const reports = await estimo([lib1, lib2], {
+  let reports = await estimo([lib1, lib2], {
     executablePath: chromeInfo.executablePath,
     runs: 2,
     diff: true,

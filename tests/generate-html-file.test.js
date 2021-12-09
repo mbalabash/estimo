@@ -1,6 +1,7 @@
 const fs = require('fs')
 const test = require('ava')
 const path = require('path')
+
 const { removeAllFiles } = require('../src/utils')
 const { resolvePathToTempDir } = require('../src/utils')
 const {
@@ -10,13 +11,13 @@ const {
 } = require('../src/generate-html-file')
 
 test('should properly prepare resources for Estimo', async (t) => {
-  const lib1 = path.join(__dirname, '__mock__', '19kb.js')
-  const lib2 = path.join(__dirname, '__mock__', '13kb.js')
-  const lib3 = 'https://unpkg.com/react@16/umd/react.development.js'
+  let lib1 = path.join(__dirname, '__mock__', '19kb.js')
+  let lib2 = path.join(__dirname, '__mock__', '13kb.js')
+  let lib3 = 'https://unpkg.com/react@16/umd/react.development.js'
 
   t.deepEqual(await prepareLibrariesForEstimation([]), [])
 
-  const resources = await prepareLibrariesForEstimation([lib1, lib2, lib3])
+  let resources = await prepareLibrariesForEstimation([lib1, lib2, lib3])
   t.is(resources[0].name, '19kb.js')
   t.is(resources[0].url.includes('file://'), true)
   t.is(resources[0].url.includes('temp'), true)
@@ -43,12 +44,12 @@ test('should properly prepare resources for Estimo', async (t) => {
 })
 
 test('should throw an error for not existed local js files', async (t) => {
-  const error = await t.throwsAsync(prepareLibrariesForEstimation(['some/not/existed/file.js']))
+  let error = await t.throwsAsync(prepareLibrariesForEstimation(['some/not/existed/file.js']))
   t.is(error.message, `some/not/existed/file.js - file isn't exist!`)
 })
 
 test('should properly generate content for html file', (t) => {
-  const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
+  let lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
 
   t.is(
     createHtmlContent(lib1),
@@ -69,8 +70,8 @@ test('should properly generate content for html file', (t) => {
 })
 
 test('should properly create html file for one library', async (t) => {
-  const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
-  const htmlFile = await generateHtmlFile(createHtmlContent(lib1))
+  let lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
+  let htmlFile = await generateHtmlFile(createHtmlContent(lib1))
 
   t.is(fs.existsSync(htmlFile), true)
   t.is(htmlFile, resolvePathToTempDir(path.basename(htmlFile)))
@@ -79,11 +80,11 @@ test('should properly create html file for one library', async (t) => {
 })
 
 test('should properly create html for few libraries', async (t) => {
-  const lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
-  const lib2 = 'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js'
+  let lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
+  let lib2 = 'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js'
 
-  const htmlFile1 = await generateHtmlFile(createHtmlContent(lib1))
-  const htmlFile2 = await generateHtmlFile(createHtmlContent(lib2))
+  let htmlFile1 = await generateHtmlFile(createHtmlContent(lib1))
+  let htmlFile2 = await generateHtmlFile(createHtmlContent(lib2))
 
   t.is(fs.existsSync(htmlFile1), true)
   t.is(htmlFile1, resolvePathToTempDir(path.basename(htmlFile1)))

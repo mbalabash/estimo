@@ -1,5 +1,6 @@
 const test = require('ava')
 const path = require('path')
+
 const {
   splitResourcesForEstimo,
   resolvePathToTempDir,
@@ -12,8 +13,8 @@ const {
 } = require('../src/utils')
 
 test('[resolvePathToTempDir]: should properly resolve path to file in temp directory', (t) => {
-  const fileName = 'someFile.txt'
-  const customTempDir = '../test/__mock__/'
+  let fileName = 'someFile.txt'
+  let customTempDir = '../test/__mock__/'
 
   t.is(resolvePathToTempDir(fileName), path.join(__dirname, '../temp/', fileName))
 
@@ -21,7 +22,7 @@ test('[resolvePathToTempDir]: should properly resolve path to file in temp direc
 })
 
 test('[getUrlToHtmlFile]: should properly generate url to local file', (t) => {
-  const fileName = 'index.html'
+  let fileName = 'index.html'
   t.is(
     getUrlToHtmlFile(resolvePathToTempDir(fileName)),
     `file://${path.join(__dirname, '../temp/', fileName)}`
@@ -99,7 +100,7 @@ test("[splitResourcesForEstimo]: should properly split input to js files and non
 
   t.deepEqual(splitResourcesForEstimo([]), { pages: [], libraries: [] })
 
-  const error = t.throws(() => splitResourcesForEstimo(['ftp://domain.to/', 'qwe/asd/']))
+  let error = t.throws(() => splitResourcesForEstimo(['ftp://domain.to/', 'qwe/asd/']))
   t.is(
     error.message,
     'Estimo works only with resources which are (paths to Js files) OR (urls to Web pages) (<String> OR <Array<String>>)'

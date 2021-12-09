@@ -1,5 +1,6 @@
 const { nanoid } = require('nanoid')
 const puppeteer = require('puppeteer-core')
+
 const { resolvePathToTempDir } = require('./utils')
 const chromeConfig = require('../chrome.json')
 
@@ -19,7 +20,7 @@ async function createBrowserEntity(options) {
   if (options.width && options.height) {
     chromeLaunchArgs.push(`--window-size=${options.width},${options.height}`)
   }
-  const browserConfig = {
+  let browserConfig = {
     headless: options.headless,
     executablePath: options.executablePath,
     args: chromeLaunchArgs,
@@ -33,7 +34,7 @@ async function createBrowserEntity(options) {
 }
 
 async function createPageEntity(context, options) {
-  const page = await context.newPage()
+  let page = await context.newPage()
 
   if (options.emulateNetworkConditions) {
     await page.emulateNetworkConditions(
@@ -68,8 +69,8 @@ async function createPageEntity(context, options) {
 }
 
 async function createChromeTrace(resources, browserOptions) {
-  const options = { ...defaultBrowserOptions, ...browserOptions }
-  const resourcesWithTrace = []
+  let options = { ...defaultBrowserOptions, ...browserOptions }
+  let resourcesWithTrace = []
   let browser
   let context
   let page
@@ -78,10 +79,10 @@ async function createChromeTrace(resources, browserOptions) {
     browser = await createBrowserEntity(options)
     context = await browser.createIncognitoBrowserContext()
 
-    for (const item of resources) {
+    for (let item of resources) {
       page = await createPageEntity(context, options)
 
-      const traceFile = resolvePathToTempDir(`${nanoid()}.json`)
+      let traceFile = resolvePathToTempDir(`${nanoid()}.json`)
 
       await page.tracing.start({ path: traceFile })
       await page.goto(item.url, { timeout: options.timeout })
@@ -94,7 +95,7 @@ async function createChromeTrace(resources, browserOptions) {
     console.error(error)
   } finally {
     if (browser) {
-      const pages = await browser.pages()
+      let pages = await browser.pages()
       await Promise.all(pages.map((item) => item.close()))
 
       if (context) {

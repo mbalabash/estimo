@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { resolve } = require('path')
 const { Command } = require('commander')
+
 const { isUrl } = require('../src/utils')
 const estimo = require('../index')
 
@@ -29,13 +30,13 @@ const settings = {
 }
 
 ;(async () => {
-  const resources = options.resources.map((lib) => (isUrl(lib) ? lib : resolve(lib)))
+  let resources = options.resources.map((lib) => (isUrl(lib) ? lib : resolve(lib)))
   let report = null
 
   try {
-    const startTime = Date.now()
+    let startTime = Date.now()
     report = await estimo(resources, settings)
-    const finishTime = Date.now()
+    let finishTime = Date.now()
 
     console.log(report)
     console.log(`Done in ${parseInt(finishTime - startTime, 10)} ms.`)

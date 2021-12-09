@@ -22,19 +22,19 @@ function getLibraryName(lib) {
 }
 
 function isJsFile(p) {
-  const JS_FILES = /\.m?js$/i
+  let JS_FILES = /\.m?js$/i
   return JS_FILES.test(path.extname(path.basename(p)))
 }
 
 function isUrl(p) {
-  const WEB_URLS = /^(https?|file):/
+  let WEB_URLS = /^(https?|file):/
   return WEB_URLS.test(p)
 }
 
 function splitResourcesForEstimo(resources) {
-  const items = Array.isArray(resources) ? resources : [resources]
-  const libraries = []
-  const pages = []
+  let items = Array.isArray(resources) ? resources : [resources]
+  let libraries = []
+  let pages = []
 
   items.forEach((item) => {
     if (isJsFile(item)) {
@@ -90,8 +90,8 @@ function createDiff(current, base) {
     return '-100%'
   }
 
-  const value = ((current - base) / current) * 100
-  const formatted = (Math.sign(value) * Math.ceil(Math.abs(value) * 100)) / 100
+  let value = ((current - base) / current) * 100
+  let formatted = (Math.sign(value) * Math.ceil(Math.abs(value) * 100)) / 100
 
   if (value > 0) {
     return `+${formatted}% 🔺`
@@ -105,15 +105,15 @@ function createDiff(current, base) {
 const defaultMedianAccessor = (element) => element
 const defaultMedianExecutor = (a, b) => (a + b) / 2
 function median(array, accessor = defaultMedianAccessor, executor = defaultMedianExecutor) {
-  const sortedArray = array.sort((a, b) => accessor(a) - accessor(b))
-  const { length } = sortedArray
-  const mid = parseInt(length / 2, 10)
+  let sortedArray = array.sort((a, b) => accessor(a) - accessor(b))
+  let { length } = sortedArray
+  let mid = parseInt(length / 2, 10)
 
   if (length % 2) {
     return sortedArray[mid]
   }
-  const low = mid - 1
-  const hight = mid
+  let low = mid - 1
+  let hight = mid
 
   return executor(sortedArray[low], sortedArray[hight])
 }
@@ -123,7 +123,7 @@ function estimoMedianExecutor(reportA, reportB) {
     throw new Error('Both the first report name and the second report name should be the same!')
   }
 
-  const calc = (a, b) => +((a + b) / 2).toFixed(2)
+  let calc = (a, b) => +((a + b) / 2).toFixed(2)
 
   return {
     name: reportA.name,
@@ -176,7 +176,7 @@ async function removeAllFiles(files) {
   }
 
   try {
-    for (const file of files) {
+    for (let file of files) {
       if (typeof file === 'string') {
         await deleteFile(file)
       }

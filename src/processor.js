@@ -4,9 +4,9 @@ const { createChromeTrace } = require('./create-chrome-trace')
 const { generatePrettyReport } = require('./reporter')
 
 async function reportsProcessor(reports, browserOptions) {
-  const runs = browserOptions.runs || 1
-  const diffMode = browserOptions.diff || false
-  const result = []
+  let runs = browserOptions.runs || 1
+  let diffMode = browserOptions.diff || false
+  let result = []
 
   try {
     Object.values(reports).forEach((resourceReports) => {
@@ -18,7 +18,7 @@ async function reportsProcessor(reports, browserOptions) {
     })
 
     if (diffMode && result.length > 1) {
-      const baseline = result[0]
+      let baseline = result[0]
       for (let i = 1; i < result.length; i += 1) {
         result[i].diff = {
           parseHTML: `${result[i].parseHTML} (${createDiff(
@@ -62,7 +62,7 @@ async function reportsProcessor(reports, browserOptions) {
 }
 
 async function processor(sources, browserOptions, mode) {
-  const runs = browserOptions.runs || 1
+  let runs = browserOptions.runs || 1
   let reports = []
   let result = []
 
@@ -83,7 +83,7 @@ async function processor(sources, browserOptions, mode) {
       await removeAllFiles(resources.map((item) => item.htmlPath))
     }
 
-    const sortedReports = {}
+    let sortedReports = {}
     reports.forEach((report) => {
       if (!sortedReports[report.name]) {
         sortedReports[report.name] = []

@@ -12,7 +12,7 @@ const chromeConfigPath = join(__dirname, '..', 'chrome.json')
 
 async function findChromeBinary() {
   try {
-    const chromeInfo = await findChrome({
+    let chromeInfo = await findChrome({
       min: 75,
       download: { puppeteer, revision: PUPPETEER_REVISIONS.chromium, path: chromeTempPath },
     })

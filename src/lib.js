@@ -6,7 +6,7 @@ async function estimo(resources = [], browserOptions = {}) {
   let reports = []
 
   try {
-    const { pages, libraries } = splitResourcesForEstimo(resources)
+    let { pages, libraries } = splitResourcesForEstimo(resources)
 
     if (libraries.length > 0) {
       reports = reports.concat(await processor(libraries, browserOptions, 'js-mode'))
