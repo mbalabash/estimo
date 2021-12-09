@@ -1,16 +1,17 @@
 const test = require('ava')
 const path = require('path')
 const estimo = require('../src/lib')
-const { writeFile, getUrlToHtmlFile } = require('../src/utils')
-const { findChrome } = require('../scripts/chromeDetection')
+const { getUrlToHtmlFile } = require('../src/utils')
+const { findChromeBinary } = require('../scripts/find-chrome-binary')
+const { cleanChromeConfig } = require('../scripts/clean-chrome-config')
 
 test('estimo - should works properly with mixed resources', async (t) => {
-  const chromeLocation = await findChrome()
+  const chromeInfo = await findChromeBinary()
 
   const page = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
   const lib = path.join(__dirname, '__mock__', '19kb.js')
 
-  const reports = await estimo([lib, page], { executablePath: chromeLocation })
+  const reports = await estimo([lib, page], { executablePath: chromeInfo.executablePath })
 
   t.is(reports[0].name, '19kb.js')
   t.is(typeof reports[0].parseHTML === 'number' && reports[0].parseHTML >= 0, true)
@@ -46,17 +47,17 @@ test('estimo - should works properly with mixed resources', async (t) => {
   t.is(typeof reports[1].other === 'number' && reports[1].other >= 0, true)
   t.is(typeof reports[1].total === 'number' && reports[1].total > 0, true)
 
-  await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
+  await cleanChromeConfig()
 })
 
 test('estimo - should works properly with custom RUNS option', async (t) => {
-  const chromeLocation = await findChrome()
+  const chromeInfo = await findChromeBinary()
 
   const lib1 = path.join(__dirname, '__mock__', '19kb.js')
   const page1 = getUrlToHtmlFile(path.join(__dirname, '__mock__', 'test.html'))
 
-  const reports1 = await estimo([lib1], { executablePath: chromeLocation, runs: 3 })
-  const reports2 = await estimo([page1], { executablePath: chromeLocation, runs: 2 })
+  const reports1 = await estimo([lib1], { executablePath: chromeInfo.executablePath, runs: 3 })
+  const reports2 = await estimo([page1], { executablePath: chromeInfo.executablePath, runs: 2 })
 
   t.is(reports1.length, 1)
   t.is(typeof reports1[0].parseHTML === 'number' && reports1[0].parseHTML >= 0, true)
@@ -98,17 +99,17 @@ test('estimo - should works properly with custom RUNS option', async (t) => {
   t.is(typeof reports2[0].other === 'number' && reports2[0].other >= 0, true)
   t.is(typeof reports2[0].total === 'number' && reports2[0].total > 0, true)
 
-  await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
+  await cleanChromeConfig()
 })
 
 test('estimo - should works properly in DIFF MODE', async (t) => {
-  const chromeLocation = await findChrome()
+  const chromeInfo = await findChromeBinary()
 
   const lib1 = path.join(__dirname, '__mock__', '19kb.js')
   const lib2 = path.join(__dirname, '__mock__', '7kb.js')
 
   const reports = await estimo([lib1, lib2], {
-    executablePath: chromeLocation,
+    executablePath: chromeInfo.executablePath,
     runs: 2,
     diff: true,
   })
@@ -181,5 +182,5 @@ test('estimo - should works properly in DIFF MODE', async (t) => {
   t.is(typeof reports[1].diff.other === 'string' && reports[1].diff.other.length > 0, true)
   t.is(typeof reports[1].diff.total === 'string' && reports[1].diff.total.length > 0, true)
 
-  await writeFile(path.join(__dirname, '..', 'chrome.json'), '{ "executablePath": "" }')
+  await cleanChromeConfig()
 })
