@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.3.1
+
+- Now using `find-chrome-bin` to find chromium binary.
+
+- Upgraded project dependencies.
+
 ## 2.3.0
 
 **Changed**:
