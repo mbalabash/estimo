@@ -3,13 +3,14 @@
   "version": "2.3.0",
   "description": "Evaluates how long the browser will execute your javascript code",
   "main": "index.js",
+  "types": "./index.d.ts",
   "scripts": {
-    "install": "node ./scripts/findChrome.js",
-    "prettier": "prettier --write -l '(src|tests)/**/*.js'",
-    "eslint": "eslint --cache src",
+    "install": "node ./scripts/find-chrome-binary.js",
+    "prettier": "prettier --write -l '(src|tests|scripts)/**/*.js'",
+    "eslint": "eslint --cache ./**/*.js",
     "test": "ava --timeout=4m --exit",
     "clean:temp": "rimraf ./temp/*.{html,json}",
-    "clean:chrome-config": "node ./scripts/cleanChromeConfig.js"
+    "clean:chrome-config": "node ./scripts/clean-chrome-config.js"
   },
   "engines": {
     "node": ">=12"
@@ -17,20 +18,19 @@
   "dependencies": {
     "@sitespeed.io/tracium": "^0.3.3",
     "commander": "^8.3.0",
+    "find-chrome-bin": "^0.1.0",
     "nanoid": "^3.1.30",
-    "puppeteer-core": "^11.0.0"
+    "puppeteer-core": "^12.0.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^14.1.0",
-    "@commitlint/config-conventional": "^14.1.0",
     "ava": "^3.15.0",
-    "eslint": "^8.2.0",
-    "eslint-config-airbnb": "^19.0.0",
+    "eslint": "^8.4.1",
+    "eslint-config-airbnb": "^19.0.2",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "husky": "^7.0.4",
-    "lint-staged": "^12.0.2",
-    "prettier": "^2.4.1",
+    "lint-staged": "^12.1.2",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.2"
   },
   "bin": {
