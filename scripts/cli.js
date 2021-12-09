@@ -10,10 +10,7 @@ program
   .requiredOption('-r, --resources <string...>', 'javascript files and/or web pages')
   .option('-device <string>', 'puppeteer device descriptor to enable device emulation')
   .option('-cpu <number>', 'slowdown factor to enable cpu throttling')
-  .option(
-    '-net <string>',
-    'puppeteer network conditions descriptor to enable network emulation'
-  )
+  .option('-net <string>', 'puppeteer network conditions descriptor to enable network emulation')
   .option('-runs <number>', 'sets how many times estimo will run')
   .option('-timeout <number>', 'sets how long estimo will wait for page load (ms)')
   .option('-diff', 'compare metrics of a first resource against others')

@@ -30,7 +30,7 @@ test('[getUrlToHtmlFile]: should properly generate url to local file', (t) => {
 
 test('[createDiff]: should properly create diff', async (t) => {
   t.is(createDiff(100894, 110894), '-9.92% 🔽')
-  t.is(createDiff(0.20210999999999999, 0.10210999999999999), '+49.48% 🔺')
+  t.is(createDiff(0.2021099999999999, 0.10210999999999999), '+49.48% 🔺')
   t.is(createDiff(2.5658984375, 2.1658984375), '+15.59% 🔺')
   t.is(createDiff(2.7680084375000003, 2.2680084375000003), '+18.07% 🔺')
   t.is(createDiff(1000, 100), '+90% 🔺')
