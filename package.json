@@ -21,7 +21,7 @@
   "dependencies": {
     "@sitespeed.io/tracium": "^0.3.3",
     "commander": "^8.3.0",
-    "find-chrome-bin": "^0.1.0",
+    "find-chrome-bin": "0.1.0",
     "nanoid": "^3.2.0",
     "puppeteer-core": "^13.1.1"
   },
