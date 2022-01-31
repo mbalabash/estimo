@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.3.3
+
+- Fixed npm security issues.
+
+- Upgraded project dependencies.
+
 ## 2.3.2
 
 - Fixed npm security issues.
