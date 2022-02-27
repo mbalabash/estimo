@@ -2,8 +2,7 @@ const test = require('ava')
 const path = require('path')
 
 const estimo = require('../src/lib')
-const { getUrlToHtmlFile } = require('../src/utils')
-const { findChromeBinary } = require('../scripts/find-chrome-binary')
+const { getUrlToHtmlFile, findChromeBinary } = require('../src/utils')
 const { cleanChromeConfig } = require('../scripts/clean-chrome-config')
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))

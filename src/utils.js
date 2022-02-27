@@ -1,6 +1,14 @@
 const fs = require('fs')
 const path = require('path')
 const { promisify } = require('util')
+const puppeteer = require('puppeteer-core')
+const { findChrome } = require('find-chrome-bin')
+const {
+  PUPPETEER_REVISIONS
+} = require('puppeteer-core/lib/cjs/puppeteer/revisions')
+
+const chromeTempPath = path.join(__dirname, '..', 'temp', 'chrome')
+const chromeConfigPath = path.join(__dirname, '..', 'chrome.json')
 
 const write = promisify(fs.writeFile)
 const read = promisify(fs.readFile)
@@ -36,7 +44,7 @@ function splitResourcesForEstimo(resources) {
   let libraries = []
   let pages = []
 
-  items.forEach((item) => {
+  items.forEach(item => {
     if (isJsFile(item)) {
       libraries.push(item)
     } else if (isUrl(item) && !isJsFile(item)) {
@@ -63,7 +71,7 @@ function checkEstimoArgs(resources, browserOptions) {
         'All resources should be represented as a <String> path to the resource (Js file or Web page).'
       )
     }
-    resources.forEach((item) => {
+    resources.forEach(item => {
       if (typeof item !== 'string') {
         throw new TypeError(
           'All resources should be represented as a <String> path to the resource (Js file or Web page).'
@@ -74,7 +82,8 @@ function checkEstimoArgs(resources, browserOptions) {
   if (
     typeof browserOptions !== 'object' ||
     browserOptions === null ||
-    (typeof browserOptions === 'object' && browserOptions.constructor !== Object)
+    (typeof browserOptions === 'object' &&
+      browserOptions.constructor !== Object)
   ) {
     throw new TypeError(
       'The second argument should be an Object which contains browser options (see https://github.com/mbalabash/estimo#additional-use-cases).'
@@ -102,9 +111,13 @@ function createDiff(current, base) {
   return `${formatted}% 🔽`
 }
 
-const defaultMedianAccessor = (element) => element
+const defaultMedianAccessor = element => element
 const defaultMedianExecutor = (a, b) => (a + b) / 2
-function median(array, accessor = defaultMedianAccessor, executor = defaultMedianExecutor) {
+function median(
+  array,
+  accessor = defaultMedianAccessor,
+  executor = defaultMedianExecutor
+) {
   let sortedArray = array.sort((a, b) => accessor(a) - accessor(b))
   let { length } = sortedArray
   let mid = parseInt(length / 2, 10)
@@ -120,7 +133,9 @@ function median(array, accessor = defaultMedianAccessor, executor = defaultMedia
 
 function estimoMedianExecutor(reportA, reportB) {
   if (reportA.name !== reportB.name) {
-    throw new Error('Both the first report name and the second report name should be the same!')
+    throw new Error(
+      'Both the first report name and the second report name should be the same!'
+    )
   }
 
   let calc = (a, b) => +((a + b) / 2).toFixed(2)
@@ -129,13 +144,22 @@ function estimoMedianExecutor(reportA, reportB) {
     name: reportA.name,
     parseHTML: calc(reportA.parseHTML, reportB.parseHTML),
     styleLayout: calc(reportA.styleLayout, reportB.styleLayout),
-    paintCompositeRender: calc(reportA.paintCompositeRender, reportB.paintCompositeRender),
-    scriptParseCompile: calc(reportA.scriptParseCompile, reportB.scriptParseCompile),
+    paintCompositeRender: calc(
+      reportA.paintCompositeRender,
+      reportB.paintCompositeRender
+    ),
+    scriptParseCompile: calc(
+      reportA.scriptParseCompile,
+      reportB.scriptParseCompile
+    ),
     scriptEvaluation: calc(reportA.scriptEvaluation, reportB.scriptEvaluation),
     javaScript: calc(reportA.javaScript, reportB.javaScript),
-    garbageCollection: calc(reportA.garbageCollection, reportB.garbageCollection),
+    garbageCollection: calc(
+      reportA.garbageCollection,
+      reportB.garbageCollection
+    ),
     other: calc(reportA.other, reportB.other),
-    total: calc(reportA.total, reportB.total),
+    total: calc(reportA.total, reportB.total)
   }
 }
 
@@ -190,11 +214,38 @@ function existsAsync(filePath) {
   return fs.promises.stat(filePath).catch(() => false)
 }
 
+async function findChromeBinary() {
+  try {
+    let configData = JSON.parse(await readFile(chromeConfigPath))
+    if (configData.executablePath.length > 0) {
+      return configData
+    }
+
+    let chromeInfo = await findChrome({
+      min: 75,
+      download: {
+        puppeteer,
+        revision: PUPPETEER_REVISIONS.chromium,
+        path: chromeTempPath
+      }
+    })
+    await writeFile(chromeConfigPath, JSON.stringify(chromeInfo))
+
+    return chromeInfo
+  } catch (error) {
+    console.info()
+    console.error(error)
+    console.info()
+    return { executablePath: '', browser: '' }
+  }
+}
+
 module.exports = {
   splitResourcesForEstimo,
   estimoMedianExecutor,
   resolvePathToTempDir,
   getUrlToHtmlFile,
+  findChromeBinary,
   checkEstimoArgs,
   getLibraryName,
   removeAllFiles,
@@ -205,5 +256,5 @@ module.exports = {
   isJsFile,
   readFile,
   median,
-  isUrl,
+  isUrl
 }

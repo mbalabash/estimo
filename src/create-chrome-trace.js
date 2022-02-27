@@ -2,19 +2,23 @@ const { nanoid } = require('nanoid')
 const puppeteer = require('puppeteer-core')
 
 const { resolvePathToTempDir } = require('./utils')
-const chromeConfig = require('../chrome.json')
 
 const defaultBrowserOptions = {
   headless: true,
-  timeout: 20000,
-  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || chromeConfig.executablePath,
+  timeout: 20000
 }
 
-const chromeLaunchArgs = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+const chromeLaunchArgs = [
+  '--no-sandbox',
+  '--disable-setuid-sandbox',
+  '--disable-dev-shm-usage'
+]
 
 async function createBrowserEntity(options) {
   if (options.executablePath.length === 0) {
-    throw new Error(`Chromium revision is not downloaded. Run "npm install" or "yarn install"`)
+    throw new Error(
+      `Chromium revision is not found or downloaded. Check that access to file system is permitted or file an issue here: https://github.com/mbalabash/estimo`
+    )
   }
 
   if (options.width && options.height) {
@@ -24,7 +28,7 @@ async function createBrowserEntity(options) {
     headless: options.headless,
     executablePath: options.executablePath,
     args: chromeLaunchArgs,
-    ignoreDefaultArgs: ['--disable-extensions'],
+    ignoreDefaultArgs: ['--disable-extensions']
   }
   if (process.env.ESTIMO_DEBUG) {
     browserConfig.dumpio = true
@@ -50,7 +54,7 @@ async function createPageEntity(context, options) {
   if (options.width && options.height) {
     await page.setViewport({
       width: options.width,
-      height: options.height,
+      height: options.height
     })
   }
   if (options.device) {
@@ -61,7 +65,7 @@ async function createPageEntity(context, options) {
     }
   }
 
-  page.on('error', (msg) => {
+  page.on('error', msg => {
     throw msg
   })
 
@@ -96,7 +100,7 @@ async function createChromeTrace(resources, browserOptions) {
   } finally {
     if (browser) {
       let pages = await browser.pages()
-      await Promise.all(pages.map((item) => item.close()))
+      await Promise.all(pages.map(item => item.close()))
 
       if (context) {
         await context.close()
