@@ -29,6 +29,7 @@ async function estimo(resources = [], browserOptions = {}) {
     }
   } catch (error) {
     console.error(error)
+    console.log("Please, file an issues related to estimo here: https://github.com/mbalabash/estimo")
   }
 
   return reports
