@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.3.5
+
+- Upgraded project dependencies.
+
+- Fixed npm security issue.
+
 ## 2.3.4
 
 - Removed npm `install` script. From this version, `estimo` won't be looking for or downloading Chrome after npm install. It will be happening on the first launch.
