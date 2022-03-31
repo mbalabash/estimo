@@ -1,3 +1,4 @@
-nanoid
+puppeteer-core@13.5.2 | package-is-too-new
 iconv-lite | obfuscated-code
+nanoid
 estimo | package-is-too-new
