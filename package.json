@@ -10,6 +10,7 @@
   "license": "MIT",
   "author": "mbalabash <maksim.balabash@gmail.com>",
   "scripts": {
+    "sdc-check": "sdc-check -d .",
     "unit": "ava --timeout=4m --exit",
     "test": "eslint . && check-dts && yarn unit",
     "clean": "rimraf ./temp/*.{html,json} && node ./scripts/clean-chrome-config.js"
@@ -20,14 +21,14 @@
   "dependencies": {
     "@sitespeed.io/tracium": "^0.3.3",
     "commander": "^9.1.0",
-    "nanoid": "^3.3.2",
     "find-chrome-bin": "0.1.0",
+    "nanoid": "^3.3.2",
     "puppeteer-core": "^13.5.1"
   },
   "devDependencies": {
     "@logux/eslint-config": "^46.1.1",
-    "check-dts": "^0.6.6",
     "ava": "3.x.x",
+    "check-dts": "^0.6.6",
     "eslint": "^8.12.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",
@@ -36,6 +37,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "prettier": "^2.6.1",
     "rimraf": "^3.0.2",
+    "sdc-check": "^1.0.0",
     "typescript": "^4.6.3"
   },
   "eslintConfig": {
@@ -61,6 +63,19 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "none"
+  },
+  "sdc-check": {
+    "options": {
+      "daysBeforeUpgradeToNewVersion": 3
+    },
+    "errors": [
+      "package-is-too-new",
+      "lockfile-is-not-safe",
+      "has-os-scripts",
+      "dangerous-shell-commands",
+      "obfuscated-code",
+      "install-scripts"
+    ]
   },
   "repository": {
     "type": "git",
