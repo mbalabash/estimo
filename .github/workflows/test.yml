@@ -20,8 +20,6 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Check dependencies with sdc-check
-        run: yarn sdc-check
       - name: Run unit tests
         run: yarn unit
         env:
