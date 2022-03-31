@@ -6,18 +6,17 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: [12, 14, 16]
         os: [macos-latest, ubuntu-latest, windows-latest]
-    name: OS ${{ matrix.os }} Node.js ${{ matrix.node }}
+    name: OS ${{ matrix.os }} Node.js 16
     steps:
       - name: Install Chrome
         uses: browser-actions/setup-chrome@latest     
       - name: Checkout the repository
         uses: actions/checkout@v2
-      - name: Install Node.js ${{ matrix.node }}
+      - name: Install Node.js 16
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 16
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Check dependencies with sdc-check
