@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.3.6
+
+- Hotfix for `find-chrome-bin` while supporting node < 16
+
 ## 2.3.5
 
 - Upgraded project dependencies.

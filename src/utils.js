@@ -222,7 +222,7 @@ async function findChromeBinary() {
     }
 
     let chromeInfo = await findChrome({
-      min: 75,
+      min: 9, // TODO: get rid of this hotfix for find-chrome-bin after upgrade to 1.x.x
       download: {
         puppeteer,
         revision: PUPPETEER_REVISIONS.chromium,
