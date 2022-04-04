@@ -10,7 +10,7 @@ _Inspired by [Size Limit](https://github.com/ai/size-limit). Thanks [@ai](https:
 
 **JavaScript** is the **most expensive part** of our frontend.
 
-![3.5 seconds to process 170 KB of JS and 0.1 second for 170 KB of JPEG. @Addy Osmani](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization/images/1_PRVzNizF9jQ_QADF5lQHpA.png)
+![3.5 seconds to process 170 KB of JS and 0.1 second for 170 KB of JPEG. @Addy Osmani](https://cdn.evilmartians.com/front/posts/storeon-redux-in-173-bytes/js_vs_jpeg-85dbf5c.png)
 
 **3.5 seconds** to process 170 KB of JS and **0.1 second** for 170 KB of JPEG.
 
@@ -37,7 +37,7 @@ estimo -r ./examples/example.js
 **Output**
 
 ```js
-[
+;[
   {
     name: 'example.js',
     parseHTML: 1.01,
@@ -48,8 +48,8 @@ estimo -r ./examples/example.js
     javaScript: 9.15,
     garbageCollection: 0,
     other: 8.2,
-    total: 53.84,
-  },
+    total: 53.84
+  }
 ]
 ```
 
@@ -122,7 +122,7 @@ estimo -r lib-1.0.5.js lib-1.1.0.js -diff
 **Output**
 
 ```js
-[
+;[
   {
     name: 'lib-1.0.5.js',
     parseHTML: 1.48,
@@ -133,7 +133,7 @@ estimo -r lib-1.0.5.js lib-1.1.0.js -diff
     javaScript: 10.84,
     garbageCollection: 0,
     other: 9.95,
-    total: 69.06,
+    total: 69.06
   },
   {
     name: 'lib-1.1.0.js',
@@ -155,9 +155,9 @@ estimo -r lib-1.0.5.js lib-1.1.0.js -diff
       javaScript: '21.39 (+49.33% 🔺)',
       garbageCollection: '0 (N/A)',
       other: '15.49 (+35.77% 🔺)',
-      total: '102.98 (+32.94% 🔺)',
-    },
-  },
+      total: '102.98 (+32.94% 🔺)'
+    }
+  }
 ]
 ```
 
@@ -242,7 +242,10 @@ estimo -r ./examples/example.js -timeout 90000
 **JS API**
 
 ```js
-const report = await estimo(['/path/to/libs/example.js', '/path/to/another/example/lib.js'])
+const report = await estimo([
+  '/path/to/libs/example.js',
+  '/path/to/another/example/lib.js'
+])
 ```
 
 **CLI**
