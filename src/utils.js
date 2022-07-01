@@ -3,9 +3,7 @@ const path = require('path')
 const { promisify } = require('util')
 const puppeteer = require('puppeteer-core')
 const { findChrome } = require('find-chrome-bin')
-const {
-  PUPPETEER_REVISIONS
-} = require('puppeteer-core/lib/cjs/puppeteer/revisions')
+const { PUPPETEER_REVISIONS } = require('puppeteer-core/lib/cjs/puppeteer/revisions.js')
 
 const chromeTempPath = path.join(__dirname, '..', 'temp', 'chrome')
 const chromeConfigPath = path.join(__dirname, '..', 'chrome.json')
