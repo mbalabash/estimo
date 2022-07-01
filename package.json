@@ -11,7 +11,7 @@
   "author": "mbalabash <maksim.balabash@gmail.com>",
   "scripts": {
     "unit": "ava --timeout=4m --exit",
-    "test": "eslint . && check-dts && yarn unit",
+    "test": "eslint . && yarn unit",
     "clean": "rimraf ./temp/*.{html,json} && node ./scripts/clean-chrome-config.js"
   },
   "bin": {
@@ -19,24 +19,24 @@
   },
   "dependencies": {
     "@sitespeed.io/tracium": "^0.3.3",
-    "commander": "^9.1.0",
-    "nanoid": "^3.3.2",
+    "commander": "^9.3.0",
     "find-chrome-bin": "0.1.0",
-    "puppeteer-core": "^13.5.1"
+    "nanoid": "3.x.x",
+    "puppeteer-core": "^15.2.0"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^46.1.1",
-    "check-dts": "^0.6.6",
+    "@logux/eslint-config": "^47.2.0",
     "ava": "3.x.x",
-    "eslint": "^8.12.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint": "^8.18.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.0.0",
-    "prettier": "^2.6.1",
+    "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "typescript": "^4.6.3"
+    "typescript": "^4.7.4"
   },
   "eslintConfig": {
     "extends": "@logux/eslint-config",
