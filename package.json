@@ -22,7 +22,7 @@
     "commander": "^9.3.0",
     "find-chrome-bin": "0.1.0",
     "nanoid": "3.x.x",
-    "puppeteer-core": "^15.2.0"
+    "puppeteer-core": "14.x.x"
   },
   "devDependencies": {
     "@logux/eslint-config": "^47.2.0",
