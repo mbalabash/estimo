@@ -221,6 +221,8 @@ export async function findChromeBinary() {
       return configData
     }
 
+    console.log(typeof puppeteer.BrowserFetcher, puppeteer.BrowserFetcher)
+    
     let chromeInfo = await findChrome({
       download: {
         puppeteer,
