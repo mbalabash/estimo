@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.0.0
+
+- Dropped support for node-12 and migrated to esm (min node version is 14)
+
 ## 2.3.6
 
 - Hotfix for `find-chrome-bin` while supporting node < 16
