@@ -11,7 +11,7 @@ jobs:
     name: OS ${{ matrix.os }} Node.js ${{ matrix.node }}
     steps:
       - name: Install Chrome
-        uses: browser-actions/setup-chrome@latest     
+        uses: browser-actions/setup-chrome@latest
       - name: Checkout the repository
         uses: actions/checkout@v2
       - name: Install Node.js ${{ matrix.node }}
