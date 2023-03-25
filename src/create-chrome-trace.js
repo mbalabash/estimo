@@ -1,7 +1,7 @@
-const { nanoid } = require('nanoid')
-const puppeteer = require('puppeteer-core')
+import { nanoid } from 'nanoid'
+import puppeteer from 'puppeteer-core'
 
-const { resolvePathToTempDir } = require('./utils')
+import { resolvePathToTempDir } from './utils.js'
 
 const defaultBrowserOptions = {
   headless: true,
@@ -72,7 +72,7 @@ async function createPageEntity(context, options) {
   return page
 }
 
-async function createChromeTrace(resources, browserOptions) {
+export async function createChromeTrace(resources, browserOptions) {
   let options = { ...defaultBrowserOptions, ...browserOptions }
   let resourcesWithTrace = []
   let browser
@@ -112,5 +112,3 @@ async function createChromeTrace(resources, browserOptions) {
 
   return resourcesWithTrace
 }
-
-module.exports = { createChromeTrace }

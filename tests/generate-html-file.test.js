@@ -1,16 +1,18 @@
-const fs = require('fs')
-const test = require('ava')
-const path = require('path')
+import fs from 'fs'
+import test from 'ava'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const { removeAllFiles } = require('../src/utils')
-const { resolvePathToTempDir } = require('../src/utils')
-const {
+import { resolvePathToTempDir, removeAllFiles } from '../src/utils.js'
+import {
   generateHtmlFile,
   createHtmlContent,
-  prepareLibrariesForEstimation,
-} = require('../src/generate-html-file')
+  prepareLibrariesForEstimation
+} from '../src/generate-html-file.js'
 
-test('should properly prepare resources for Estimo', async (t) => {
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+test('should properly prepare resources for Estimo', async t => {
   let lib1 = path.join(__dirname, '__mock__', '19kb.js')
   let lib2 = path.join(__dirname, '__mock__', '13kb.js')
   let lib3 = 'https://unpkg.com/react@16/umd/react.development.js'
@@ -39,16 +41,18 @@ test('should properly prepare resources for Estimo', async (t) => {
   t.is(resources[2].htmlPath.includes('temp'), true)
   t.is(resources[2].htmlPath.includes('.html'), true)
 
-  await removeAllFiles(resources.map((item) => item.htmlPath))
-  await removeAllFiles(resources.map((item) => item.tracePath))
+  await removeAllFiles(resources.map(item => item.htmlPath))
+  await removeAllFiles(resources.map(item => item.tracePath))
 })
 
-test('should throw an error for not existed local js files', async (t) => {
-  let error = await t.throwsAsync(prepareLibrariesForEstimation(['some/not/existed/file.js']))
+test('should throw an error for not existed local js files', async t => {
+  let error = await t.throwsAsync(
+    prepareLibrariesForEstimation(['some/not/existed/file.js'])
+  )
   t.is(error.message, `some/not/existed/file.js - file isn't exist!`)
 })
 
-test('should properly generate content for html file', (t) => {
+test('should properly generate content for html file', t => {
   let lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
 
   t.is(
@@ -69,7 +73,7 @@ test('should properly generate content for html file', (t) => {
   )
 })
 
-test('should properly create html file for one library', async (t) => {
+test('should properly create html file for one library', async t => {
   let lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
   let htmlFile = await generateHtmlFile(createHtmlContent(lib1))
 
@@ -79,9 +83,10 @@ test('should properly create html file for one library', async (t) => {
   await removeAllFiles([htmlFile])
 })
 
-test('should properly create html for few libraries', async (t) => {
+test('should properly create html for few libraries', async t => {
   let lib1 = 'https://unpkg.com/react@16/umd/react.development.js'
-  let lib2 = 'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js'
+  let lib2 =
+    'https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js'
 
   let htmlFile1 = await generateHtmlFile(createHtmlContent(lib1))
   let htmlFile2 = await generateHtmlFile(createHtmlContent(lib2))

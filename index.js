@@ -1,7 +1,6 @@
-const estimo = require('./src/lib')
-const { generatePrettyReport } = require('./src/reporter')
-const { processor } = require('./src/processor')
+import estimo from './src/lib.js'
 
-module.exports = estimo
-module.exports.processor = processor
-module.exports.generatePrettyReport = generatePrettyReport
+export { generatePrettyReport } from './src/reporter.js'
+export { processor } from './src/processor.js'
+
+export default estimo

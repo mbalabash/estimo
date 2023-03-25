@@ -1,7 +1,8 @@
-const test = require('ava')
-const path = require('path')
+import test from 'ava'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const {
+import {
   splitResourcesForEstimo,
   resolvePathToTempDir,
   getUrlToHtmlFile,
@@ -12,8 +13,10 @@ const {
   readFile,
   isJsFile,
   isUrl
-} = require('../src/utils')
-const { cleanChromeConfig } = require('../scripts/clean-chrome-config')
+} from '../src/utils.js'
+import { cleanChromeConfig } from '../scripts/clean-chrome-config.js'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 test('[resolvePathToTempDir]: should properly resolve path to file in temp directory', t => {
   let fileName = 'someFile.txt'

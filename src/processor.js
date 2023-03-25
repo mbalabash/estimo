@@ -1,7 +1,12 @@
-const { median, removeAllFiles, estimoMedianExecutor, createDiff } = require('./utils')
-const { prepareLibrariesForEstimation } = require('./generate-html-file')
-const { createChromeTrace } = require('./create-chrome-trace')
-const { generatePrettyReport } = require('./reporter')
+import {
+  median,
+  removeAllFiles,
+  estimoMedianExecutor,
+  createDiff
+} from './utils.js'
+import { prepareLibrariesForEstimation } from './generate-html-file.js'
+import { createChromeTrace } from './create-chrome-trace.js'
+import { generatePrettyReport } from './reporter.js'
 
 async function reportsProcessor(reports, browserOptions) {
   let runs = browserOptions.runs || 1
@@ -9,9 +14,11 @@ async function reportsProcessor(reports, browserOptions) {
   let result = []
 
   try {
-    Object.values(reports).forEach((resourceReports) => {
+    Object.values(reports).forEach(resourceReports => {
       if (runs > 1) {
-        result.push(median(resourceReports, (report) => report.total, estimoMedianExecutor))
+        result.push(
+          median(resourceReports, report => report.total, estimoMedianExecutor)
+        )
       } else {
         result.push(resourceReports[0])
       }
@@ -29,7 +36,9 @@ async function reportsProcessor(reports, browserOptions) {
             result[i].styleLayout,
             baseline.styleLayout
           )})`,
-          paintCompositeRender: `${result[i].paintCompositeRender} (${createDiff(
+          paintCompositeRender: `${
+            result[i].paintCompositeRender
+          } (${createDiff(
             result[i].paintCompositeRender,
             baseline.paintCompositeRender
           )})`,
@@ -49,8 +58,14 @@ async function reportsProcessor(reports, browserOptions) {
             result[i].garbageCollection,
             baseline.garbageCollection
           )})`,
-          other: `${result[i].other} (${createDiff(result[i].other, baseline.other)})`,
-          total: `${result[i].total} (${createDiff(result[i].total, baseline.total)})`,
+          other: `${result[i].other} (${createDiff(
+            result[i].other,
+            baseline.other
+          )})`,
+          total: `${result[i].total} (${createDiff(
+            result[i].total,
+            baseline.total
+          )})`
         }
       }
     }
@@ -61,7 +76,7 @@ async function reportsProcessor(reports, browserOptions) {
   return result
 }
 
-async function processor(sources, browserOptions, mode) {
+export async function processor(sources, browserOptions, mode) {
   let runs = browserOptions.runs || 1
   let reports = []
   let result = []
@@ -71,20 +86,20 @@ async function processor(sources, browserOptions, mode) {
     if (mode === 'js-mode') {
       resources = await prepareLibrariesForEstimation(sources)
     } else {
-      resources = sources.map((page) => ({ name: page, url: page }))
+      resources = sources.map(page => ({ name: page, url: page }))
     }
 
     for (let i = 0; i < runs; i += 1) {
       resources = await createChromeTrace(resources, browserOptions)
       reports = reports.concat(await generatePrettyReport(resources))
-      await removeAllFiles(resources.map((item) => item.tracePath))
+      await removeAllFiles(resources.map(item => item.tracePath))
     }
     if (mode === 'js-mode') {
-      await removeAllFiles(resources.map((item) => item.htmlPath))
+      await removeAllFiles(resources.map(item => item.htmlPath))
     }
 
     let sortedReports = {}
-    reports.forEach((report) => {
+    reports.forEach(report => {
       if (!sortedReports[report.name]) {
         sortedReports[report.name] = []
         sortedReports[report.name].push(report)
@@ -99,5 +114,3 @@ async function processor(sources, browserOptions, mode) {
 
   return result
 }
-
-module.exports = { processor }

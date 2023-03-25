@@ -1,10 +1,12 @@
-const test = require('ava')
-const path = require('path')
+import test from 'ava'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const estimo = require('../src/lib')
-const { getUrlToHtmlFile, findChromeBinary } = require('../src/utils')
-const { cleanChromeConfig } = require('../scripts/clean-chrome-config')
+import estimo from '../src/lib.js'
+import { getUrlToHtmlFile, findChromeBinary } from '../src/utils.js'
+import { cleanChromeConfig } from '../scripts/clean-chrome-config.js'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 test('estimo - should works properly with mixed resources', async t => {

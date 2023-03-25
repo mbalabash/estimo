@@ -1,10 +1,12 @@
-const fs = require('fs')
-const path = require('path')
-const { promisify } = require('util')
-const puppeteer = require('puppeteer-core')
-const { findChrome } = require('find-chrome-bin')
-const { PUPPETEER_REVISIONS } = require('puppeteer-core/lib/cjs/puppeteer/revisions.js')
+import fs from 'fs'
+import path from 'path'
+import { promisify } from 'util'
+import { fileURLToPath } from 'url'
+import puppeteer from 'puppeteer-core'
+import { findChrome } from 'find-chrome-bin'
+import { PUPPETEER_REVISIONS } from 'puppeteer-core/lib/cjs/puppeteer/revisions.js'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const chromeTempPath = path.join(__dirname, '..', 'temp', 'chrome')
 const chromeConfigPath = path.join(__dirname, '..', 'chrome.json')
 
@@ -12,32 +14,32 @@ const write = promisify(fs.writeFile)
 const read = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
 
-function resolvePathToTempDir(fileName, tempDir = '../temp/') {
+export function resolvePathToTempDir(fileName, tempDir = '../temp/') {
   return path.join(__dirname, tempDir, fileName)
 }
 
-function getUrlToHtmlFile(file) {
+export function getUrlToHtmlFile(file) {
   return `file://${path.resolve(file)}`
 }
 
-function getLibraryName(lib) {
+export function getLibraryName(lib) {
   if (/^https?/.test(lib)) {
     return lib.substring(lib.lastIndexOf('/') + 1)
   }
   return path.basename(lib)
 }
 
-function isJsFile(p) {
+export function isJsFile(p) {
   let JS_FILES = /\.m?js$/i
   return JS_FILES.test(path.extname(path.basename(p)))
 }
 
-function isUrl(p) {
+export function isUrl(p) {
   let WEB_URLS = /^(https?|file):/
   return WEB_URLS.test(p)
 }
 
-function splitResourcesForEstimo(resources) {
+export function splitResourcesForEstimo(resources) {
   let items = Array.isArray(resources) ? resources : [resources]
   let libraries = []
   let pages = []
@@ -57,7 +59,7 @@ function splitResourcesForEstimo(resources) {
   return { libraries, pages }
 }
 
-function checkEstimoArgs(resources, browserOptions) {
+export function checkEstimoArgs(resources, browserOptions) {
   if (typeof resources !== 'string' && !Array.isArray(resources)) {
     throw new TypeError(
       'The first argument should be String or Array<String> which contains a path to the resource (Js file or Web page).'
@@ -89,7 +91,7 @@ function checkEstimoArgs(resources, browserOptions) {
   }
 }
 
-function createDiff(current, base) {
+export function createDiff(current, base) {
   if (current === 0 && base === 0) {
     return 'N/A'
   }
@@ -111,7 +113,7 @@ function createDiff(current, base) {
 
 const defaultMedianAccessor = element => element
 const defaultMedianExecutor = (a, b) => (a + b) / 2
-function median(
+export function median(
   array,
   accessor = defaultMedianAccessor,
   executor = defaultMedianExecutor
@@ -129,7 +131,7 @@ function median(
   return executor(sortedArray[low], sortedArray[hight])
 }
 
-function estimoMedianExecutor(reportA, reportB) {
+export function estimoMedianExecutor(reportA, reportB) {
   if (reportA.name !== reportB.name) {
     throw new Error(
       'Both the first report name and the second report name should be the same!'
@@ -161,7 +163,7 @@ function estimoMedianExecutor(reportA, reportB) {
   }
 }
 
-async function readFile(filePath) {
+export async function readFile(filePath) {
   let content
 
   try {
@@ -176,7 +178,7 @@ async function readFile(filePath) {
   return content
 }
 
-async function writeFile(filePath, content) {
+export async function writeFile(filePath, content) {
   try {
     await write(filePath, content)
   } catch (error) {
@@ -184,7 +186,7 @@ async function writeFile(filePath, content) {
   }
 }
 
-async function deleteFile(filePath) {
+export async function deleteFile(filePath) {
   try {
     await unlink(filePath)
   } catch (error) {
@@ -192,7 +194,7 @@ async function deleteFile(filePath) {
   }
 }
 
-async function removeAllFiles(files) {
+export async function removeAllFiles(files) {
   if (process.env.ESTIMO_DEBUG) {
     return
   }
@@ -208,11 +210,11 @@ async function removeAllFiles(files) {
   }
 }
 
-function existsAsync(filePath) {
+export function existsAsync(filePath) {
   return fs.promises.stat(filePath).catch(() => false)
 }
 
-async function findChromeBinary() {
+export async function findChromeBinary() {
   try {
     let configData = JSON.parse(await readFile(chromeConfigPath))
     if (configData.executablePath.length > 0) {
@@ -220,7 +222,6 @@ async function findChromeBinary() {
     }
 
     let chromeInfo = await findChrome({
-      min: 9, // TODO: get rid of this hotfix for find-chrome-bin after upgrade to 1.x.x
       download: {
         puppeteer,
         revision: PUPPETEER_REVISIONS.chromium,
@@ -236,23 +237,4 @@ async function findChromeBinary() {
     console.info()
     return { executablePath: '', browser: '' }
   }
-}
-
-module.exports = {
-  splitResourcesForEstimo,
-  estimoMedianExecutor,
-  resolvePathToTempDir,
-  getUrlToHtmlFile,
-  findChromeBinary,
-  checkEstimoArgs,
-  getLibraryName,
-  removeAllFiles,
-  existsAsync,
-  deleteFile,
-  createDiff,
-  writeFile,
-  isJsFile,
-  readFile,
-  median,
-  isUrl
 }

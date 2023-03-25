@@ -1,11 +1,11 @@
-const {
+import {
   splitResourcesForEstimo,
   checkEstimoArgs,
   findChromeBinary
-} = require('./utils')
-const { processor } = require('./processor')
+} from './utils.js'
+import { processor } from './processor.js'
 
-async function estimo(resources = [], browserOptions = {}) {
+export async function estimo(resources = [], browserOptions = {}) {
   if (process.env.ESTIMO_DISABLE) process.exit()
   checkEstimoArgs(resources, browserOptions)
   let reports = []
@@ -29,10 +29,12 @@ async function estimo(resources = [], browserOptions = {}) {
     }
   } catch (error) {
     console.error(error)
-    console.log("Please, file an issues related to estimo here: https://github.com/mbalabash/estimo")
+    console.log(
+      'Please, file an issues related to estimo here: https://github.com/mbalabash/estimo'
+    )
   }
 
   return reports
 }
 
-module.exports = estimo
+export default estimo

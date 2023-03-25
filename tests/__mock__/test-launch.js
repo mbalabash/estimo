@@ -1,8 +1,8 @@
-const path = require('path')
-const estimo = require('../../index')
+import path from 'path'
+import { fileURLToPath } from 'url'
+import estimo from '../../index.js'
 
-console.log(__dirname)
-
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const localJsFile = path.join(__dirname, '19kb.js')
 
 ;(async () => {

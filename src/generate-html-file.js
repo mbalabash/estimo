@@ -1,15 +1,15 @@
-const { nanoid } = require('nanoid')
+import { nanoid } from 'nanoid'
 
-const {
+import {
   writeFile,
   resolvePathToTempDir,
   getLibraryName,
   getUrlToHtmlFile,
   isUrl,
-  existsAsync,
-} = require('./utils')
+  existsAsync
+} from './utils.js'
 
-function createHtmlContent(library) {
+export function createHtmlContent(library) {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +25,7 @@ function createHtmlContent(library) {
 </html>`
 }
 
-async function generateHtmlFile(htmlContent) {
+export async function generateHtmlFile(htmlContent) {
   let fileName
 
   try {
@@ -38,7 +38,7 @@ async function generateHtmlFile(htmlContent) {
   return fileName
 }
 
-async function prepareLibrariesForEstimation(libraries) {
+export async function prepareLibrariesForEstimation(libraries) {
   let resources = []
 
   for (let lib of libraries) {
@@ -57,5 +57,3 @@ async function prepareLibrariesForEstimation(libraries) {
 
   return resources
 }
-
-module.exports = { generateHtmlFile, createHtmlContent, prepareLibrariesForEstimation }

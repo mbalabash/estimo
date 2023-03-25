@@ -4,8 +4,9 @@
   "description": "Evaluates how long the browser will execute your javascript code",
   "main": "index.js",
   "types": "./index.d.ts",
+  "type": "module",
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "license": "MIT",
   "author": "mbalabash <maksim.balabash@gmail.com>",
@@ -19,24 +20,24 @@
   },
   "dependencies": {
     "@sitespeed.io/tracium": "^0.3.3",
-    "commander": "^9.3.0",
-    "find-chrome-bin": "0.1.0",
-    "nanoid": "3.x.x",
-    "puppeteer-core": "13.x.x"
+    "commander": "^10.0.0",
+    "find-chrome-bin": "1.0.3",
+    "nanoid": "4.0.1",
+    "puppeteer-core": "19.8.0"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^47.2.0",
-    "ava": "3.x.x",
-    "eslint": "^8.18.0",
+    "@logux/eslint-config": "^49.0.0",
+    "ava": "5.2.0",
+    "eslint": "^8.36.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.2.3",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-let": "^3.0.1",
-    "eslint-plugin-promise": "^6.0.0",
-    "prettier": "^2.7.1",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.7.4"
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^2.8.7",
+    "rimraf": "^4.4.1",
+    "typescript": "^5.0.2"
   },
   "eslintConfig": {
     "extends": "@logux/eslint-config",

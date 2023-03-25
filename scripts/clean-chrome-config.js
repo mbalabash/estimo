@@ -1,13 +1,13 @@
-const { join } = require('path')
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
 
-const { writeFile } = require('../src/utils')
+import { writeFile } from '../src/utils.js'
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
 const chromeConfigPath = join(__dirname, '..', 'chrome.json')
 
-async function cleanChromeConfig() {
+export async function cleanChromeConfig() {
   await writeFile(chromeConfigPath, '{ "executablePath": "", "browser": "" }')
 }
 
 cleanChromeConfig()
-
-module.exports = { cleanChromeConfig }
