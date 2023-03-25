@@ -1032,10 +1032,10 @@ fill-range@^7.0.1:
   dependencies:
     to-regex-range "^5.0.1"
 
-find-chrome-bin@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/find-chrome-bin/-/find-chrome-bin-1.0.3.tgz#d928ff3c4dbcfe854755b95403a52944eb643c1e"
-  integrity sha512-vCBa/sBgybWPAyyis6zSS4ONuWedGADZMCGDBVaWE4cQDdjsF8Oa+agCHsy8BLD7hixiGPCU2vnZU6d6ZkiM3g==
+find-chrome-bin@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/find-chrome-bin/-/find-chrome-bin-1.0.4.tgz#467f6a3f4f370c0c8538e371243254a7312b704b"
+  integrity sha512-6ae8ZjLdGXJ4tweaA1UciEieFa/sk9nAEHFaEXDsQm+ZJ+eqtWs0ijFtj4d99adV+o6x8PVRMOfzJCWkEH0z8g==
 
 find-up@^5.0.0:
   version "5.0.0"
