@@ -1,9 +1,9 @@
-import {
-  splitResourcesForEstimo,
-  checkEstimoArgs,
-  findChromeBinary
-} from './utils.js'
 import { processor } from './processor.js'
+import {
+  checkEstimoArgs,
+  findChromeBinary,
+  splitResourcesForEstimo
+} from './utils.js'
 
 export async function estimo(resources = [], browserOptions = {}) {
   if (process.env.ESTIMO_DISABLE) process.exit()
@@ -14,7 +14,7 @@ export async function estimo(resources = [], browserOptions = {}) {
     let { executablePath } = await findChromeBinary()
     browserOptions.executablePath = executablePath
 
-    let { pages, libraries } = splitResourcesForEstimo(resources)
+    let { libraries, pages } = splitResourcesForEstimo(resources)
 
     if (libraries.length > 0) {
       reports = reports.concat(

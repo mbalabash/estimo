@@ -1,14 +1,14 @@
-import fs from 'fs'
 import test from 'ava'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-import { resolvePathToTempDir, removeAllFiles } from '../src/utils.js'
 import {
-  generateHtmlFile,
   createHtmlContent,
+  generateHtmlFile,
   prepareLibrariesForEstimation
 } from '../src/generate-html-file.js'
+import { removeAllFiles, resolvePathToTempDir } from '../src/utils.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 

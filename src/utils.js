@@ -1,9 +1,9 @@
-import fs from 'fs'
-import path from 'path'
-import { promisify } from 'util'
-import { fileURLToPath } from 'url'
-import puppeteer from 'puppeteer-core'
 import { findChrome } from 'find-chrome-bin'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { promisify } from 'node:util'
+import puppeteer from 'puppeteer-core'
 import { PUPPETEER_REVISIONS } from 'puppeteer-core/lib/cjs/puppeteer/revisions.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -141,24 +141,24 @@ export function estimoMedianExecutor(reportA, reportB) {
   let calc = (a, b) => +((a + b) / 2).toFixed(2)
 
   return {
-    name: reportA.name,
-    parseHTML: calc(reportA.parseHTML, reportB.parseHTML),
-    styleLayout: calc(reportA.styleLayout, reportB.styleLayout),
-    paintCompositeRender: calc(
-      reportA.paintCompositeRender,
-      reportB.paintCompositeRender
-    ),
-    scriptParseCompile: calc(
-      reportA.scriptParseCompile,
-      reportB.scriptParseCompile
-    ),
-    scriptEvaluation: calc(reportA.scriptEvaluation, reportB.scriptEvaluation),
-    javaScript: calc(reportA.javaScript, reportB.javaScript),
     garbageCollection: calc(
       reportA.garbageCollection,
       reportB.garbageCollection
     ),
+    javaScript: calc(reportA.javaScript, reportB.javaScript),
+    name: reportA.name,
     other: calc(reportA.other, reportB.other),
+    paintCompositeRender: calc(
+      reportA.paintCompositeRender,
+      reportB.paintCompositeRender
+    ),
+    parseHTML: calc(reportA.parseHTML, reportB.parseHTML),
+    scriptEvaluation: calc(reportA.scriptEvaluation, reportB.scriptEvaluation),
+    scriptParseCompile: calc(
+      reportA.scriptParseCompile,
+      reportB.scriptParseCompile
+    ),
+    styleLayout: calc(reportA.styleLayout, reportB.styleLayout),
     total: calc(reportA.total, reportB.total)
   }
 }
@@ -223,9 +223,9 @@ export async function findChromeBinary() {
 
     let chromeInfo = await findChrome({
       download: {
+        path: chromeTempPath,
         puppeteer,
-        revision: PUPPETEER_REVISIONS.chromium,
-        path: chromeTempPath
+        revision: PUPPETEER_REVISIONS.chrome
       }
     })
     await writeFile(chromeConfigPath, JSON.stringify(chromeInfo))
@@ -235,6 +235,6 @@ export async function findChromeBinary() {
     console.info()
     console.error(error)
     console.info()
-    return { executablePath: '', browser: '' }
+    return { browser: '', executablePath: '' }
   }
 }

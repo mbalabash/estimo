@@ -6,7 +6,7 @@
   "types": "./index.d.ts",
   "type": "module",
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "license": "MIT",
   "author": "mbalabash <maksim.balabash@gmail.com>",
@@ -20,24 +20,26 @@
   },
   "dependencies": {
     "@sitespeed.io/tracium": "^0.3.3",
-    "commander": "^10.0.0",
-    "find-chrome-bin": "1.0.4",
-    "nanoid": "4.0.1",
-    "puppeteer-core": "19.8.0"
+    "commander": "^11.1.0",
+    "find-chrome-bin": "2.0.0",
+    "nanoid": "5.0.3",
+    "puppeteer-core": "21.5.2"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^49.0.0",
-    "ava": "5.2.0",
-    "eslint": "^8.36.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-n": "^15.6.1",
+    "@logux/eslint-config": "^52.0.2",
+    "ava": "5.3.1",
+    "eslint": "^8.54.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-n": "^16.3.1",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-node-import": "^1.0.4",
+    "eslint-plugin-perfectionist": "^2.4.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.1.1",
-    "prettier": "^2.8.7",
-    "rimraf": "^4.4.1",
-    "typescript": "^5.0.2"
+    "prettier": "^3.1.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.2"
   },
   "eslintConfig": {
     "extends": "@logux/eslint-config",

@@ -1,20 +1,20 @@
 import test from 'ava'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-import {
-  splitResourcesForEstimo,
-  resolvePathToTempDir,
-  getUrlToHtmlFile,
-  findChromeBinary,
-  checkEstimoArgs,
-  getLibraryName,
-  createDiff,
-  readFile,
-  isJsFile,
-  isUrl
-} from '../src/utils.js'
 import { cleanChromeConfig } from '../scripts/clean-chrome-config.js'
+import {
+  checkEstimoArgs,
+  createDiff,
+  findChromeBinary,
+  getLibraryName,
+  getUrlToHtmlFile,
+  isJsFile,
+  isUrl,
+  readFile,
+  resolvePathToTempDir,
+  splitResourcesForEstimo
+} from '../src/utils.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -85,21 +85,21 @@ test("[splitResourcesForEstimo]: should properly split input to js files and non
   t.deepEqual(
     splitResourcesForEstimo(['https://qwe.asd/myLib.js', 'index.js']),
     {
-      pages: [],
-      libraries: ['https://qwe.asd/myLib.js', 'index.js']
+      libraries: ['https://qwe.asd/myLib.js', 'index.js'],
+      pages: []
     }
   )
 
   t.deepEqual(splitResourcesForEstimo(['http://qwe.asd/myLib.js']), {
-    pages: [],
-    libraries: ['http://qwe.asd/myLib.js']
+    libraries: ['http://qwe.asd/myLib.js'],
+    pages: []
   })
 
   t.deepEqual(
     splitResourcesForEstimo(['http://example.com/', 'https://example.com/']),
     {
-      pages: ['http://example.com/', 'https://example.com/'],
-      libraries: []
+      libraries: [],
+      pages: ['http://example.com/', 'https://example.com/']
     }
   )
 
@@ -111,12 +111,12 @@ test("[splitResourcesForEstimo]: should properly split input to js files and non
       'index.js'
     ]),
     {
-      pages: ['http://qwe.asd/qwe.css', 'https://qwe.asd/zxc.html'],
-      libraries: ['http://qwe.asd/myLib.js', 'index.js']
+      libraries: ['http://qwe.asd/myLib.js', 'index.js'],
+      pages: ['http://qwe.asd/qwe.css', 'https://qwe.asd/zxc.html']
     }
   )
 
-  t.deepEqual(splitResourcesForEstimo([]), { pages: [], libraries: [] })
+  t.deepEqual(splitResourcesForEstimo([]), { libraries: [], pages: [] })
 
   let error = t.throws(() =>
     splitResourcesForEstimo(['ftp://domain.to/', 'qwe/asd/'])

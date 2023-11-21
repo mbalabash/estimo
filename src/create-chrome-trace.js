@@ -25,9 +25,9 @@ async function createBrowserEntity(options) {
     chromeLaunchArgs.push(`--window-size=${options.width},${options.height}`)
   }
   let browserConfig = {
-    headless: options.headless,
-    executablePath: options.executablePath,
     args: chromeLaunchArgs,
+    executablePath: options.executablePath,
+    headless: options.headless,
     ignoreDefaultArgs: ['--disable-extensions']
   }
   if (process.env.ESTIMO_DEBUG) {
@@ -53,8 +53,8 @@ async function createPageEntity(context, options) {
   }
   if (options.width && options.height) {
     await page.setViewport({
-      width: options.width,
-      height: options.height
+      height: options.height,
+      width: options.width
     })
   }
   if (options.device) {

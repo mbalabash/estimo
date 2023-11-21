@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import { resolve } from 'path'
 import { Command } from 'commander'
+import { resolve } from 'node:path'
 
-import { isUrl } from '../src/utils.js'
 import estimo from '../index.js'
+import { isUrl } from '../src/utils.js'
 
 const program = new Command()
 program
@@ -31,11 +31,11 @@ program.parse(process.argv)
 
 const options = program.opts()
 const settings = {
+  cpuThrottlingRate: options.Cpu ? parseInt(options.Cpu, 10) : 1,
   device: options.Device || false,
   diff: options.Diff || false,
-  runs: options.Runs ? parseInt(options.Runs, 10) : 1,
-  cpuThrottlingRate: options.Cpu ? parseInt(options.Cpu, 10) : 1,
   emulateNetworkConditions: options.Net,
+  runs: options.Runs ? parseInt(options.Runs, 10) : 1,
   timeout: options.Timeout || 20000
 }
 

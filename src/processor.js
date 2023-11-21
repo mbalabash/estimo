@@ -1,12 +1,12 @@
-import {
-  median,
-  removeAllFiles,
-  estimoMedianExecutor,
-  createDiff
-} from './utils.js'
-import { prepareLibrariesForEstimation } from './generate-html-file.js'
 import { createChromeTrace } from './create-chrome-trace.js'
+import { prepareLibrariesForEstimation } from './generate-html-file.js'
 import { generatePrettyReport } from './reporter.js'
+import {
+  createDiff,
+  estimoMedianExecutor,
+  median,
+  removeAllFiles
+} from './utils.js'
 
 async function reportsProcessor(reports, browserOptions) {
   let runs = browserOptions.runs || 1
@@ -28,13 +28,17 @@ async function reportsProcessor(reports, browserOptions) {
       let baseline = result[0]
       for (let i = 1; i < result.length; i += 1) {
         result[i].diff = {
-          parseHTML: `${result[i].parseHTML} (${createDiff(
-            result[i].parseHTML,
-            baseline.parseHTML
+          garbageCollection: `${result[i].garbageCollection} (${createDiff(
+            result[i].garbageCollection,
+            baseline.garbageCollection
           )})`,
-          styleLayout: `${result[i].styleLayout} (${createDiff(
-            result[i].styleLayout,
-            baseline.styleLayout
+          javaScript: `${result[i].javaScript} (${createDiff(
+            result[i].javaScript,
+            baseline.javaScript
+          )})`,
+          other: `${result[i].other} (${createDiff(
+            result[i].other,
+            baseline.other
           )})`,
           paintCompositeRender: `${
             result[i].paintCompositeRender
@@ -42,25 +46,21 @@ async function reportsProcessor(reports, browserOptions) {
             result[i].paintCompositeRender,
             baseline.paintCompositeRender
           )})`,
-          scriptParseCompile: `${result[i].scriptParseCompile} (${createDiff(
-            result[i].scriptParseCompile,
-            baseline.scriptParseCompile
+          parseHTML: `${result[i].parseHTML} (${createDiff(
+            result[i].parseHTML,
+            baseline.parseHTML
           )})`,
           scriptEvaluation: `${result[i].scriptEvaluation} (${createDiff(
             result[i].scriptEvaluation,
             baseline.scriptEvaluation
           )})`,
-          javaScript: `${result[i].javaScript} (${createDiff(
-            result[i].javaScript,
-            baseline.javaScript
+          scriptParseCompile: `${result[i].scriptParseCompile} (${createDiff(
+            result[i].scriptParseCompile,
+            baseline.scriptParseCompile
           )})`,
-          garbageCollection: `${result[i].garbageCollection} (${createDiff(
-            result[i].garbageCollection,
-            baseline.garbageCollection
-          )})`,
-          other: `${result[i].other} (${createDiff(
-            result[i].other,
-            baseline.other
+          styleLayout: `${result[i].styleLayout} (${createDiff(
+            result[i].styleLayout,
+            baseline.styleLayout
           )})`,
           total: `${result[i].total} (${createDiff(
             result[i].total,

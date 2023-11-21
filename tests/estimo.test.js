@@ -1,10 +1,10 @@
 import test from 'ava'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-import estimo from '../src/lib.js'
-import { getUrlToHtmlFile, findChromeBinary } from '../src/utils.js'
 import { cleanChromeConfig } from '../scripts/clean-chrome-config.js'
+import estimo from '../src/lib.js'
+import { findChromeBinary, getUrlToHtmlFile } from '../src/utils.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -192,9 +192,9 @@ test('estimo - should works properly in DIFF MODE', async t => {
   let lib2 = path.join(__dirname, '__mock__', '7kb.js')
 
   let reports = await estimo([lib1, lib2], {
+    diff: true,
     executablePath: chromeInfo.executablePath,
-    runs: 2,
-    diff: true
+    runs: 2
   })
 
   t.is(reports.length, 2)

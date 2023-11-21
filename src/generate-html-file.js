@@ -1,12 +1,12 @@
 import { nanoid } from 'nanoid'
 
 import {
-  writeFile,
-  resolvePathToTempDir,
+  existsAsync,
   getLibraryName,
   getUrlToHtmlFile,
   isUrl,
-  existsAsync
+  resolvePathToTempDir,
+  writeFile
 } from './utils.js'
 
 export function createHtmlContent(library) {
@@ -52,7 +52,7 @@ export async function prepareLibrariesForEstimation(libraries) {
 
     let name = getLibraryName(lib)
     let url = getUrlToHtmlFile(html)
-    resources.push({ name, url, htmlPath: html })
+    resources.push({ htmlPath: html, name, url })
   }
 
   return resources

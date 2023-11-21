@@ -54,15 +54,15 @@ export async function generatePrettyReport(resources) {
       )
 
       reports.push({
-        name: item.name,
-        parseHTML: htmlTime,
-        styleLayout: styleTime,
-        paintCompositeRender: renderTime,
-        scriptParseCompile: compileTime,
-        scriptEvaluation: evaluationTime,
-        javaScript: formatTime(compileTime + evaluationTime),
         garbageCollection: garbageTime,
+        javaScript: formatTime(compileTime + evaluationTime),
+        name: item.name,
         other: otherTime,
+        paintCompositeRender: renderTime,
+        parseHTML: htmlTime,
+        scriptEvaluation: evaluationTime,
+        scriptParseCompile: compileTime,
+        styleLayout: styleTime,
         total: formatTime(
           htmlTime +
             styleTime +
