@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.0.1
+
+- Upgraded project dependencies.
+
 ## 3.0.0
 
 - Dropped support for node-12 and migrated to esm (min node version is 14)

@@ -1,6 +1,6 @@
 {
   "name": "estimo",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Evaluates how long the browser will execute your javascript code",
   "main": "index.js",
   "types": "./index.d.ts",
@@ -21,20 +21,20 @@
   "dependencies": {
     "@sitespeed.io/tracium": "^0.3.3",
     "commander": "^11.1.0",
-    "find-chrome-bin": "2.0.0",
-    "nanoid": "5.0.3",
-    "puppeteer-core": "21.5.2"
+    "find-chrome-bin": "2.0.1",
+    "nanoid": "5.0.4",
+    "puppeteer-core": "21.6.0"
   },
   "devDependencies": {
     "@logux/eslint-config": "^52.0.2",
-    "ava": "5.3.1",
-    "eslint": "^8.54.0",
+    "ava": "6.0.0",
+    "eslint": "^8.55.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-n": "^16.3.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-node-import": "^1.0.4",
-    "eslint-plugin-perfectionist": "^2.4.0",
+    "eslint-plugin-perfectionist": "^2.5.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "prettier": "^3.1.0",
