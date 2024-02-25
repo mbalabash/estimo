@@ -10,6 +10,7 @@ const defaultBrowserOptions = {
 
 const chromeLaunchArgs = [
   '--no-sandbox',
+  '--incognito',
   '--disable-setuid-sandbox',
   '--disable-dev-shm-usage'
 ]
@@ -81,7 +82,7 @@ export async function createChromeTrace(resources, browserOptions) {
 
   try {
     browser = await createBrowserEntity(options)
-    context = await browser.createIncognitoBrowserContext()
+    context = await browser.createBrowserContext()
 
     for (let item of resources) {
       page = await createPageEntity(context, options)

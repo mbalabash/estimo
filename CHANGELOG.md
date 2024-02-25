@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.0.2
+
+- Upgraded dependencies.
+
 ## 3.0.1
 
 - Upgraded project dependencies.
