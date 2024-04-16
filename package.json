@@ -1,6 +1,6 @@
 {
   "name": "estimo",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Evaluates how long the browser will execute your javascript code",
   "main": "index.js",
   "types": "./index.d.ts",
@@ -22,25 +22,35 @@
     "@sitespeed.io/tracium": "^0.3.3",
     "commander": "^12.0.0",
     "find-chrome-bin": "2.0.2",
-    "nanoid": "5.0.6",
-    "puppeteer-core": "22.2.0"
+    "nanoid": "5.0.7",
+    "puppeteer-core": "22.6.5"
   },
   "devDependencies": {
     "@logux/eslint-config": "^52.0.2",
-    "ava": "6.1.1",
+    "ava": "6.1.2",
     "eslint": "^8.57.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-node-import": "^1.0.4",
-    "eslint-plugin-perfectionist": "^2.5.0",
+    "eslint-plugin-perfectionist": "^2.9.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
+  "files": [
+    "scripts/**",
+    "temp/chrome/.gitkeep",
+    "CHANGELOG.md",
+    "chrome.json",
+    "index.d.ts",
+    "index.js",
+    "README.md",
+    "src/**"
+  ],
   "eslintConfig": {
     "extends": "@logux/eslint-config",
     "rules": {
