@@ -22,7 +22,7 @@
     "@sitespeed.io/tracium": "^0.3.3",
     "commander": "^12.0.0",
     "find-chrome-bin": "2.0.2",
-    "nanoid": "5.0.7",
+    "nanoid": "5.0.9",
     "puppeteer-core": "22.6.5"
   },
   "devDependencies": {
