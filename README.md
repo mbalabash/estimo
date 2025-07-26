@@ -10,7 +10,7 @@ _Inspired by [Size Limit](https://github.com/ai/size-limit). Thanks [@ai](https:
 
 **JavaScript** is the **most expensive part** of our frontend.
 
-![3.5 seconds to process 170 KB of JS and 0.1 second for 170 KB of JPEG. @Addy Osmani](https://cdn.evilmartians.com/front/posts/storeon-redux-in-173-bytes/js_vs_jpeg-85dbf5c.png)
+![3.5 seconds to process 170 KB of JS and 0.1 second for 170 KB of JPEG. @Addy Osmani](./js_vs_jpeg.webp)
 
 **3.5 seconds** to process 170 KB of JS and **0.1 second** for 170 KB of JPEG.
 
