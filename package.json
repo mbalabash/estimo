@@ -1,45 +1,39 @@
 {
   "name": "estimo",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Evaluates how long the browser will execute your javascript code",
-  "main": "index.js",
   "types": "./index.d.ts",
+  "main": "index.js",
   "type": "module",
   "engines": {
     "node": ">=18"
   },
-  "license": "MIT",
-  "author": "mbalabash <maksim.balabash@gmail.com>",
-  "scripts": {
-    "unit": "ava --timeout=4m --exit",
-    "test": "eslint . && yarn unit",
-    "clean": "rimraf ./temp/*.{html,json} && node ./scripts/clean-chrome-config.js"
-  },
   "bin": {
     "estimo": "./scripts/cli.js"
   },
+  "scripts": {
+    "test": "ava --timeout=4m --exit",
+    "clean": "rimraf ./temp/*.{html,json} && node ./scripts/clean-chrome-config.js"
+  },
   "dependencies": {
-    "@sitespeed.io/tracium": "^0.3.3",
-    "commander": "^12.0.0",
-    "find-chrome-bin": "2.0.2",
-    "nanoid": "5.0.7",
-    "puppeteer-core": "22.6.5"
+    "@sitespeed.io/tracium": "0.3.3",
+    "commander": "12.0.0",
+    "find-chrome-bin": "2.0.3",
+    "nanoid": "5.1.5",
+    "puppeteer-core": "24.15.0"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^52.0.2",
-    "ava": "6.1.2",
-    "eslint": "^8.57.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-node-import": "^1.0.4",
-    "eslint-plugin-perfectionist": "^2.9.0",
-    "eslint-plugin-prefer-let": "^3.0.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "prettier": "^3.2.5",
-    "rimraf": "^5.0.5",
-    "typescript": "^5.4.5"
+    "ava": "6.4.1",
+    "prettier": "3.6.2",
+    "rimraf": "6.0.1",
+    "typescript": "5.8.3"
+  },
+  "ava": {
+    "concurrency": 1,
+    "files": [
+      "tests/**/*.js",
+      "!tests/__mock__/**"
+    ]
   },
   "files": [
     "scripts/**",
@@ -51,23 +45,6 @@
     "README.md",
     "src/**"
   ],
-  "eslintConfig": {
-    "extends": "@logux/eslint-config",
-    "rules": {
-      "no-console": "off"
-    }
-  },
-  "eslintIgnore": [
-    "tests/__mock__/*.js",
-    "README.md"
-  ],
-  "ava": {
-    "concurrency": 1,
-    "files": [
-      "tests/**/*.js",
-      "!tests/__mock__/**"
-    ]
-  },
   "prettier": {
     "arrowParens": "avoid",
     "quoteProps": "as-needed",
@@ -91,5 +68,7 @@
     "devtools",
     "size-limit",
     "performance"
-  ]
+  ],
+  "license": "MIT",
+  "author": "mbalabash <maksim.balabash@gmail.com>"
 }
