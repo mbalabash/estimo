@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.0.4
+
+- Upgraded dependencies.
+
 ## 3.0.3
 
 - `tests` dir excluded from the module bundle.
