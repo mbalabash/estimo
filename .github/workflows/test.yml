@@ -6,7 +6,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: [18, 20]
+        node: [18, 24]
         os: [macos-latest, ubuntu-latest, windows-latest]
     name: OS ${{ matrix.os }} Node.js ${{ matrix.node }}
     steps:
@@ -19,8 +19,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm install --ci
       - name: Run unit tests
-        run: yarn unit
+        run: npm run test
         env:
           FORCE_COLOR: 2
