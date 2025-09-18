@@ -1,6 +1,6 @@
 {
   "name": "estimo",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Evaluates how long the browser will execute your javascript code",
   "types": "./index.d.ts",
   "main": "index.js",
@@ -18,15 +18,15 @@
   "dependencies": {
     "@sitespeed.io/tracium": "0.3.3",
     "commander": "12.0.0",
-    "find-chrome-bin": "2.0.3",
+    "find-chrome-bin": "2.0.4",
     "nanoid": "5.1.5",
-    "puppeteer-core": "24.15.0"
+    "puppeteer-core": "24.22.0"
   },
   "devDependencies": {
     "ava": "6.4.1",
     "prettier": "3.6.2",
     "rimraf": "6.0.1",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   },
   "ava": {
     "concurrency": 1,
